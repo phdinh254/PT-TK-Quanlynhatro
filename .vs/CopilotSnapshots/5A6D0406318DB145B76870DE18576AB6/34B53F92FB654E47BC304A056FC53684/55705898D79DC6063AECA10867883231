@@ -1,0 +1,623 @@
+﻿using System;
+using System.Data;
+using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+using QuanLyNhaTro.Data;
+using QuanLyNhaTro.Helpers;
+
+namespace QuanLyNhaTro.Forms
+{
+    public partial class FormHoaDon : Form
+    {
+        private const decimal DEFAULT_DON_GIA_DIEN = 3500m;
+        private const decimal DEFAULT_DON_GIA_NUOC = 25000m;
+        private const string MA_HOA_DON_PREFIX = "HDN";
+
+        private record HoaDonInput(
+            string MaHoaDon,
+            string MaHopDong,
+            DateTime NgayTao,
+            int DienCu,
+            int DienMoi,
+            int NuocCu,
+            int NuocMoi,
+            decimal TienPhong,
+            decimal TienKhac,
+            decimal TienDien,
+            decimal TienNuoc,
+            decimal TongTien
+        );
+
+        public FormHoaDon()
+        {
+            InitializeComponent();
+            InitializeUI();
+            HookEvents();
+            LoadComboBoxData();
+            LoadData();
+            txtMaHoaDon.ReadOnly = true;
+            txtTienPhong.ReadOnly = true;
+        }
+
+        // ================= UI =================
+        private void InitializeUI()
+        {
+            UIHelper.StandardizeForm(this);
+
+            UIHelper.StylePrimaryButton(btnThem);
+            UIHelper.StyleSecondaryButton(btnSua);
+            UIHelper.StyleDangerButton(btnXoa);
+            UIHelper.StyleButton(btnLamMoi, UIHelper.Colors.TextSecondary, UIHelper.Colors.White);
+            UIHelper.StyleButton(btnTimKiem, UIHelper.Colors.Primary, UIHelper.Colors.White);
+            UIHelper.StyleWarningButton(btnThanhToan);
+
+            if (FormMain.IsAdmin())
+            {
+                btnThanhToan.Visible = false;
+            }
+            else
+            {
+                btnThem.Visible = false;
+                btnSua.Visible = false;
+                btnXoa.Visible = false;
+
+                txtMaHoaDon.ReadOnly = true;
+                txtChiSoDienCu.ReadOnly = true;
+                txtChiSoDienMoi.ReadOnly = true;
+                txtChiSoNuocCu.ReadOnly = true;
+                txtChiSoNuocMoi.ReadOnly = true;
+                txtTienPhong.ReadOnly = true;
+                txtTienKhac.ReadOnly = true;
+                txtGhiChu.ReadOnly = true;
+
+                cmbMaHopDong.Enabled = false;
+                cmbTrangThai.Enabled = false;
+                dtpNgayTao.Enabled = false;
+            }
+
+            if (cmbTrangThai.Items.Count > 0 && cmbTrangThai.SelectedIndex < 0)
+                cmbTrangThai.SelectedIndex = 0;
+        }
+
+        private void HookEvents()
+        {
+            txtChiSoDienCu.TextChanged += txtChiSo_TextChanged;
+            txtChiSoDienMoi.TextChanged += txtChiSo_TextChanged;
+            txtChiSoNuocCu.TextChanged += txtChiSo_TextChanged;
+            txtChiSoNuocMoi.TextChanged += txtChiSo_TextChanged;
+            txtTienPhong.TextChanged += txtTien_TextChanged;
+            txtTienKhac.TextChanged += txtTien_TextChanged;
+            cmbMaHopDong.SelectedValueChanged += (_, __) => LoadHopDongData();
+        }
+
+        // ================= LOAD DATA =================
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                string query = @"
+                SELECT hd.MaHopDong,
+                       CONCAT(hd.MaHopDong,' - ',kh.TenKhach,' - ',p.TenPhong) AS DisplayText
+                FROM HopDong hd
+                JOIN KhachHang kh ON hd.MaKhach = kh.MaKhach
+                JOIN Phong p ON hd.MaPhong = p.MaPhong
+                WHERE hd.TrangThai = N'Đang hiệu lực'";
+
+                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+                cmbMaHopDong.DataSource = dt;
+                cmbMaHopDong.DisplayMember = "DisplayText";
+                cmbMaHopDong.ValueMember = "MaHopDong";
+                cmbMaHopDong.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tải danh sách hợp đồng: " + ex.Message);
+            }
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                string query = @"
+                SELECT hd.*, 
+                       CONCAT(kh.TenKhach,' - ',p.TenPhong) AS ThongTinHopDong
+                FROM HoaDon hd
+                JOIN HopDong hop ON hd.MaHopDong = hop.MaHopDong
+                JOIN KhachHang kh ON hop.MaKhach = kh.MaKhach
+                JOIN Phong p ON hop.MaPhong = p.MaPhong
+                ORDER BY hd.NgayTao DESC";
+
+                dgvHoaDon.DataSource = DatabaseHelper.ExecuteQuery(query);
+                ApplyGridColumnSettings();
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tải dữ liệu hóa đơn: " + ex.Message);
+            }
+        }
+
+        // ================= GRID =================
+        private void ApplyGridColumnSettings()
+        {
+            Hide("MaHopDong");
+            Hide("ChiSoDienCu");
+            Hide("ChiSoDienMoi");
+            Hide("ChiSoNuocCu");
+            Hide("ChiSoNuocMoi");
+            Hide("TienPhong");
+            Hide("TienDien");
+            Hide("TienNuoc");
+            Hide("TienDichVu");
+            Hide("TienKhac");
+            Hide("GhiChu");
+            Hide("DonGiaDien");
+            Hide("DonGiaNuoc");
+            Hide("ThangNam");
+
+            SetHeader("MaHoaDon", "Mã hóa đơn");
+            SetHeader("ThongTinHopDong", "Thông tin hợp đồng");
+            SetHeader("NgayTao", "Ngày tạo");
+            SetHeader("TongTien", "Tổng tiền");
+            SetHeader("TrangThai", "Trạng thái");
+
+            if (dgvHoaDon.Columns.Contains("TongTien"))
+                dgvHoaDon.Columns["TongTien"].DefaultCellStyle.Format = "N0";
+        }
+
+        private void Hide(string col)
+        {
+            if (dgvHoaDon.Columns.Contains(col))
+                dgvHoaDon.Columns[col].Visible = false;
+        }
+
+        private void SetHeader(string col, string text)
+        {
+            if (dgvHoaDon.Columns.Contains(col))
+                dgvHoaDon.Columns[col].HeaderText = text;
+        }
+
+        // ================= VALIDATION & CALC =================
+        private static bool TryParseNonNegativeInt(string text, string fieldName, out int value, bool showMessage)
+        {
+            if (int.TryParse(text, out value) && value >= 0)
+            {
+                return true;
+            }
+
+            if (showMessage)
+                MessageBox.Show($"{fieldName} không hợp lệ!", "Lỗi nhập liệu");
+            value = 0;
+            return false;
+        }
+
+        private static bool TryParseNonNegativeDecimal(string text, string fieldName, out decimal value, bool showMessage)
+        {
+            text = text?.Replace(",", "");
+            if (decimal.TryParse(text, out value) && value >= 0)
+            {
+                return true;
+            }
+
+            if (showMessage)
+                MessageBox.Show($"{fieldName} không hợp lệ!", "Lỗi nhập liệu");
+            value = 0;
+            return false;
+        }
+
+        private bool TryGetHoaDonInput(out HoaDonInput input, bool showMessage = true)
+        {
+            input = default;
+
+            if (string.IsNullOrWhiteSpace(txtMaHoaDon.Text))
+            {
+                if (showMessage)
+                    MessageBox.Show("Vui lòng nhập mã hóa đơn!");
+                return false;
+            }
+
+            if (cmbMaHopDong.SelectedValue == null)
+            {
+                if (showMessage)
+                    MessageBox.Show("Vui lòng chọn hợp đồng!");
+                return false;
+            }
+
+            if (!TryParseNonNegativeInt(txtChiSoDienCu.Text, "Chỉ số điện cũ", out int dienCu, showMessage) ||
+                !TryParseNonNegativeInt(txtChiSoDienMoi.Text, "Chỉ số điện mới", out int dienMoi, showMessage))
+                return false;
+
+            if (dienMoi < dienCu)
+            {
+                if (showMessage)
+                    MessageBox.Show("Chỉ số điện mới phải lớn hơn hoặc bằng chỉ số cũ!");
+                return false;
+            }
+
+            if (!TryParseNonNegativeInt(txtChiSoNuocCu.Text, "Chỉ số nước cũ", out int nuocCu, showMessage) ||
+                !TryParseNonNegativeInt(txtChiSoNuocMoi.Text, "Chỉ số nước mới", out int nuocMoi, showMessage))
+                return false;
+
+            if (nuocMoi < nuocCu)
+            {
+                if (showMessage)
+                    MessageBox.Show("Chỉ số nước mới phải lớn hơn hoặc bằng chỉ số cũ!");
+                return false;
+            }
+
+            if (!TryParseNonNegativeDecimal(txtTienPhong.Text, "Tiền phòng", out decimal tienPhong, showMessage) ||
+                !TryParseNonNegativeDecimal(txtTienKhac.Text, "Tiền khác", out decimal tienKhac, showMessage))
+                return false;
+
+            decimal tienDien = (dienMoi - dienCu) * DEFAULT_DON_GIA_DIEN;
+            decimal tienNuoc = (nuocMoi - nuocCu) * DEFAULT_DON_GIA_NUOC;
+            decimal tongTien = tienPhong + tienDien + tienNuoc + tienKhac;
+
+            input = new HoaDonInput(
+                txtMaHoaDon.Text.Trim(),
+                cmbMaHopDong.SelectedValue.ToString(),
+                dtpNgayTao.Value,
+                dienCu,
+                dienMoi,
+                nuocCu,
+                nuocMoi,
+                tienPhong,
+                tienKhac,
+                tienDien,
+                tienNuoc,
+                tongTien);
+            return true;
+        }
+
+        private void CalculateTotal()
+        {
+            if (TryGetHoaDonInput(out var input, false))
+            {
+                lblTongTien.Text = input.TongTien.ToString("N0");
+            }
+            else
+            {
+                lblTongTien.Text = "0";
+            }
+        }
+
+        // ================= CRUD =================
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            if (!TryGetHoaDonInput(out var input)) return;
+
+            string sql = @"
+        INSERT INTO HoaDon
+        (MaHoaDon, MaHopDong, NgayTao,
+         ChiSoDienCu, ChiSoDienMoi,
+         ChiSoNuocCu, ChiSoNuocMoi,
+         TienPhong, TienDien, TienNuoc, TienDichVu,
+         TienKhac, TongTien, TrangThai, GhiChu, DonGiaDien, DonGiaNuoc)
+        VALUES
+        (@MaHoaDon, @MaHopDong, @NgayTao,
+         @DienCu, @DienMoi,
+         @NuocCu, @NuocMoi,
+         @TienPhong, @TienDien, @TienNuoc, 0,
+         @TienKhac, @TongTien, @TrangThai, @GhiChu, @DonGiaDien, @DonGiaNuoc)";
+
+            SqlParameter[] p =
+            {
+        new("@MaHoaDon", input.MaHoaDon),
+        new("@MaHopDong", input.MaHopDong),
+        new("@NgayTao", input.NgayTao),
+
+        new("@DienCu", input.DienCu),
+        new("@DienMoi", input.DienMoi),
+        new("@NuocCu", input.NuocCu),
+        new("@NuocMoi", input.NuocMoi),
+
+        new("@TienPhong", input.TienPhong),
+        new("@TienDien", input.TienDien),
+        new("@TienNuoc", input.TienNuoc),
+        new("@TienKhac", input.TienKhac),
+        new("@TongTien", input.TongTien),
+
+        new("@TrangThai", cmbTrangThai.Text),
+        new("@GhiChu", txtGhiChu.Text),
+        new("@DonGiaDien", DEFAULT_DON_GIA_DIEN),
+        new("@DonGiaNuoc", DEFAULT_DON_GIA_NUOC)
+    };
+
+            try
+            {
+                DatabaseHelper.ExecuteNonQuery(sql, p);
+                LoadData();
+                ClearInputs();
+
+                MessageBox.Show("Thêm hóa đơn thành công!");
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi thêm hóa đơn: " + ex.Message);
+            }
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (!TryGetHoaDonInput(out var input)) return;
+
+            string sql = @"
+        UPDATE HoaDon SET
+            MaHopDong = @MaHopDong,
+            NgayTao = @NgayTao,
+            ChiSoDienCu = @DienCu,
+            ChiSoDienMoi = @DienMoi,
+            ChiSoNuocCu = @NuocCu,
+            ChiSoNuocMoi = @NuocMoi,
+            TienPhong = @TienPhong,
+            TienDien = @TienDien,
+            TienNuoc = @TienNuoc,
+            TienKhac = @TienKhac,
+            TongTien = @TongTien,
+            TrangThai = @TrangThai,
+            GhiChu = @GhiChu,
+            DonGiaDien = @DonGiaDien,
+            DonGiaNuoc = @DonGiaNuoc
+        WHERE MaHoaDon = @MaHoaDon";
+
+            SqlParameter[] p =
+            {
+        new("@MaHoaDon", input.MaHoaDon),
+        new("@MaHopDong", input.MaHopDong),
+        new("@NgayTao", input.NgayTao),
+
+        new("@DienCu", input.DienCu),
+        new("@DienMoi", input.DienMoi),
+        new("@NuocCu", input.NuocCu),
+        new("@NuocMoi", input.NuocMoi),
+
+        new("@TienPhong", input.TienPhong),
+        new("@TienDien", input.TienDien),
+        new("@TienNuoc", input.TienNuoc),
+        new("@TienKhac", input.TienKhac),
+        new("@TongTien", input.TongTien),
+
+        new("@TrangThai", cmbTrangThai.Text),
+        new("@GhiChu", txtGhiChu.Text),
+        new("@DonGiaDien", DEFAULT_DON_GIA_DIEN),
+        new("@DonGiaNuoc", DEFAULT_DON_GIA_NUOC)
+    };
+
+            try
+            {
+                DatabaseHelper.ExecuteNonQuery(sql, p);
+                LoadData();
+                ClearInputs();
+
+                MessageBox.Show("Cập nhật hóa đơn thành công!");
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi cập nhật hóa đơn: " + ex.Message);
+            }
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMaHoaDon.Text))
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn cần xóa!");
+                return;
+            }
+
+            if (MessageBox.Show("Bạn có chắc muốn xóa hóa đơn này？",
+                "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            string sql = "DELETE FROM HoaDon WHERE MaHoaDon = @MaHoaDon";
+            SqlParameter[] p = { new("@MaHoaDon", txtMaHoaDon.Text) };
+
+            try
+            {
+                DatabaseHelper.ExecuteNonQuery(sql, p);
+                LoadData();
+                ClearInputs();
+
+                MessageBox.Show("Xóa hóa đơn thành công!");
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi xóa hóa đơn: " + ex.Message);
+            }
+        }
+
+        private void btnThanhToan_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMaHoaDon.Text))
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn cần thanh toán!");
+                return;
+            }
+
+            if (dgvHoaDon.CurrentRow != null)
+            {
+                var trangThai = dgvHoaDon.CurrentRow.Cells["TrangThai"].Value?.ToString();
+                if (string.Equals(trangThai, "Đã thanh toán", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Hóa đơn này đã được thanh toán!");
+                    return;
+                }
+            }
+
+            if (!decimal.TryParse(lblTongTien.Text.Replace(",", ""), out decimal tongTien))
+            {
+                MessageBox.Show("Không xác định được số tiền thanh toán!");
+                return;
+            }
+
+            using FormThanhToan formThanhToan = new(txtMaHoaDon.Text, tongTien)
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            if (formThanhToan.ShowDialog(this) == DialogResult.OK)
+            {
+                string sql = @"
+            UPDATE HoaDon
+            SET NgayThanhToan = @NgayThanhToan,
+                TrangThai = N'Đã thanh toán'
+            WHERE MaHoaDon = @MaHoaDon";
+
+                SqlParameter[] p =
+                {
+            new("@NgayThanhToan", DateTime.Now),
+            new("@MaHoaDon", txtMaHoaDon.Text)
+        };
+
+                try
+                {
+                    DatabaseHelper.ExecuteNonQuery(sql, p);
+                    LoadData();
+                    ClearInputs();
+
+                    MessageBox.Show("Đã ghi nhận thanh toán!");
+                }
+                catch (Exception ex)
+                {
+                    UIHelper.ShowErrorMessage("Lỗi khi cập nhật thanh toán: " + ex.Message);
+                }
+            }
+        }
+
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            ClearInputs();
+            LoadComboBoxData();
+            LoadData();
+
+            cmbTrangThai.SelectedIndex = 0; // Chưa thanh toán
+            lblTongTien.Text = "0";
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string keyword = txtTimKiem.Text.Trim();
+            if (string.IsNullOrEmpty(keyword))
+            {
+                LoadData();
+                return;
+            }
+
+            string query = @"
+                SELECT hd.*, 
+                       CONCAT(kh.TenKhach,' - ',p.TenPhong) AS ThongTinHopDong
+                FROM HoaDon hd
+                JOIN HopDong hop ON hd.MaHopDong = hop.MaHopDong
+                JOIN KhachHang kh ON hop.MaKhach = kh.MaKhach
+                JOIN Phong p ON hop.MaPhong = p.MaPhong
+                WHERE hd.MaHoaDon LIKE @kw OR kh.TenKhach LIKE @kw OR p.TenPhong LIKE @kw
+                ORDER BY hd.NgayTao DESC";
+
+            SqlParameter[] p = { new("@kw", $"%{keyword}%") };
+            try
+            {
+                dgvHoaDon.DataSource = DatabaseHelper.ExecuteQuery(query, p);
+                ApplyGridColumnSettings();
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tìm kiếm hóa đơn: " + ex.Message);
+            }
+        }
+
+        private void txtTien_TextChanged(object sender, EventArgs e)
+        {
+            CalculateTotal();
+        }
+
+        private void txtChiSo_TextChanged(object sender, EventArgs e)
+        {
+            CalculateTotal();
+        }
+
+        // ================= UTILS =================
+        private void ClearInputs()
+        {
+            txtMaHoaDon.Clear();
+            txtTienPhong.Clear();
+            txtTienKhac.Clear();
+            txtChiSoDienCu.Clear();
+            txtChiSoDienMoi.Clear();
+            txtChiSoNuocCu.Clear();
+            txtChiSoNuocMoi.Clear();
+            txtGhiChu.Clear();
+
+            cmbMaHopDong.SelectedIndex = -1;
+            dtpNgayTao.Value = DateTime.Now;
+
+            lblTongTien.Text = "0";
+
+            txtMaHoaDon.Text = GenerateMaHoaDon();
+        }
+
+        // ================= GRID CLICK =================
+        private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            var r = dgvHoaDon.Rows[e.RowIndex];
+
+            txtMaHoaDon.Text = r.Cells["MaHoaDon"].Value.ToString();
+            cmbMaHopDong.SelectedValue = r.Cells["MaHopDong"].Value;
+            dtpNgayTao.Value = Convert.ToDateTime(r.Cells["NgayTao"].Value);
+
+            txtChiSoDienCu.Text = r.Cells["ChiSoDienCu"].Value.ToString();
+            txtChiSoDienMoi.Text = r.Cells["ChiSoDienMoi"].Value.ToString();
+            txtChiSoNuocCu.Text = r.Cells["ChiSoNuocCu"].Value.ToString();
+            txtChiSoNuocMoi.Text = r.Cells["ChiSoNuocMoi"].Value.ToString();
+            txtTienPhong.Text = r.Cells["TienPhong"].Value.ToString();
+            txtTienKhac.Text = r.Cells["TienKhac"].Value.ToString();
+
+            lblTongTien.Text = Convert.ToDecimal(r.Cells["TongTien"].Value).ToString("N0");
+            cmbTrangThai.Text = r.Cells["TrangThai"].Value.ToString();
+            txtGhiChu.Text = r.Cells["GhiChu"].Value.ToString();
+        }
+
+        private string GenerateMaHoaDon()
+        {
+            string sql = $"SELECT ISNULL(MAX(CAST(SUBSTRING(MaHoaDon, {MA_HOA_DON_PREFIX.Length + 1}, 10) AS INT)), 0) + 1 FROM HoaDon WHERE MaHoaDon LIKE '{MA_HOA_DON_PREFIX}%'";
+            int next = Convert.ToInt32(DatabaseHelper.ExecuteScalar(sql));
+            return $"{MA_HOA_DON_PREFIX}{next:D4}";
+        }
+
+        private void LoadHopDongData()
+        {
+            if (cmbMaHopDong.SelectedValue == null)
+            {
+                return;
+            }
+
+            string sql = @"
+                SELECT p.GiaPhong, hd.MaHopDong,
+                       (SELECT TOP 1 ChiSoDienMoi FROM HoaDon WHERE MaHopDong = hd.MaHopDong ORDER BY NgayTao DESC) AS DienMoiCuoi,
+                       (SELECT TOP 1 ChiSoNuocMoi FROM HoaDon WHERE MaHopDong = hd.MaHopDong ORDER BY NgayTao DESC) AS NuocMoiCuoi
+                FROM HopDong hd
+                JOIN Phong p ON hd.MaPhong = p.MaPhong
+                WHERE hd.MaHopDong = @MaHopDong";
+
+            SqlParameter[] p = { new("@MaHopDong", cmbMaHopDong.SelectedValue) };
+            DataTable dt = DatabaseHelper.ExecuteQuery(sql, p);
+            if (dt.Rows.Count == 0) return;
+
+            var row = dt.Rows[0];
+            if (decimal.TryParse(row["GiaPhong"].ToString(), out decimal giaPhong))
+            {
+                txtTienPhong.Text = giaPhong.ToString("N0").Replace(",", "");
+            }
+
+            txtChiSoDienCu.Text = (row["DienMoiCuoi"] == DBNull.Value ? 0 : Convert.ToInt32(row["DienMoiCuoi"]))
+                .ToString();
+            txtChiSoNuocCu.Text = (row["NuocMoiCuoi"] == DBNull.Value ? 0 : Convert.ToInt32(row["NuocMoiCuoi"]))
+                .ToString();
+
+            txtChiSoDienMoi.Text = txtChiSoDienCu.Text;
+            txtChiSoNuocMoi.Text = txtChiSoNuocCu.Text;
+
+            CalculateTotal();
+        }
+    }
+}

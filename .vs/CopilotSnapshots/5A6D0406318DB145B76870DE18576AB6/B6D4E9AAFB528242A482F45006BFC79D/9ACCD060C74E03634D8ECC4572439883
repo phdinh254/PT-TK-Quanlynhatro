@@ -1,0 +1,257 @@
+﻿using System;
+using System.Data;
+using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+using QuanLyNhaTro.Data;
+using QuanLyNhaTro.Helpers;
+
+namespace QuanLyNhaTro.Forms
+{
+    public partial class FormHoaDon : Form
+    {
+        private const decimal DEFAULT_DON_GIA_DIEN = 3500m;
+        private const decimal DEFAULT_DON_GIA_NUOC = 15000m;
+
+        public FormHoaDon()
+        {
+            InitializeComponent();
+            InitializeUI();
+            HookEvents();
+            LoadComboBoxData();
+            LoadData();
+        }
+
+        // ================= UI =================
+        private void InitializeUI()
+        {
+            UIHelper.StandardizeForm(this);
+
+            UIHelper.StylePrimaryButton(btnThem);
+            UIHelper.StyleSecondaryButton(btnSua);
+            UIHelper.StyleDangerButton(btnXoa);
+            UIHelper.StyleButton(btnLamMoi, UIHelper.Colors.TextSecondary, UIHelper.Colors.White);
+            UIHelper.StyleButton(btnTimKiem, UIHelper.Colors.Primary, UIHelper.Colors.White);
+            UIHelper.StyleWarningButton(btnThanhToan);
+
+            if (FormMain.IsAdmin())
+            {
+                btnThanhToan.Visible = false;
+            }
+            else
+            {
+                btnThem.Visible = false;
+                btnSua.Visible = false;
+                btnXoa.Visible = false;
+
+                txtMaHoaDon.ReadOnly = true;
+                txtChiSoDienCu.ReadOnly = true;
+                txtChiSoDienMoi.ReadOnly = true;
+                txtChiSoNuocCu.ReadOnly = true;
+                txtChiSoNuocMoi.ReadOnly = true;
+                txtTienPhong.ReadOnly = true;
+                txtTienKhac.ReadOnly = true;
+                txtGhiChu.ReadOnly = true;
+
+                cmbMaHopDong.Enabled = false;
+                cmbTrangThai.Enabled = false;
+                dtpNgayTao.Enabled = false;
+            }
+
+            if (cmbTrangThai.Items.Count > 0 && cmbTrangThai.SelectedIndex < 0)
+                cmbTrangThai.SelectedIndex = 0;
+        }
+
+        private void HookEvents()
+        {
+            txtChiSoDienCu.TextChanged += (_, __) => CalculateTotal();
+            txtChiSoDienMoi.TextChanged += (_, __) => CalculateTotal();
+            txtChiSoNuocCu.TextChanged += (_, __) => CalculateTotal();
+            txtChiSoNuocMoi.TextChanged += (_, __) => CalculateTotal();
+            txtTienPhong.TextChanged += (_, __) => CalculateTotal();
+            txtTienKhac.TextChanged += (_, __) => CalculateTotal();
+        }
+
+        // ================= LOAD DATA =================
+        private void LoadComboBoxData()
+        {
+            string query = @"
+                SELECT hd.MaHopDong,
+                       CONCAT(hd.MaHopDong,' - ',kh.TenKhach,' - ',p.TenPhong) AS DisplayText
+                FROM HopDong hd
+                JOIN KhachHang kh ON hd.MaKhach = kh.MaKhach
+                JOIN Phong p ON hd.MaPhong = p.MaPhong
+                WHERE hd.TrangThai = N'Đang hiệu lực'";
+
+            DataTable dt = DatabaseHelper.ExecuteQuery(query);
+            cmbMaHopDong.DataSource = dt;
+            cmbMaHopDong.DisplayMember = "DisplayText";
+            cmbMaHopDong.ValueMember = "MaHopDong";
+            cmbMaHopDong.SelectedIndex = -1;
+        }
+
+        private void LoadData()
+        {
+            string query = @"
+                SELECT hd.*,
+                       CONCAT(kh.TenKhach,' - ',p.TenPhong) AS ThongTinHopDong
+                FROM HoaDon hd
+                JOIN HopDong hop ON hd.MaHopDong = hop.MaHopDong
+                JOIN KhachHang kh ON hop.MaKhach = kh.MaKhach
+                JOIN Phong p ON hop.MaPhong = p.MaPhong
+                ORDER BY hd.NgayTao DESC";
+
+            dgvHoaDon.DataSource = DatabaseHelper.ExecuteQuery(query);
+            ApplyGridColumnSettings();
+        }
+
+        // ================= GRID =================
+        private void ApplyGridColumnSettings()
+        {
+            Hide("MaHopDong");
+            Hide("ChiSoDienCu");
+            Hide("ChiSoDienMoi");
+            Hide("ChiSoNuocCu");
+            Hide("ChiSoNuocMoi");
+            Hide("TienPhong");
+            Hide("TienDien");
+            Hide("TienNuoc");
+            Hide("TienDichVu");
+            Hide("TienKhac");
+            Hide("GhiChu");
+            Hide("DonGiaDien");
+            Hide("DonGiaNuoc");
+            Hide("ThangNam");
+
+            SetHeader("MaHoaDon", "Mã hóa đơn");
+            SetHeader("ThongTinHopDong", "Thông tin hợp đồng");
+            SetHeader("NgayTao", "Ngày tạo");
+            SetHeader("TongTien", "Tổng tiền");
+            SetHeader("TrangThai", "Trạng thái");
+
+            if (dgvHoaDon.Columns.Contains("TongTien"))
+                dgvHoaDon.Columns["TongTien"].DefaultCellStyle.Format = "N0";
+        }
+
+        private void Hide(string col)
+        {
+            if (dgvHoaDon.Columns.Contains(col))
+                dgvHoaDon.Columns[col].Visible = false;
+        }
+
+        private void SetHeader(string col, string text)
+        {
+            if (dgvHoaDon.Columns.Contains(col))
+                dgvHoaDon.Columns[col].HeaderText = text;
+        }
+
+        // ================= LOGIC TÍNH TIỀN =================
+        private void CalculateTotal()
+        {
+            try
+            {
+                int dienCu = ParseInt(txtChiSoDienCu.Text);
+                int dienMoi = ParseInt(txtChiSoDienMoi.Text);
+                int nuocCu = ParseInt(txtChiSoNuocCu.Text);
+                int nuocMoi = ParseInt(txtChiSoNuocMoi.Text);
+
+                if (dienMoi < dienCu || nuocMoi < nuocCu)
+                {
+                    lblTongTien.Text = "0";
+                    return;
+                }
+
+                decimal tienPhong = ParseDecimal(txtTienPhong.Text);
+                decimal tienKhac = ParseDecimal(txtTienKhac.Text);
+
+                decimal tienDien = (dienMoi - dienCu) * DEFAULT_DON_GIA_DIEN;
+                decimal tienNuoc = (nuocMoi - nuocCu) * DEFAULT_DON_GIA_NUOC;
+
+                decimal tongTien = tienPhong + tienDien + tienNuoc + tienKhac;
+                lblTongTien.Text = tongTien.ToString("N0");
+            }
+            catch
+            {
+                lblTongTien.Text = "0";
+            }
+        }
+
+        // ================= CRUD =================
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMaHoaDon.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mã hóa đơn!");
+                return;
+            }
+
+            string sql = @"
+        INSERT INTO HoaDon
+        (MaHoaDon, MaHopDong, NgayTao,
+         ChiSoDienCu, ChiSoDienMoi,
+         ChiSoNuocCu, ChiSoNuocMoi,
+         TienPhong, TienKhac, TongTien, TrangThai, GhiChu)
+        VALUES
+        (@MaHoaDon, @MaHopDong, @NgayTao,
+         @DienCu, @DienMoi,
+         @NuocCu, @NuocMoi,
+         @TienPhong, @TienKhac, @TongTien, @TrangThai, @GhiChu)";
+
+            SqlParameter[] p =
+            {
+        new("@MaHoaDon", txtMaHoaDon.Text),
+        new("@MaHopDong", cmbMaHopDong.SelectedValue),
+        new("@NgayTao", dtpNgayTao.Value),
+
+        new("@DienCu", int.Parse(txtChiSoDienCu.Text)),
+        new("@DienMoi", int.Parse(txtChiSoDienMoi.Text)),
+        new("@NuocCu", int.Parse(txtChiSoNuocCu.Text)),
+        new("@NuocMoi", int.Parse(txtChiSoNuocMoi.Text)),
+
+        new("@TienPhong", decimal.Parse(txtTienPhong.Text)),
+        new("@TienKhac", decimal.Parse(txtTienKhac.Text)),
+        new("@TongTien", decimal.Parse(lblTongTien.Text.Replace(",", ""))),
+
+        new("@TrangThai", cmbTrangThai.Text),
+        new("@GhiChu", txtGhiChu.Text)
+    };
+
+            DatabaseHelper.ExecuteNonQuery(sql, p);
+            LoadData();
+            ClearInputs();
+
+            MessageBox.Show("Thêm hóa đơn thành công!");
+        }
+
+
+        // ================= UTILS =================
+        private static int ParseInt(string s) => int.TryParse(s, out var v) ? v : 0;
+
+        private static decimal ParseDecimal(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return 0;
+            return decimal.TryParse(s.Replace(",", ""), out var v) ? v : 0;
+        }
+
+        // ================= GRID CLICK =================
+        private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            var r = dgvHoaDon.Rows[e.RowIndex];
+
+            txtMaHoaDon.Text = r.Cells["MaHoaDon"].Value.ToString();
+            cmbMaHopDong.SelectedValue = r.Cells["MaHopDong"].Value;
+            dtpNgayTao.Value = Convert.ToDateTime(r.Cells["NgayTao"].Value);
+
+            txtChiSoDienCu.Text = r.Cells["ChiSoDienCu"].Value.ToString();
+            txtChiSoDienMoi.Text = r.Cells["ChiSoDienMoi"].Value.ToString();
+            txtChiSoNuocCu.Text = r.Cells["ChiSoNuocCu"].Value.ToString();
+            txtChiSoNuocMoi.Text = r.Cells["ChiSoNuocMoi"].Value.ToString();
+            txtTienPhong.Text = r.Cells["TienPhong"].Value.ToString();
+            txtTienKhac.Text = r.Cells["TienKhac"].Value.ToString();
+
+            lblTongTien.Text = Convert.ToDecimal(r.Cells["TongTien"].Value).ToString("N0");
+            cmbTrangThai.Text = r.Cells["TrangThai"].Value.ToString();
+            txtGhiChu.Text = r.Cells["GhiChu"].Value.ToString();
+        }
+    }
+}

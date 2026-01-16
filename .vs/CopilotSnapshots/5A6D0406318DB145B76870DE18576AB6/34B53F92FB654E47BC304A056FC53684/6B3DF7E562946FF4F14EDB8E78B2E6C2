@@ -1,0 +1,323 @@
+﻿using System;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.Windows.Forms;
+using QuanLyNhaTro.Data;
+using QuanLyNhaTro.Models;
+using QuanLyNhaTro.Helpers;
+
+namespace QuanLyNhaTro.Forms
+{
+    public partial class FormPhong : Form
+    {
+        private readonly (decimal gia, int dienTich) phongDon = (800000m, 22);
+        private readonly (decimal gia, int dienTich) phongDoi = (1300000m, 30);
+        private readonly (decimal gia, int dienTich) phongVip = (2000000m, 40);
+        private readonly (decimal gia, int dienTich) phongGiaDinh = (3500000m, 60);
+
+        public FormPhong()
+        {
+            InitializeComponent();
+            InitializeUI();
+            LoadData();
+            HookEvents();
+        }
+
+        private void HookEvents()
+        {
+            cmbLoaiPhong.SelectedIndexChanged += (_, __) => ApplyDefaultByLoaiPhong();
+        }
+
+        private void InitializeUI()
+        {
+            // Chuẩn hóa toàn bộ giao diện
+            UIHelper.StandardizeForm(this);
+            
+            // Style riêng cho các nút
+            UIHelper.StylePrimaryButton(btnThem);
+            UIHelper.StyleSecondaryButton(btnSua);
+            UIHelper.StyleDangerButton(btnXoa);
+            UIHelper.StyleButton(btnLamMoi, UIHelper.Colors.TextSecondary, UIHelper.Colors.White);
+            UIHelper.StyleButton(btnTimKiem, UIHelper.Colors.Primary, UIHelper.Colors.White);
+
+            // Phân quyền: User chỉ được xem
+            if (!FormMain.IsAdmin())
+            {
+                btnThem.Visible = false;
+                btnSua.Visible = false;
+                btnXoa.Visible = false;
+                txtMaPhong.ReadOnly = true;
+                txtTenPhong.ReadOnly = true;
+                txtGiaPhong.ReadOnly = true;
+                txtDienTich.ReadOnly = true;
+                txtMoTa.ReadOnly = true;
+                cmbTrangThai.Enabled = false;
+                cmbLoaiPhong.Enabled = false;
+            }
+            else
+            {
+                txtGiaPhong.ReadOnly = false;
+                txtDienTich.ReadOnly = false;
+            }
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                string query = "SELECT * FROM Phong ORDER BY MaPhong";
+                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+                dgvPhong.DataSource = dt;
+                
+                // Đặt tên cột hiển thị
+                if (dgvPhong.Columns.Count > 0)
+                {
+                    dgvPhong.Columns["MaPhong"].HeaderText = "Mã phòng";
+                    dgvPhong.Columns["TenPhong"].HeaderText = "Tên phòng";
+                    dgvPhong.Columns["GiaPhong"].HeaderText = "Giá phòng";
+                    dgvPhong.Columns["TrangThai"].HeaderText = "Trạng thái";
+                    dgvPhong.Columns["LoaiPhong"].HeaderText = "Loại phòng";
+                    dgvPhong.Columns["DienTich"].HeaderText = "Diện tích (m²)";
+                    dgvPhong.Columns["MoTa"].HeaderText = "Mô tả";
+                    
+                    // Format giá phòng
+                    dgvPhong.Columns["GiaPhong"].DefaultCellStyle.Format = "N0";
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tải dữ liệu: " + ex.Message);
+            }
+        }
+
+        private void ClearInputs()
+        {
+            txtMaPhong.Clear();
+            txtTenPhong.Clear();
+            txtGiaPhong.Clear();
+            txtDienTich.Clear();
+            txtMoTa.Clear();
+            cmbTrangThai.SelectedIndex = -1;
+            cmbLoaiPhong.SelectedIndex = -1;
+        }
+
+        private void ApplyDefaultByLoaiPhong()
+        {
+            var loai = cmbLoaiPhong.Text.Trim().ToLower();
+            (decimal gia, int dienTich) preset = loai switch
+            {
+                "phòng đơn" or "phong don" or "đơn" => phongDon,
+                "phòng đôi" or "phong doi" or "đôi" => phongDoi,
+                "phòng vip" or "phong vip" or "vip" => phongVip,
+                "phòng gia đình" or "phong gia dinh" or "gia đình" or "gia dinh" => phongGiaDinh,
+                _ => (0m, 0)
+            };
+
+            if (preset.gia > 0)
+            {
+                txtGiaPhong.Text = preset.gia.ToString("N0").Replace(",", "");
+            }
+
+            if (preset.dienTich > 0)
+            {
+                txtDienTich.Text = preset.dienTich.ToString();
+            }
+        }
+
+        private bool ValidateInput()
+        {
+            if (string.IsNullOrWhiteSpace(txtMaPhong.Text))
+            {
+                UIHelper.ShowWarningMessage("Vui lòng nhập mã phòng!");
+                txtMaPhong.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtTenPhong.Text))
+            {
+                UIHelper.ShowWarningMessage("Vui lòng nhập tên phòng!");
+                txtTenPhong.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtGiaPhong.Text, out decimal giaPhong) || giaPhong <= 0)
+            {
+                UIHelper.ShowWarningMessage("Vui lòng nhập giá phòng hợp lệ!");
+                txtGiaPhong.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(txtDienTich.Text, out int dienTich) || dienTich <= 0)
+            {
+                UIHelper.ShowWarningMessage("Vui lòng nhập diện tích hợp lệ!");
+                txtDienTich.Focus();
+                return false;
+            }
+ 
+            return true;
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!ValidateInput())
+                    return;
+
+                // Kiểm tra mã phòng đã tồn tại chưa
+                string checkQuery = "SELECT COUNT(*) FROM Phong WHERE MaPhong = @MaPhong";
+                SqlParameter[] checkParams = { new SqlParameter("@MaPhong", txtMaPhong.Text) };
+                int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkQuery, checkParams));
+                
+                if (count > 0)
+                {
+                    UIHelper.ShowWarningMessage("Mã phòng đã tồn tại!");
+                    txtMaPhong.Focus();
+                    return;
+                }
+
+                string query = @"INSERT INTO Phong (MaPhong, TenPhong, GiaPhong, TrangThai, LoaiPhong, DienTich, MoTa) 
+                                VALUES (@MaPhong, @TenPhong, @GiaPhong, @TrangThai, @LoaiPhong, @DienTich, @MoTa)";
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@MaPhong", txtMaPhong.Text),
+                    new SqlParameter("@TenPhong", txtTenPhong.Text),
+                    new SqlParameter("@GiaPhong", decimal.Parse(txtGiaPhong.Text)),
+                    new SqlParameter("@TrangThai", cmbTrangThai.Text),
+                    new SqlParameter("@LoaiPhong", cmbLoaiPhong.Text),
+                    new SqlParameter("@DienTich", int.Parse(txtDienTich.Text)),
+                    new SqlParameter("@MoTa", txtMoTa.Text)
+                };
+
+                int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                if (result > 0)
+                {
+                    UIHelper.ShowSuccessMessage("Thêm phòng thành công!");
+                    LoadData();
+                    ClearInputs();
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi thêm phòng: " + ex.Message);
+            }
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtMaPhong.Text))
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn phòng cần sửa!");
+                    return;
+                }
+
+                if (!ValidateInput())
+                    return;
+
+                string query = @"UPDATE Phong SET TenPhong = @TenPhong, GiaPhong = @GiaPhong, TrangThai = @TrangThai, 
+                                LoaiPhong = @LoaiPhong, DienTich = @DienTich, MoTa = @MoTa 
+                                WHERE MaPhong = @MaPhong";
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@MaPhong", txtMaPhong.Text),
+                    new SqlParameter("@TenPhong", txtTenPhong.Text),
+                    new SqlParameter("@GiaPhong", decimal.Parse(txtGiaPhong.Text)),
+                    new SqlParameter("@TrangThai", cmbTrangThai.Text),
+                    new SqlParameter("@LoaiPhong", cmbLoaiPhong.Text),
+                    new SqlParameter("@DienTich", int.Parse(txtDienTich.Text)),
+                    new SqlParameter("@MoTa", txtMoTa.Text)
+                };
+
+                int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                if (result > 0)
+                {
+                    UIHelper.ShowSuccessMessage("Cập nhật phòng thành công!");
+                    LoadData();
+                    ClearInputs();
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi cập nhật phòng: " + ex.Message);
+            }
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtMaPhong.Text))
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn phòng cần xóa!");
+                    return;
+                }
+
+                if (UIHelper.ShowConfirmMessage("Bạn có chắc chắn muốn xóa phòng này?"))
+                {
+                    string query = "DELETE FROM Phong WHERE MaPhong = @MaPhong";
+                    SqlParameter[] parameters = { new SqlParameter("@MaPhong", txtMaPhong.Text) };
+
+                    int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                    if (result > 0)
+                    {
+                        UIHelper.ShowSuccessMessage("Xóa phòng thành công!");
+                        LoadData();
+                        ClearInputs();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi xóa phòng: " + ex.Message);
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string searchText = txtTimKiem.Text.Trim();
+                if (string.IsNullOrEmpty(searchText))
+                {
+                    LoadData();
+                    return;
+                }
+
+                string query = @"SELECT * FROM Phong WHERE 
+                                MaPhong LIKE @Search OR TenPhong LIKE @Search OR 
+                                TrangThai LIKE @Search OR LoaiPhong LIKE @Search";
+
+                SqlParameter[] parameters = { new SqlParameter("@Search", "%" + searchText + "%") };
+                DataTable dt = DatabaseHelper.ExecuteQuery(query, parameters);
+                dgvPhong.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tìm kiếm: " + ex.Message);
+            }
+        }
+
+        private void dgvPhong_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvPhong.Rows[e.RowIndex];
+                txtMaPhong.Text = row.Cells["MaPhong"].Value?.ToString();
+                txtTenPhong.Text = row.Cells["TenPhong"].Value?.ToString();
+                txtGiaPhong.Text = row.Cells["GiaPhong"].Value?.ToString();
+                cmbTrangThai.Text = row.Cells["TrangThai"].Value?.ToString();
+                cmbLoaiPhong.Text = row.Cells["LoaiPhong"].Value?.ToString();
+                txtDienTich.Text = row.Cells["DienTich"].Value?.ToString();
+                txtMoTa.Text = row.Cells["MoTa"].Value?.ToString();
+            }
+        }
+
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            ClearInputs();
+            LoadData();
+        }
+    }
+}

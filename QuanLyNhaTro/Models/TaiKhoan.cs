@@ -1,0 +1,30 @@
+using System;
+
+namespace QuanLyNhaTro.Models
+{
+    public class TaiKhoan
+    {
+        public string TenDangNhap { get; set; }
+        public string MatKhau { get; set; }
+        public string HoTen { get; set; }
+        public string Email { get; set; }
+        public string VaiTro { get; set; } // "Admin", "User"
+        public DateTime NgayTao { get; set; }
+        public bool TrangThai { get; set; } // true: Hoạt động, false: Khóa
+
+        public TaiKhoan()
+        {
+        }
+
+        public TaiKhoan(string tenDangNhap, string matKhau, string hoTen, string email, string vaiTro, bool trangThai = true)
+        {
+            TenDangNhap = tenDangNhap;
+            MatKhau = matKhau;
+            HoTen = hoTen;
+            Email = email;
+            VaiTro = vaiTro;
+            NgayTao = DateTime.Now;
+            TrangThai = trangThai;
+        }
+    }
+}

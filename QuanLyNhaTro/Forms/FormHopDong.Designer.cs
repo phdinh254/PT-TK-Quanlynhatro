@@ -1,0 +1,484 @@
+namespace QuanLyNhaTro.Forms
+{
+    partial class FormHopDong
+    {
+        private System.ComponentModel.IContainer components = null;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        private void InitializeComponent()
+        {
+            lblTitle = new System.Windows.Forms.Label();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            pnlButtons = new System.Windows.Forms.FlowLayoutPanel();
+            btnThem = new System.Windows.Forms.Button();
+            btnSua = new System.Windows.Forms.Button();
+            btnXoa = new System.Windows.Forms.Button();
+            btnLamMoi = new System.Windows.Forms.Button();
+            btnGiaHan = new System.Windows.Forms.Button();
+            txtSoThang = new System.Windows.Forms.TextBox();
+            lblSoThang = new System.Windows.Forms.Label();
+            cmbTrangThai = new System.Windows.Forms.ComboBox();
+            cmbMaPhong = new System.Windows.Forms.ComboBox();
+            cmbMaKhach = new System.Windows.Forms.ComboBox();
+            dtpNgayKetThuc = new System.Windows.Forms.DateTimePicker();
+            dtpNgayBatDau = new System.Windows.Forms.DateTimePicker();
+            txtGhiChu = new System.Windows.Forms.TextBox();
+            txtTienCoc = new System.Windows.Forms.TextBox();
+            txtMaHopDong = new System.Windows.Forms.TextBox();
+            lblGhiChu = new System.Windows.Forms.Label();
+            lblTrangThai = new System.Windows.Forms.Label();
+            lblTienCoc = new System.Windows.Forms.Label();
+            lblNgayKetThuc = new System.Windows.Forms.Label();
+            lblNgayBatDau = new System.Windows.Forms.Label();
+            lblMaPhong = new System.Windows.Forms.Label();
+            lblMaKhach = new System.Windows.Forms.Label();
+            lblMaHopDong = new System.Windows.Forms.Label();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            btnTimKiem = new System.Windows.Forms.Button();
+            txtTimKiem = new System.Windows.Forms.TextBox();
+            lblTimKiem = new System.Windows.Forms.Label();
+            dgvHopDong = new System.Windows.Forms.DataGridView();
+            groupBox1.SuspendLayout();
+            pnlButtons.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvHopDong).BeginInit();
+            SuspendLayout();
+            // 
+            // lblTitle
+            // 
+            lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            lblTitle.Font = new System.Drawing.Font("Segoe UI Black", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = System.Drawing.Color.FromArgb(41, 128, 185);
+            lblTitle.Location = new System.Drawing.Point(0, 0);
+            lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new System.Drawing.Size(1125, 62);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "QUẢN LÝ HỢP ĐỒNG";
+            lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBox1.Controls.Add(pnlButtons);
+            groupBox1.Controls.Add(txtSoThang);
+            groupBox1.Controls.Add(lblSoThang);
+            groupBox1.Controls.Add(cmbTrangThai);
+            groupBox1.Controls.Add(cmbMaPhong);
+            groupBox1.Controls.Add(cmbMaKhach);
+            groupBox1.Controls.Add(dtpNgayKetThuc);
+            groupBox1.Controls.Add(dtpNgayBatDau);
+            groupBox1.Controls.Add(txtGhiChu);
+            groupBox1.Controls.Add(txtTienCoc);
+            groupBox1.Controls.Add(txtMaHopDong);
+            groupBox1.Controls.Add(lblGhiChu);
+            groupBox1.Controls.Add(lblTrangThai);
+            groupBox1.Controls.Add(lblTienCoc);
+            groupBox1.Controls.Add(lblNgayKetThuc);
+            groupBox1.Controls.Add(lblNgayBatDau);
+            groupBox1.Controls.Add(lblMaPhong);
+            groupBox1.Controls.Add(lblMaKhach);
+            groupBox1.Controls.Add(lblMaHopDong);
+            groupBox1.Location = new System.Drawing.Point(19, 62);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            groupBox1.Size = new System.Drawing.Size(1088, 294);
+            groupBox1.TabIndex = 1;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Thông tin hợp đồng";
+            // 
+            // pnlButtons
+            // 
+            pnlButtons.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            pnlButtons.Controls.Add(btnThem);
+            pnlButtons.Controls.Add(btnSua);
+            pnlButtons.Controls.Add(btnXoa);
+            pnlButtons.Controls.Add(btnLamMoi);
+            pnlButtons.Controls.Add(btnGiaHan);
+            pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            pnlButtons.Location = new System.Drawing.Point(0, 236);
+            pnlButtons.Margin = new System.Windows.Forms.Padding(4);
+            pnlButtons.Name = "pnlButtons";
+            pnlButtons.Size = new System.Drawing.Size(825, 50);
+            pnlButtons.TabIndex = 23;
+            // 
+            // btnThem
+            // 
+            btnThem.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
+            btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnThem.ForeColor = System.Drawing.Color.White;
+            btnThem.Location = new System.Drawing.Point(721, 4);
+            btnThem.Margin = new System.Windows.Forms.Padding(4);
+            btnThem.Name = "btnThem";
+            btnThem.Size = new System.Drawing.Size(100, 40);
+            btnThem.TabIndex = 16;
+            btnThem.Text = "➕ Thêm";
+            btnThem.UseVisualStyleBackColor = false;
+            btnThem.Click += btnThem_Click;
+            // 
+            // btnSua
+            // 
+            btnSua.BackColor = System.Drawing.Color.FromArgb(241, 196, 15);
+            btnSua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnSua.ForeColor = System.Drawing.Color.White;
+            btnSua.Location = new System.Drawing.Point(613, 4);
+            btnSua.Margin = new System.Windows.Forms.Padding(4);
+            btnSua.Name = "btnSua";
+            btnSua.Size = new System.Drawing.Size(100, 40);
+            btnSua.TabIndex = 17;
+            btnSua.Text = "✏️ Sửa";
+            btnSua.UseVisualStyleBackColor = false;
+            btnSua.Click += btnSua_Click;
+            // 
+            // btnXoa
+            // 
+            btnXoa.BackColor = System.Drawing.Color.FromArgb(231, 76, 60);
+            btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnXoa.ForeColor = System.Drawing.Color.White;
+            btnXoa.Location = new System.Drawing.Point(505, 4);
+            btnXoa.Margin = new System.Windows.Forms.Padding(4);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new System.Drawing.Size(100, 40);
+            btnXoa.TabIndex = 18;
+            btnXoa.Text = "🗑️ Xóa";
+            btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
+            // 
+            // btnLamMoi
+            // 
+            btnLamMoi.BackColor = System.Drawing.Color.FromArgb(149, 165, 166);
+            btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnLamMoi.ForeColor = System.Drawing.Color.White;
+            btnLamMoi.Location = new System.Drawing.Point(385, 4);
+            btnLamMoi.Margin = new System.Windows.Forms.Padding(4);
+            btnLamMoi.Name = "btnLamMoi";
+            btnLamMoi.Size = new System.Drawing.Size(112, 40);
+            btnLamMoi.TabIndex = 19;
+            btnLamMoi.Text = "🔄 Làm mới";
+            btnLamMoi.UseVisualStyleBackColor = false;
+            btnLamMoi.Click += btnLamMoi_Click;
+            // 
+            // btnGiaHan
+            // 
+            btnGiaHan.BackColor = System.Drawing.Color.FromArgb(230, 126, 34);
+            btnGiaHan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnGiaHan.ForeColor = System.Drawing.Color.White;
+            btnGiaHan.Location = new System.Drawing.Point(265, 4);
+            btnGiaHan.Margin = new System.Windows.Forms.Padding(4);
+            btnGiaHan.Name = "btnGiaHan";
+            btnGiaHan.Size = new System.Drawing.Size(112, 40);
+            btnGiaHan.TabIndex = 20;
+            btnGiaHan.Text = "📅 Gia hạn";
+            btnGiaHan.UseVisualStyleBackColor = false;
+            btnGiaHan.Click += btnGiaHan_Click;
+            // 
+            // txtSoThang
+            // 
+            txtSoThang.Location = new System.Drawing.Point(900, 112);
+            txtSoThang.Margin = new System.Windows.Forms.Padding(4);
+            txtSoThang.Name = "txtSoThang";
+            txtSoThang.Size = new System.Drawing.Size(74, 27);
+            txtSoThang.TabIndex = 22;
+            txtSoThang.Text = "12";
+            // 
+            // lblSoThang
+            // 
+            lblSoThang.AutoSize = true;
+            lblSoThang.Location = new System.Drawing.Point(812, 116);
+            lblSoThang.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblSoThang.Name = "lblSoThang";
+            lblSoThang.Size = new System.Drawing.Size(71, 20);
+            lblSoThang.TabIndex = 21;
+            lblSoThang.Text = "Số tháng:";
+            // 
+            // cmbTrangThai
+            // 
+            cmbTrangThai.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbTrangThai.FormattingEnabled = true;
+            cmbTrangThai.Items.AddRange(new object[] { "Đang hiệu lực", "Hết hạn", "Đã hủy" });
+            cmbTrangThai.Location = new System.Drawing.Point(600, 75);
+            cmbTrangThai.Margin = new System.Windows.Forms.Padding(4);
+            cmbTrangThai.Name = "cmbTrangThai";
+            cmbTrangThai.Size = new System.Drawing.Size(162, 28);
+            cmbTrangThai.TabIndex = 15;
+            // 
+            // cmbMaPhong
+            // 
+            cmbMaPhong.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbMaPhong.FormattingEnabled = true;
+            cmbMaPhong.Location = new System.Drawing.Point(350, 75);
+            cmbMaPhong.Margin = new System.Windows.Forms.Padding(4);
+            cmbMaPhong.Name = "cmbMaPhong";
+            cmbMaPhong.Size = new System.Drawing.Size(149, 28);
+            cmbMaPhong.TabIndex = 14;
+            // 
+            // cmbMaKhach
+            // 
+            cmbMaKhach.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbMaKhach.FormattingEnabled = true;
+            cmbMaKhach.Location = new System.Drawing.Point(600, 38);
+            cmbMaKhach.Margin = new System.Windows.Forms.Padding(4);
+            cmbMaKhach.Name = "cmbMaKhach";
+            cmbMaKhach.Size = new System.Drawing.Size(249, 28);
+            cmbMaKhach.TabIndex = 13;
+            // 
+            // dtpNgayKetThuc
+            // 
+            dtpNgayKetThuc.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            dtpNgayKetThuc.Location = new System.Drawing.Point(600, 112);
+            dtpNgayKetThuc.Margin = new System.Windows.Forms.Padding(4);
+            dtpNgayKetThuc.Name = "dtpNgayKetThuc";
+            dtpNgayKetThuc.Size = new System.Drawing.Size(162, 27);
+            dtpNgayKetThuc.TabIndex = 12;
+            // 
+            // dtpNgayBatDau
+            // 
+            dtpNgayBatDau.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            dtpNgayBatDau.Location = new System.Drawing.Point(350, 112);
+            dtpNgayBatDau.Margin = new System.Windows.Forms.Padding(4);
+            dtpNgayBatDau.Name = "dtpNgayBatDau";
+            dtpNgayBatDau.Size = new System.Drawing.Size(149, 27);
+            dtpNgayBatDau.TabIndex = 11;
+            // 
+            // txtGhiChu
+            // 
+            txtGhiChu.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtGhiChu.Location = new System.Drawing.Point(100, 150);
+            txtGhiChu.Margin = new System.Windows.Forms.Padding(4);
+            txtGhiChu.Multiline = true;
+            txtGhiChu.Name = "txtGhiChu";
+            txtGhiChu.Size = new System.Drawing.Size(874, 49);
+            txtGhiChu.TabIndex = 10;
+            // 
+            // txtTienCoc
+            // 
+            txtTienCoc.Location = new System.Drawing.Point(100, 80);
+            txtTienCoc.Margin = new System.Windows.Forms.Padding(4);
+            txtTienCoc.Name = "txtTienCoc";
+            txtTienCoc.Size = new System.Drawing.Size(149, 27);
+            txtTienCoc.TabIndex = 9;
+            // 
+            // txtMaHopDong
+            // 
+            txtMaHopDong.Location = new System.Drawing.Point(100, 38);
+            txtMaHopDong.Margin = new System.Windows.Forms.Padding(4);
+            txtMaHopDong.Name = "txtMaHopDong";
+            txtMaHopDong.Size = new System.Drawing.Size(149, 27);
+            txtMaHopDong.TabIndex = 8;
+            // 
+            // lblGhiChu
+            // 
+            lblGhiChu.AutoSize = true;
+            lblGhiChu.Location = new System.Drawing.Point(25, 154);
+            lblGhiChu.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblGhiChu.Name = "lblGhiChu";
+            lblGhiChu.Size = new System.Drawing.Size(61, 20);
+            lblGhiChu.TabIndex = 7;
+            lblGhiChu.Text = "Ghi chú:";
+            // 
+            // lblTrangThai
+            // 
+            lblTrangThai.AutoSize = true;
+            lblTrangThai.Location = new System.Drawing.Point(525, 79);
+            lblTrangThai.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTrangThai.Name = "lblTrangThai";
+            lblTrangThai.Size = new System.Drawing.Size(78, 20);
+            lblTrangThai.TabIndex = 6;
+            lblTrangThai.Text = "Trạng thái:";
+            // 
+            // lblTienCoc
+            // 
+            lblTienCoc.AutoSize = true;
+            lblTienCoc.Location = new System.Drawing.Point(25, 83);
+            lblTienCoc.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTienCoc.Name = "lblTienCoc";
+            lblTienCoc.Size = new System.Drawing.Size(67, 20);
+            lblTienCoc.TabIndex = 5;
+            lblTienCoc.Text = "Tiền cọc:";
+            // 
+            // lblNgayKetThuc
+            // 
+            lblNgayKetThuc.AutoSize = true;
+            lblNgayKetThuc.Location = new System.Drawing.Point(525, 116);
+            lblNgayKetThuc.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblNgayKetThuc.Name = "lblNgayKetThuc";
+            lblNgayKetThuc.Size = new System.Drawing.Size(66, 20);
+            lblNgayKetThuc.TabIndex = 4;
+            lblNgayKetThuc.Text = "Kết thúc:";
+            // 
+            // lblNgayBatDau
+            // 
+            lblNgayBatDau.AutoSize = true;
+            lblNgayBatDau.Location = new System.Drawing.Point(275, 116);
+            lblNgayBatDau.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblNgayBatDau.Name = "lblNgayBatDau";
+            lblNgayBatDau.Size = new System.Drawing.Size(63, 20);
+            lblNgayBatDau.TabIndex = 3;
+            lblNgayBatDau.Text = "Bắt đầu:";
+            // 
+            // lblMaPhong
+            // 
+            lblMaPhong.AutoSize = true;
+            lblMaPhong.Location = new System.Drawing.Point(275, 79);
+            lblMaPhong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblMaPhong.Name = "lblMaPhong";
+            lblMaPhong.Size = new System.Drawing.Size(54, 20);
+            lblMaPhong.TabIndex = 2;
+            lblMaPhong.Text = "Phòng:";
+            // 
+            // lblMaKhach
+            // 
+            lblMaKhach.AutoSize = true;
+            lblMaKhach.Location = new System.Drawing.Point(525, 41);
+            lblMaKhach.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblMaKhach.Name = "lblMaKhach";
+            lblMaKhach.Size = new System.Drawing.Size(52, 20);
+            lblMaKhach.TabIndex = 1;
+            lblMaKhach.Text = "Khách:";
+            // 
+            // lblMaHopDong
+            // 
+            lblMaHopDong.AutoSize = true;
+            lblMaHopDong.Location = new System.Drawing.Point(25, 41);
+            lblMaHopDong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblMaHopDong.Name = "lblMaHopDong";
+            lblMaHopDong.Size = new System.Drawing.Size(59, 20);
+            lblMaHopDong.TabIndex = 0;
+            lblMaHopDong.Text = "Mã HĐ:";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBox2.Controls.Add(btnTimKiem);
+            groupBox2.Controls.Add(txtTimKiem);
+            groupBox2.Controls.Add(lblTimKiem);
+            groupBox2.Controls.Add(dgvHopDong);
+            groupBox2.Location = new System.Drawing.Point(19, 364);
+            groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            groupBox2.Size = new System.Drawing.Size(1088, 342);
+            groupBox2.TabIndex = 2;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Danh sách hợp đồng";
+            // 
+            // btnTimKiem
+            // 
+            btnTimKiem.BackColor = System.Drawing.Color.FromArgb(52, 152, 219);
+            btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnTimKiem.ForeColor = System.Drawing.Color.White;
+            btnTimKiem.Location = new System.Drawing.Point(475, 25);
+            btnTimKiem.Margin = new System.Windows.Forms.Padding(4);
+            btnTimKiem.Name = "btnTimKiem";
+            btnTimKiem.Size = new System.Drawing.Size(125, 35);
+            btnTimKiem.TabIndex = 3;
+            btnTimKiem.Text = "🔍 Tìm kiếm";
+            btnTimKiem.UseVisualStyleBackColor = false;
+            btnTimKiem.Click += btnTimKiem_Click;
+            // 
+            // txtTimKiem
+            // 
+            txtTimKiem.Location = new System.Drawing.Point(100, 29);
+            txtTimKiem.Margin = new System.Windows.Forms.Padding(4);
+            txtTimKiem.Name = "txtTimKiem";
+            txtTimKiem.Size = new System.Drawing.Size(349, 27);
+            txtTimKiem.TabIndex = 2;
+            // 
+            // lblTimKiem
+            // 
+            lblTimKiem.AutoSize = true;
+            lblTimKiem.Location = new System.Drawing.Point(25, 32);
+            lblTimKiem.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTimKiem.Name = "lblTimKiem";
+            lblTimKiem.Size = new System.Drawing.Size(73, 20);
+            lblTimKiem.TabIndex = 1;
+            lblTimKiem.Text = "Tìm kiếm:";
+            // 
+            // dgvHopDong
+            // 
+            dgvHopDong.AllowUserToAddRows = false;
+            dgvHopDong.AllowUserToDeleteRows = false;
+            dgvHopDong.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            dgvHopDong.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dgvHopDong.BackgroundColor = System.Drawing.Color.White;
+            dgvHopDong.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dgvHopDong.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvHopDong.Location = new System.Drawing.Point(19, 69);
+            dgvHopDong.Margin = new System.Windows.Forms.Padding(4);
+            dgvHopDong.Name = "dgvHopDong";
+            dgvHopDong.ReadOnly = true;
+            dgvHopDong.RowHeadersWidth = 51;
+            dgvHopDong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            dgvHopDong.Size = new System.Drawing.Size(1050, 261);
+            dgvHopDong.TabIndex = 0;
+            dgvHopDong.CellClick += dgvHopDong_CellClick;
+            // 
+            // FormHopDong
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            ClientSize = new System.Drawing.Size(1125, 725);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Controls.Add(lblTitle);
+            Margin = new System.Windows.Forms.Padding(4);
+            MinimumSize = new System.Drawing.Size(1058, 676);
+            Name = "FormHopDong";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Quản lý hợp đồng";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            pnlButtons.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvHopDong).EndInit();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblMaHopDong;
+        private System.Windows.Forms.Label lblMaKhach;
+        private System.Windows.Forms.Label lblMaPhong;
+        private System.Windows.Forms.Label lblNgayBatDau;
+        private System.Windows.Forms.Label lblNgayKetThuc;
+        private System.Windows.Forms.Label lblTienCoc;
+        private System.Windows.Forms.Label lblTrangThai;
+        private System.Windows.Forms.Label lblGhiChu;
+        private System.Windows.Forms.TextBox txtMaHopDong;
+        private System.Windows.Forms.TextBox txtTienCoc;
+        private System.Windows.Forms.TextBox txtGhiChu;
+        private System.Windows.Forms.DateTimePicker dtpNgayBatDau;
+        private System.Windows.Forms.DateTimePicker dtpNgayKetThuc;
+        private System.Windows.Forms.ComboBox cmbMaKhach;
+        private System.Windows.Forms.ComboBox cmbMaPhong;
+        private System.Windows.Forms.ComboBox cmbTrangThai;
+        private System.Windows.Forms.Button btnThem;
+        private System.Windows.Forms.Button btnSua;
+        private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Button btnLamMoi;
+        private System.Windows.Forms.Button btnGiaHan;
+        private System.Windows.Forms.TextBox txtSoThang;
+        private System.Windows.Forms.Label lblSoThang;
+        private System.Windows.Forms.FlowLayoutPanel pnlButtons;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridView dgvHopDong;
+        private System.Windows.Forms.Label lblTimKiem;
+        private System.Windows.Forms.TextBox txtTimKiem;
+        private System.Windows.Forms.Button btnTimKiem;
+    }
+}
