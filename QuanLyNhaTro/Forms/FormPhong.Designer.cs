@@ -25,6 +25,7 @@ namespace QuanLyNhaTro.Forms
             btnSua = new System.Windows.Forms.Button();
             btnXoa = new System.Windows.Forms.Button();
             btnLamMoi = new System.Windows.Forms.Button();
+            btnDatPhong = new System.Windows.Forms.Button();
             cmbLoaiPhong = new System.Windows.Forms.ComboBox();
             cmbTrangThai = new System.Windows.Forms.ComboBox();
             txtDienTich = new System.Windows.Forms.TextBox();
@@ -52,7 +53,7 @@ namespace QuanLyNhaTro.Forms
             // lblTitle
             // 
             lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            lblTitle.Font = new System.Drawing.Font("Segoe UI Black", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            lblTitle.Font = new System.Drawing.Font("Times New Roman", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
             lblTitle.ForeColor = System.Drawing.Color.FromArgb(41, 128, 185);
             lblTitle.Location = new System.Drawing.Point(0, 0);
             lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -106,11 +107,12 @@ namespace QuanLyNhaTro.Forms
             pnlButtons.Controls.Add(btnSua);
             pnlButtons.Controls.Add(btnXoa);
             pnlButtons.Controls.Add(btnLamMoi);
+            pnlButtons.Controls.Add(btnDatPhong);
             pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             pnlButtons.Location = new System.Drawing.Point(275, 216);
             pnlButtons.Margin = new System.Windows.Forms.Padding(4);
             pnlButtons.Name = "pnlButtons";
-            pnlButtons.Size = new System.Drawing.Size(446, 48);
+            pnlButtons.Size = new System.Drawing.Size(726, 48);
             pnlButtons.TabIndex = 21;
             // 
             // btnThem
@@ -168,6 +170,21 @@ namespace QuanLyNhaTro.Forms
             btnLamMoi.Text = "🔄 Làm mới";
             btnLamMoi.UseVisualStyleBackColor = false;
             btnLamMoi.Click += btnLamMoi_Click;
+            // 
+            // btnDatPhong
+            // 
+            btnDatPhong.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
+            btnDatPhong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnDatPhong.ForeColor = System.Drawing.Color.White;
+            btnDatPhong.Location = new System.Drawing.Point(342, 52);
+            btnDatPhong.Margin = new System.Windows.Forms.Padding(4);
+            btnDatPhong.Name = "btnDatPhong";
+            btnDatPhong.Size = new System.Drawing.Size(140, 40);
+            btnDatPhong.TabIndex = 18;
+            btnDatPhong.Text = "📝 Đặt phòng";
+            btnDatPhong.UseVisualStyleBackColor = false;
+            btnDatPhong.Visible = false;
+            btnDatPhong.Click += btnDatPhong_Click;
             // 
             // cmbLoaiPhong
             // 
@@ -387,29 +404,30 @@ namespace QuanLyNhaTro.Forms
 
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblMaPhong;
-        private System.Windows.Forms.Label lblTenPhong;
-        private System.Windows.Forms.Label lblGiaPhong;
-        private System.Windows.Forms.Label lblTrangThai;
-        private System.Windows.Forms.Label lblLoaiPhong;
-        private System.Windows.Forms.Label lblDienTich;
-        private System.Windows.Forms.Label lblMoTa;
-        private System.Windows.Forms.TextBox txtMaPhong;
-        private System.Windows.Forms.TextBox txtTenPhong;
-        private System.Windows.Forms.TextBox txtGiaPhong;
-        private System.Windows.Forms.TextBox txtDienTich;
-        private System.Windows.Forms.ComboBox cmbTrangThai;
-        private System.Windows.Forms.ComboBox cmbLoaiPhong;
+        private System.Windows.Forms.TextBox txtMoTa;
+        private System.Windows.Forms.FlowLayoutPanel pnlButtons;
         private System.Windows.Forms.Button btnThem;
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnLamMoi;
-        private System.Windows.Forms.FlowLayoutPanel pnlButtons;
+        private System.Windows.Forms.Button btnDatPhong;
+        private System.Windows.Forms.ComboBox cmbLoaiPhong;
+        private System.Windows.Forms.ComboBox cmbTrangThai;
+        private System.Windows.Forms.TextBox txtDienTich;
+        private System.Windows.Forms.TextBox txtGiaPhong;
+        private System.Windows.Forms.TextBox txtTenPhong;
+        private System.Windows.Forms.TextBox txtMaPhong;
+        private System.Windows.Forms.Label lblMoTa;
+        private System.Windows.Forms.Label lblDienTich;
+        private System.Windows.Forms.Label lblLoaiPhong;
+        private System.Windows.Forms.Label lblTrangThai;
+        private System.Windows.Forms.Label lblGiaPhong;
+        private System.Windows.Forms.Label lblTenPhong;
+        private System.Windows.Forms.Label lblMaPhong;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.DataGridView dgvPhong;
-        private System.Windows.Forms.Label lblTimKiem;
-        private System.Windows.Forms.TextBox txtTimKiem;
         private System.Windows.Forms.Button btnTimKiem;
-        private System.Windows.Forms.TextBox txtMoTa;
+        private System.Windows.Forms.TextBox txtTimKiem;
+        private System.Windows.Forms.Label lblTimKiem;
+        private System.Windows.Forms.DataGridView dgvPhong;
     }
 }

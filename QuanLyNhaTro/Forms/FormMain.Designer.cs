@@ -20,9 +20,6 @@ namespace QuanLyNhaTro.Forms
             menuStrip = new System.Windows.Forms.MenuStrip();
             mnuHeThong = new System.Windows.Forms.ToolStripMenuItem();
             mnuTongQuan = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            mnuDangXuat = new System.Windows.Forms.ToolStripMenuItem();
-            mnuThoat = new System.Windows.Forms.ToolStripMenuItem();
             mnuQuanLy = new System.Windows.Forms.ToolStripMenuItem();
             mnuKhachHang = new System.Windows.Forms.ToolStripMenuItem();
             mnuPhong = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,7 +56,7 @@ namespace QuanLyNhaTro.Forms
             // menuStrip
             // 
             menuStrip.BackColor = System.Drawing.Color.FromArgb(44, 62, 80);
-            menuStrip.Font = new System.Drawing.Font("Segoe UI", 10F);
+            menuStrip.Font = new System.Drawing.Font("Times New Roman", 10F);
             menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuHeThong, mnuQuanLy });
             menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -70,7 +67,7 @@ namespace QuanLyNhaTro.Forms
             // 
             // mnuHeThong
             // 
-            mnuHeThong.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuTongQuan, toolStripSeparator1, mnuDangXuat, mnuThoat });
+            mnuHeThong.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuTongQuan });
             mnuHeThong.ForeColor = System.Drawing.Color.White;
             mnuHeThong.Name = "mnuHeThong";
             mnuHeThong.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
@@ -80,28 +77,9 @@ namespace QuanLyNhaTro.Forms
             // mnuTongQuan
             // 
             mnuTongQuan.Name = "mnuTongQuan";
-            mnuTongQuan.Size = new System.Drawing.Size(205, 28);
+            mnuTongQuan.Size = new System.Drawing.Size(180, 28);
             mnuTongQuan.Text = "📊 Tổng quan";
             mnuTongQuan.Click += mnuTongQuan_Click;
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(202, 6);
-            // 
-            // mnuDangXuat
-            // 
-            mnuDangXuat.Name = "mnuDangXuat";
-            mnuDangXuat.Size = new System.Drawing.Size(205, 28);
-            mnuDangXuat.Text = "🔓 Đăng xuất";
-            mnuDangXuat.Click += mnuDangXuat_Click;
-            // 
-            // mnuThoat
-            // 
-            mnuThoat.Name = "mnuThoat";
-            mnuThoat.Size = new System.Drawing.Size(205, 28);
-            mnuThoat.Text = "🚪 Thoát";
-            mnuThoat.Click += mnuThoat_Click;
             // 
             // mnuQuanLy
             // 
@@ -200,7 +178,7 @@ namespace QuanLyNhaTro.Forms
             // lblStatKhachHangValue
             // 
             lblStatKhachHangValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblStatKhachHangValue.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
+            lblStatKhachHangValue.Font = new System.Drawing.Font("Times New Roman", 26F, System.Drawing.FontStyle.Bold);
             lblStatKhachHangValue.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
             lblStatKhachHangValue.Location = new System.Drawing.Point(19, 50);
             lblStatKhachHangValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -213,7 +191,7 @@ namespace QuanLyNhaTro.Forms
             // lblStatKhachHang
             // 
             lblStatKhachHang.Dock = System.Windows.Forms.DockStyle.Top;
-            lblStatKhachHang.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatKhachHang.Font = new System.Drawing.Font("Times New Roman", 9F);
             lblStatKhachHang.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
             lblStatKhachHang.Location = new System.Drawing.Point(19, 19);
             lblStatKhachHang.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -238,7 +216,7 @@ namespace QuanLyNhaTro.Forms
             // lblStatPhongValue
             // 
             lblStatPhongValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblStatPhongValue.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
+            lblStatPhongValue.Font = new System.Drawing.Font("Times New Roman", 26F, System.Drawing.FontStyle.Bold);
             lblStatPhongValue.ForeColor = System.Drawing.Color.FromArgb(46, 204, 113);
             lblStatPhongValue.Location = new System.Drawing.Point(19, 50);
             lblStatPhongValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -251,7 +229,7 @@ namespace QuanLyNhaTro.Forms
             // lblStatPhong
             // 
             lblStatPhong.Dock = System.Windows.Forms.DockStyle.Top;
-            lblStatPhong.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatPhong.Font = new System.Drawing.Font("Times New Roman", 9F);
             lblStatPhong.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
             lblStatPhong.Location = new System.Drawing.Point(19, 19);
             lblStatPhong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -276,7 +254,7 @@ namespace QuanLyNhaTro.Forms
             // lblStatHopDongValue
             // 
             lblStatHopDongValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblStatHopDongValue.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
+            lblStatHopDongValue.Font = new System.Drawing.Font("Times New Roman", 26F, System.Drawing.FontStyle.Bold);
             lblStatHopDongValue.ForeColor = System.Drawing.Color.FromArgb(241, 196, 15);
             lblStatHopDongValue.Location = new System.Drawing.Point(19, 50);
             lblStatHopDongValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -289,7 +267,7 @@ namespace QuanLyNhaTro.Forms
             // lblStatHopDong
             // 
             lblStatHopDong.Dock = System.Windows.Forms.DockStyle.Top;
-            lblStatHopDong.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatHopDong.Font = new System.Drawing.Font("Times New Roman", 9F);
             lblStatHopDong.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
             lblStatHopDong.Location = new System.Drawing.Point(19, 19);
             lblStatHopDong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -314,7 +292,7 @@ namespace QuanLyNhaTro.Forms
             // lblStatHoaDonValue
             // 
             lblStatHoaDonValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblStatHoaDonValue.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
+            lblStatHoaDonValue.Font = new System.Drawing.Font("Times New Roman", 26F, System.Drawing.FontStyle.Bold);
             lblStatHoaDonValue.ForeColor = System.Drawing.Color.FromArgb(231, 76, 60);
             lblStatHoaDonValue.Location = new System.Drawing.Point(19, 50);
             lblStatHoaDonValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -327,7 +305,7 @@ namespace QuanLyNhaTro.Forms
             // lblStatHoaDon
             // 
             lblStatHoaDon.Dock = System.Windows.Forms.DockStyle.Top;
-            lblStatHoaDon.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatHoaDon.Font = new System.Drawing.Font("Times New Roman", 9F);
             lblStatHoaDon.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
             lblStatHoaDon.Location = new System.Drawing.Point(19, 19);
             lblStatHoaDon.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -339,7 +317,7 @@ namespace QuanLyNhaTro.Forms
             // 
             // lblDashboardTitle
             // 
-            lblDashboardTitle.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            lblDashboardTitle.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Bold);
             lblDashboardTitle.ForeColor = System.Drawing.Color.FromArgb(44, 62, 80);
             lblDashboardTitle.Location = new System.Drawing.Point(0, 56);
             lblDashboardTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -352,7 +330,7 @@ namespace QuanLyNhaTro.Forms
             // lblWelcome
             // 
             lblWelcome.Dock = System.Windows.Forms.DockStyle.Top;
-            lblWelcome.Font = new System.Drawing.Font("Segoe UI Black", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            lblWelcome.Font = new System.Drawing.Font("Times New Roman", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
             lblWelcome.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
             lblWelcome.Location = new System.Drawing.Point(0, 0);
             lblWelcome.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -396,9 +374,6 @@ namespace QuanLyNhaTro.Forms
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem mnuHeThong;
         private System.Windows.Forms.ToolStripMenuItem mnuTongQuan;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem mnuDangXuat;
-        private System.Windows.Forms.ToolStripMenuItem mnuThoat;
         private System.Windows.Forms.ToolStripMenuItem mnuQuanLy;
         private System.Windows.Forms.ToolStripMenuItem mnuKhachHang;
         private System.Windows.Forms.ToolStripMenuItem mnuPhong;

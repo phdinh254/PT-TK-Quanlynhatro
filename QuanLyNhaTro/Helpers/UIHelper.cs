@@ -7,27 +7,35 @@ namespace QuanLyNhaTro.Helpers
 {
     public static class UIHelper
     {
-        // Modern color scheme
+        // Định nghĩa màu sắc chuẩn
         public static class Colors
         {
-            public static Color Primary = Color.FromArgb(52, 152, 219);      // Blue
-            public static Color Secondary = Color.FromArgb(46, 204, 113);    // Green
-            public static Color Accent = Color.FromArgb(155, 89, 182);       // Purple
-            public static Color Warning = Color.FromArgb(241, 196, 15);      // Yellow
-            public static Color Danger = Color.FromArgb(231, 76, 60);        // Red
-            public static Color Dark = Color.FromArgb(52, 73, 94);           // Dark Gray
-            public static Color Light = Color.FromArgb(236, 240, 241);       // Light Gray
-            public static Color White = Color.White;
-            public static Color Background = Color.FromArgb(248, 249, 250);
-            public static Color CardBackground = Color.White;
-            public static Color TextPrimary = Color.FromArgb(33, 37, 41);
-            public static Color TextSecondary = Color.FromArgb(108, 117, 125);
+            public static readonly Color Primary = Color.FromArgb(52, 152, 219);      // Xanh dương
+            public static readonly Color Secondary = Color.FromArgb(149, 165, 166);   // Xám
+            public static readonly Color Success = Color.FromArgb(46, 204, 113);      // Xanh lá
+            public static readonly Color Danger = Color.FromArgb(231, 76, 60);        // Đỏ
+            public static readonly Color Warning = Color.FromArgb(241, 196, 15);      // Vàng
+            public static readonly Color Info = Color.FromArgb(52, 152, 219);         // Xanh dương nhạt
+            public static readonly Color Light = Color.FromArgb(236, 240, 241);       // Xám nhạt
+            public static readonly Color Dark = Color.FromArgb(52, 73, 94);           // Xám đậm
+            public static readonly Color White = Color.White;
+            public static readonly Color Black = Color.FromArgb(44, 62, 80);
+            public static readonly Color TextPrimary = Color.FromArgb(44, 62, 80);
+            public static readonly Color TextSecondary = Color.FromArgb(127, 140, 141);
+            public static readonly Color Background = Color.FromArgb(236, 240, 241);
+            public static readonly Color CardBackground = Color.White;
         }
+
+        // Định nghĩa font chuẩn
+        public static readonly Font DefaultFont = new Font("Times New Roman", 10F, FontStyle.Regular);
+        public static readonly Font TitleFont = new Font("Times New Roman", 16F, FontStyle.Bold);
+        public static readonly Font HeaderFont = new Font("Times New Roman", 12F, FontStyle.Bold);
+        public static readonly Font ButtonFont = new Font("Times New Roman", 10F, FontStyle.Bold);
 
         public static void ApplyModernStyle(Form form)
         {
             form.BackColor = Colors.Background;
-            form.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            form.Font = DefaultFont;
         }
 
         public static void StyleButton(Button button, Color backgroundColor, Color textColor)
@@ -36,7 +44,7 @@ namespace QuanLyNhaTro.Helpers
             button.ForeColor = textColor;
             button.FlatStyle = FlatStyle.Flat;
             button.FlatAppearance.BorderSize = 0;
-            button.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            button.Font = ButtonFont;
             button.Cursor = Cursors.Hand;
             
             // Add rounded corners
@@ -117,7 +125,7 @@ namespace QuanLyNhaTro.Helpers
         {
             if (isTitle)
             {
-                label.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+                label.Font = TitleFont;
                 label.ForeColor = Colors.Primary;
             }
             else

@@ -126,7 +126,7 @@ namespace QuanLyNhaTro.Data
                     connection.Open();
                     
                     // Kiểm tra xem database đã tồn tại chưa
-                    string checkDbQuery = "SELECT COUNT(*) FROM sys.databases WHERE name = 'TTCS'";
+                    string checkDbQuery = "SELECT COUNT(*) FROM sys.databases WHERE name = 'TTCS' ";
                     using (SqlCommand command = new SqlCommand(checkDbQuery, connection))
                     {
                         int count = Convert.ToInt32(command.ExecuteScalar());
@@ -162,11 +162,16 @@ namespace QuanLyNhaTro.Data
                         CREATE TABLE TaiKhoan (
                             TenDangNhap NVARCHAR(50) PRIMARY KEY,
                             MatKhau NVARCHAR(100) NOT NULL,
+                            Salt NVARCHAR(100),
                             HoTen NVARCHAR(100) NOT NULL,
                             Email NVARCHAR(100),
                             VaiTro NVARCHAR(20) DEFAULT 'User',
                             NgayTao DATETIME DEFAULT GETDATE(),
-                            TrangThai BIT DEFAULT 1
+                            TrangThai BIT DEFAULT 1,
+                            IsVerified BIT DEFAULT 0,
+                            VerificationToken NVARCHAR(100) NULL,
+                            ResetPasswordToken NVARCHAR(100) NULL,
+                            ResetPasswordExpiry DATETIME NULL
                         )";
                     
                     // Tạo bảng KhachHang
@@ -273,6 +278,56 @@ IF COL_LENGTH('HoaDon', 'TienDichVu') IS NULL
                         command.ExecuteNonQuery();
                     }
 
+                    // Tạo bảng DonDatPhong
+                    string createDonDatPhongTable = @"
+                        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='DonDatPhong' AND xtype='U')
+                        CREATE TABLE DonDatPhong (
+                            MaDonDat NVARCHAR(50) PRIMARY KEY,
+                            MaPhong NVARCHAR(20) NOT NULL,
+                            TenDangNhap NVARCHAR(50) NOT NULL,
+                            NgayDat DATETIME DEFAULT GETDATE(),
+                            TrangThai NVARCHAR(50) DEFAULT N'Chờ xử lý',
+                            GhiChu NVARCHAR(500),
+                            NgayXuLy DATETIME NULL,
+                            NguoiXuLy NVARCHAR(50) NULL,
+                            FOREIGN KEY (MaPhong) REFERENCES Phong(MaPhong),
+                            FOREIGN KEY (TenDangNhap) REFERENCES TaiKhoan(TenDangNhap)
+                        )";
+
+                    using (SqlCommand command = new SqlCommand(createDonDatPhongTable, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Thêm cột Salt nếu bảng TaiKhoan đã tồn tại nhưng chưa có cột Salt
+                    string addSaltColumn = @"
+                        IF COL_LENGTH('TaiKhoan', 'Salt') IS NULL
+                            ALTER TABLE TaiKhoan ADD Salt NVARCHAR(100) NULL";
+
+                    using (SqlCommand command = new SqlCommand(addSaltColumn, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Thêm các cột mới vào TaiKhoan nếu chưa có
+                    string addVerificationColumns = @"
+                        IF COL_LENGTH('TaiKhoan', 'IsVerified') IS NULL
+                            ALTER TABLE TaiKhoan ADD IsVerified BIT NOT NULL DEFAULT 0;
+
+                        IF COL_LENGTH('TaiKhoan', 'VerificationToken') IS NULL
+                            ALTER TABLE TaiKhoan ADD VerificationToken NVARCHAR(100) NULL;
+
+                        IF COL_LENGTH('TaiKhoan', 'ResetPasswordToken') IS NULL
+                            ALTER TABLE TaiKhoan ADD ResetPasswordToken NVARCHAR(100) NULL;
+
+                        IF COL_LENGTH('TaiKhoan', 'ResetPasswordExpiry') IS NULL
+                            ALTER TABLE TaiKhoan ADD ResetPasswordExpiry DATETIME NULL";
+
+                    using (SqlCommand command = new SqlCommand(addVerificationColumns, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
                     // Thêm tài khoản admin mặc định nếu chưa có
                     string checkAdmin = "SELECT COUNT(*) FROM TaiKhoan WHERE TenDangNhap = 'admin'";
                     using (SqlCommand command = new SqlCommand(checkAdmin, connection))
@@ -280,13 +335,20 @@ IF COL_LENGTH('HoaDon', 'TienDichVu') IS NULL
                         int count = Convert.ToInt32(command.ExecuteScalar());
                         if (count == 0)
                         {
-                            string insertAdmin = @"INSERT INTO TaiKhoan (TenDangNhap, MatKhau, HoTen, Email, VaiTro, TrangThai) 
-                                                  VALUES ('admin', '123456', N'Quản trị viên', 'admin@nhatro.com', 'Admin', 1)";
+                            string insertAdmin = @"INSERT INTO TaiKhoan (TenDangNhap, MatKhau, HoTen, Email, VaiTro, TrangThai, IsVerified) 
+                                                  VALUES ('admin', '123456', N'Quản trị viên', 'admin@nhatro.com', 'Admin', 1, 1)";
                             using (SqlCommand insertCommand = new SqlCommand(insertAdmin, connection))
                             {
                                 insertCommand.ExecuteNonQuery();
                             }
                         }
+                    }
+
+                    // Cập nhật tất cả tài khoản hiện tại là đã verified
+                    string updateVerified = "UPDATE TaiKhoan SET IsVerified = 1 WHERE IsVerified = 0";
+                    using (SqlCommand command = new SqlCommand(updateVerified, connection))
+                    {
+                        command.ExecuteNonQuery();
                     }
                 }
             }

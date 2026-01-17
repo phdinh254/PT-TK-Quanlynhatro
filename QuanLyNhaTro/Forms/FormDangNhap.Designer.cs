@@ -39,6 +39,7 @@ namespace QuanLyNhaTro.Forms
             txtTenDangNhap = new System.Windows.Forms.TextBox();
             lblTitle = new System.Windows.Forms.Label();
             lblStatus = new System.Windows.Forms.Label();
+            linkDangKy = new System.Windows.Forms.LinkLabel();
             pnlMain.SuspendLayout();
             pnlLogin.SuspendLayout();
             panel1.SuspendLayout();
@@ -76,6 +77,7 @@ namespace QuanLyNhaTro.Forms
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(btnThoat);
             panel1.Controls.Add(btnDangNhap);
+            panel1.Controls.Add(linkDangKy);
             panel1.Controls.Add(txtMatKhau);
             panel1.Controls.Add(txtTenDangNhap);
             panel1.Controls.Add(lblTitle);
@@ -125,6 +127,19 @@ namespace QuanLyNhaTro.Forms
             btnDangNhap.Text = "Đăng nhập";
             btnDangNhap.UseVisualStyleBackColor = false;
             btnDangNhap.Click += btnDangNhap_Click;
+            // 
+            // linkDangKy
+            // 
+            linkDangKy.AutoSize = true;
+            linkDangKy.BackColor = System.Drawing.Color.Transparent;
+            linkDangKy.Font = new System.Drawing.Font("Segoe UI", 10F);
+            linkDangKy.Location = new System.Drawing.Point(600, 362);
+            linkDangKy.Name = "linkDangKy";
+            linkDangKy.Size = new System.Drawing.Size(160, 23);
+            linkDangKy.TabIndex = 9;
+            linkDangKy.TabStop = true;
+            linkDangKy.Text = "Chưa có tài khoản? Đăng ký";
+            linkDangKy.LinkClicked += linkDangKy_LinkClicked;
             // 
             // txtMatKhau
             // 
@@ -202,5 +217,6 @@ namespace QuanLyNhaTro.Forms
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.LinkLabel linkDangKy;
     }
 }

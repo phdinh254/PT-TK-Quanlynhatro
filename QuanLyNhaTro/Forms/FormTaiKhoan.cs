@@ -21,10 +21,28 @@ namespace QuanLyNhaTro.Forms
             // Chuẩn hóa toàn bộ giao diện
             UIHelper.StandardizeForm(this);
             
-            // Style riêng cho các nút
-            UIHelper.StylePrimaryButton(btnThem);
-            UIHelper.StyleSecondaryButton(btnSua);
-            UIHelper.StyleDangerButton(btnXoa);
+            // Ẩn tất cả các nút chỉnh sửa - admin chỉ xem
+            btnThem.Visible = false;
+            btnSua.Visible = false;
+            btnXoa.Visible = false;
+            
+            // Ẩn các control nhập liệu
+            if (Controls.Find("grpThongTin", true).Length > 0)
+            {
+                foreach (Control ctrl in Controls.Find("grpThongTin", true))
+                {
+                    ctrl.Visible = false;
+                }
+            }
+            
+            // Disable các textbox nếu có
+            if (txtTenDangNhap != null) txtTenDangNhap.ReadOnly = true;
+            if (txtMatKhau != null) txtMatKhau.ReadOnly = true;
+            if (txtHoTen != null) txtHoTen.ReadOnly = true;
+            if (txtEmail != null) txtEmail.ReadOnly = true;
+            if (cmbVaiTro != null) cmbVaiTro.Enabled = false;
+            if (chkTrangThai != null) chkTrangThai.Enabled = false;
+            
             UIHelper.StyleButton(btnLamMoi, UIHelper.Colors.TextSecondary, UIHelper.Colors.White);
             UIHelper.StyleButton(btnTimKiem, UIHelper.Colors.Primary, UIHelper.Colors.White);
         }
@@ -50,12 +68,24 @@ namespace QuanLyNhaTro.Forms
                     
                     // Ẩn cột mật khẩu
                     dgvTaiKhoan.Columns["MatKhau"].Visible = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                UIHelper.ShowErrorMessage("Lỗi khi tải dữ liệu: " + ex.Message);
-            }
+                    
+                    // Ẩn các cột bảo mật
+                    if (dgvTaiKhoan.Columns.Contains("Salt"))
+                        dgvTaiKhoan.Columns["Salt"].Visible = false;
+                    if (dgvTaiKhoan.Columns.Contains("VerificationToken"))
+                        dgvTaiKhoan.Columns["VerificationToken"].Visible = false;
+                    if (dgvTaiKhoan.Columns.Contains("ResetPasswordToken"))
+                        dgvTaiKhoan.Columns["ResetPasswordToken"].Visible = false;
+                    if (dgvTaiKhoan.Columns.Contains("ResetPasswordExpiry"))
+                        dgvTaiKhoan.Columns["ResetPasswordExpiry"].Visible = false;
+                    if (dgvTaiKhoan.Columns.Contains("IsVerified"))
+                        dgvTaiKhoan.Columns["IsVerified"].HeaderText = "Đã xác thực";
+                 }
+             }
+             catch (Exception ex)
+             {
+                 UIHelper.ShowErrorMessage("Lỗi khi tải dữ liệu: " + ex.Message);
+             }
         }
 
         private void ClearInputs()
@@ -96,7 +126,8 @@ namespace QuanLyNhaTro.Forms
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            try
+            UIHelper.ShowWarningMessage("Chức năng thêm tài khoản đã bị vô hiệu hóa. Người dùng vui lòng đăng ký qua form đăng ký!");
+            /*try
             {
                 if (!ValidateInput())
                     return;
@@ -137,12 +168,13 @@ namespace QuanLyNhaTro.Forms
             catch (Exception ex)
             {
                 UIHelper.ShowErrorMessage("Lỗi khi thêm tài khoản: " + ex.Message);
-            }
+            }*/
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            try
+            UIHelper.ShowWarningMessage("Chức năng sửa tài khoản đã bị vô hiệu hóa!");
+            /*try
             {
                 if (string.IsNullOrEmpty(txtTenDangNhap.Text))
                 {
@@ -176,12 +208,13 @@ namespace QuanLyNhaTro.Forms
             catch (Exception ex)
             {
                 UIHelper.ShowErrorMessage("Lỗi khi cập nhật tài khoản: " + ex.Message);
-            }
+            }*/
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
+            UIHelper.ShowWarningMessage("Chức năng xóa tài khoản đã bị vô hiệu hóa!");
+            /*try
             {
                 if (string.IsNullOrEmpty(txtTenDangNhap.Text))
                 {
@@ -212,7 +245,7 @@ namespace QuanLyNhaTro.Forms
             catch (Exception ex)
             {
                 UIHelper.ShowErrorMessage("Lỗi khi xóa tài khoản: " + ex.Message);
-            }
+            }*/
         }
 
         private void btnTimKiem_Click(object sender, EventArgs e)

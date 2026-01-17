@@ -145,3 +145,4 @@ D:\PTvaTKHTTT\QuanLyNhaTro\obj\Debug\net8.0-windows\QuanLyNhaTro.pdb
 D:\PTvaTKHTTT\QuanLyNhaTro\obj\Debug\net8.0-windows\QuanLyNhaTro.genruntimeconfig.cache
 D:\PTvaTKHTTT\QuanLyNhaTro\obj\Debug\net8.0-windows\ref\QuanLyNhaTro.dll
 D:\PTvaTKHTTT\QuanLyNhaTro\obj\Debug\net8.0-windows\QuanLyNhaTro.Forms.FormThanhToan.resources
+D:\PTvaTKHTTT\QuanLyNhaTro\obj\Debug\net8.0-windows\QuanLyNhaTro.sourcelink.json

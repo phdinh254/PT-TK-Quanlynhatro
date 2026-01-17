@@ -1,0 +1,401 @@
+﻿namespace QuanLyNhaTro.Forms
+{
+    partial class FormMain
+    {
+        private System.ComponentModel.IContainer components = null;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        private void InitializeComponent()
+        {
+            menuStrip = new System.Windows.Forms.MenuStrip();
+            mnuHeThong = new System.Windows.Forms.ToolStripMenuItem();
+            mnuTongQuan = new System.Windows.Forms.ToolStripMenuItem();
+            mnuQuanLy = new System.Windows.Forms.ToolStripMenuItem();
+            mnuKhachHang = new System.Windows.Forms.ToolStripMenuItem();
+            mnuPhong = new System.Windows.Forms.ToolStripMenuItem();
+            mnuHopDong = new System.Windows.Forms.ToolStripMenuItem();
+            mnuHoaDon = new System.Windows.Forms.ToolStripMenuItem();
+            mnuTaiKhoan = new System.Windows.Forms.ToolStripMenuItem();
+            pnlContent = new System.Windows.Forms.Panel();
+            pnlDashboard = new System.Windows.Forms.Panel();
+            flowStats = new System.Windows.Forms.FlowLayoutPanel();
+            pnlStatKhachHang = new System.Windows.Forms.Panel();
+            lblStatKhachHangValue = new System.Windows.Forms.Label();
+            lblStatKhachHang = new System.Windows.Forms.Label();
+            pnlStatPhong = new System.Windows.Forms.Panel();
+            lblStatPhongValue = new System.Windows.Forms.Label();
+            lblStatPhong = new System.Windows.Forms.Label();
+            pnlStatHopDong = new System.Windows.Forms.Panel();
+            lblStatHopDongValue = new System.Windows.Forms.Label();
+            lblStatHopDong = new System.Windows.Forms.Label();
+            pnlStatHoaDon = new System.Windows.Forms.Panel();
+            lblStatHoaDonValue = new System.Windows.Forms.Label();
+            lblStatHoaDon = new System.Windows.Forms.Label();
+            lblDashboardTitle = new System.Windows.Forms.Label();
+            lblWelcome = new System.Windows.Forms.Label();
+            menuStrip.SuspendLayout();
+            pnlContent.SuspendLayout();
+            pnlDashboard.SuspendLayout();
+            flowStats.SuspendLayout();
+            pnlStatKhachHang.SuspendLayout();
+            pnlStatPhong.SuspendLayout();
+            pnlStatHopDong.SuspendLayout();
+            pnlStatHoaDon.SuspendLayout();
+            SuspendLayout();
+            // 
+            // menuStrip
+            // 
+            menuStrip.BackColor = System.Drawing.Color.FromArgb(44, 62, 80);
+            menuStrip.Font = new System.Drawing.Font("Segoe UI", 10F);
+            menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuHeThong, mnuQuanLy });
+            menuStrip.Location = new System.Drawing.Point(0, 0);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Padding = new System.Windows.Forms.Padding(19, 10, 0, 10);
+            menuStrip.Size = new System.Drawing.Size(1250, 47);
+            menuStrip.TabIndex = 0;
+            // 
+            // mnuHeThong
+            // 
+            mnuHeThong.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuTongQuan });
+            mnuHeThong.ForeColor = System.Drawing.Color.White;
+            mnuHeThong.Name = "mnuHeThong";
+            mnuHeThong.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            mnuHeThong.Size = new System.Drawing.Size(106, 27);
+            mnuHeThong.Text = "Hệ thống";
+            // 
+            // mnuTongQuan
+            // 
+            mnuTongQuan.Name = "mnuTongQuan";
+            mnuTongQuan.Size = new System.Drawing.Size(180, 28);
+            mnuTongQuan.Text = "📊 Tổng quan";
+            mnuTongQuan.Click += mnuTongQuan_Click;
+            // 
+            // mnuQuanLy
+            // 
+            mnuQuanLy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuKhachHang, mnuPhong, mnuHopDong, mnuHoaDon, mnuTaiKhoan });
+            mnuQuanLy.ForeColor = System.Drawing.Color.White;
+            mnuQuanLy.Name = "mnuQuanLy";
+            mnuQuanLy.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            mnuQuanLy.Size = new System.Drawing.Size(93, 27);
+            mnuQuanLy.Text = "Quản lý";
+            // 
+            // mnuKhachHang
+            // 
+            mnuKhachHang.Name = "mnuKhachHang";
+            mnuKhachHang.Size = new System.Drawing.Size(213, 28);
+            mnuKhachHang.Text = "👥 Khách hàng";
+            mnuKhachHang.Click += mnuKhachHang_Click;
+            // 
+            // mnuPhong
+            // 
+            mnuPhong.Name = "mnuPhong";
+            mnuPhong.Size = new System.Drawing.Size(213, 28);
+            mnuPhong.Text = "🏠 Phòng";
+            mnuPhong.Click += mnuPhong_Click;
+            // 
+            // mnuHopDong
+            // 
+            mnuHopDong.Name = "mnuHopDong";
+            mnuHopDong.Size = new System.Drawing.Size(213, 28);
+            mnuHopDong.Text = "📝 Hợp đồng";
+            mnuHopDong.Click += mnuHopDong_Click;
+            // 
+            // mnuHoaDon
+            // 
+            mnuHoaDon.Name = "mnuHoaDon";
+            mnuHoaDon.Size = new System.Drawing.Size(213, 28);
+            mnuHoaDon.Text = "💵 Hóa đơn";
+            mnuHoaDon.Click += mnuHoaDon_Click;
+            // 
+            // mnuTaiKhoan
+            // 
+            mnuTaiKhoan.Name = "mnuTaiKhoan";
+            mnuTaiKhoan.Size = new System.Drawing.Size(213, 28);
+            mnuTaiKhoan.Text = "👤 Tài khoản";
+            mnuTaiKhoan.Click += mnuTaiKhoan_Click;
+            // 
+            // pnlContent
+            // 
+            pnlContent.BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            pnlContent.Controls.Add(pnlDashboard);
+            pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            pnlContent.Location = new System.Drawing.Point(0, 47);
+            pnlContent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            pnlContent.Name = "pnlContent";
+            pnlContent.Padding = new System.Windows.Forms.Padding(31, 31, 31, 31);
+            pnlContent.Size = new System.Drawing.Size(1250, 765);
+            pnlContent.TabIndex = 2;
+            // 
+            // pnlDashboard
+            // 
+            pnlDashboard.BackColor = System.Drawing.Color.Transparent;
+            pnlDashboard.Controls.Add(flowStats);
+            pnlDashboard.Controls.Add(lblDashboardTitle);
+            pnlDashboard.Controls.Add(lblWelcome);
+            pnlDashboard.Dock = System.Windows.Forms.DockStyle.Fill;
+            pnlDashboard.Location = new System.Drawing.Point(31, 31);
+            pnlDashboard.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            pnlDashboard.Name = "pnlDashboard";
+            pnlDashboard.Size = new System.Drawing.Size(1188, 703);
+            pnlDashboard.TabIndex = 0;
+            // 
+            // flowStats
+            // 
+            flowStats.Controls.Add(pnlStatKhachHang);
+            flowStats.Controls.Add(pnlStatPhong);
+            flowStats.Controls.Add(pnlStatHopDong);
+            flowStats.Controls.Add(pnlStatHoaDon);
+            flowStats.Location = new System.Drawing.Point(0, 100);
+            flowStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            flowStats.Name = "flowStats";
+            flowStats.Padding = new System.Windows.Forms.Padding(0, 6, 0, 6);
+            flowStats.Size = new System.Drawing.Size(1200, 150);
+            flowStats.TabIndex = 1;
+            // 
+            // pnlStatKhachHang
+            // 
+            pnlStatKhachHang.BackColor = System.Drawing.Color.White;
+            pnlStatKhachHang.Controls.Add(lblStatKhachHangValue);
+            pnlStatKhachHang.Controls.Add(lblStatKhachHang);
+            pnlStatKhachHang.Location = new System.Drawing.Point(0, 6);
+            pnlStatKhachHang.Margin = new System.Windows.Forms.Padding(0, 0, 19, 0);
+            pnlStatKhachHang.Name = "pnlStatKhachHang";
+            pnlStatKhachHang.Padding = new System.Windows.Forms.Padding(19, 19, 19, 19);
+            pnlStatKhachHang.Size = new System.Drawing.Size(275, 125);
+            pnlStatKhachHang.TabIndex = 0;
+            // 
+            // lblStatKhachHangValue
+            // 
+            lblStatKhachHangValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            lblStatKhachHangValue.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
+            lblStatKhachHangValue.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
+            lblStatKhachHangValue.Location = new System.Drawing.Point(19, 50);
+            lblStatKhachHangValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblStatKhachHangValue.Name = "lblStatKhachHangValue";
+            lblStatKhachHangValue.Size = new System.Drawing.Size(237, 56);
+            lblStatKhachHangValue.TabIndex = 1;
+            lblStatKhachHangValue.Text = "0";
+            lblStatKhachHangValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblStatKhachHang
+            // 
+            lblStatKhachHang.Dock = System.Windows.Forms.DockStyle.Top;
+            lblStatKhachHang.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatKhachHang.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            lblStatKhachHang.Location = new System.Drawing.Point(19, 19);
+            lblStatKhachHang.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblStatKhachHang.Name = "lblStatKhachHang";
+            lblStatKhachHang.Size = new System.Drawing.Size(237, 31);
+            lblStatKhachHang.TabIndex = 0;
+            lblStatKhachHang.Text = "👥 Tổng khách hàng";
+            lblStatKhachHang.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pnlStatPhong
+            // 
+            pnlStatPhong.BackColor = System.Drawing.Color.White;
+            pnlStatPhong.Controls.Add(lblStatPhongValue);
+            pnlStatPhong.Controls.Add(lblStatPhong);
+            pnlStatPhong.Location = new System.Drawing.Point(294, 6);
+            pnlStatPhong.Margin = new System.Windows.Forms.Padding(0, 0, 19, 0);
+            pnlStatPhong.Name = "pnlStatPhong";
+            pnlStatPhong.Padding = new System.Windows.Forms.Padding(19, 19, 19, 19);
+            pnlStatPhong.Size = new System.Drawing.Size(275, 125);
+            pnlStatPhong.TabIndex = 1;
+            // 
+            // lblStatPhongValue
+            // 
+            lblStatPhongValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            lblStatPhongValue.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
+            lblStatPhongValue.ForeColor = System.Drawing.Color.FromArgb(46, 204, 113);
+            lblStatPhongValue.Location = new System.Drawing.Point(19, 50);
+            lblStatPhongValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblStatPhongValue.Name = "lblStatPhongValue";
+            lblStatPhongValue.Size = new System.Drawing.Size(237, 56);
+            lblStatPhongValue.TabIndex = 1;
+            lblStatPhongValue.Text = "0";
+            lblStatPhongValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblStatPhong
+            // 
+            lblStatPhong.Dock = System.Windows.Forms.DockStyle.Top;
+            lblStatPhong.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatPhong.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            lblStatPhong.Location = new System.Drawing.Point(19, 19);
+            lblStatPhong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblStatPhong.Name = "lblStatPhong";
+            lblStatPhong.Size = new System.Drawing.Size(237, 31);
+            lblStatPhong.TabIndex = 0;
+            lblStatPhong.Text = "🏠 Tổng số phòng";
+            lblStatPhong.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pnlStatHopDong
+            // 
+            pnlStatHopDong.BackColor = System.Drawing.Color.White;
+            pnlStatHopDong.Controls.Add(lblStatHopDongValue);
+            pnlStatHopDong.Controls.Add(lblStatHopDong);
+            pnlStatHopDong.Location = new System.Drawing.Point(588, 6);
+            pnlStatHopDong.Margin = new System.Windows.Forms.Padding(0, 0, 19, 0);
+            pnlStatHopDong.Name = "pnlStatHopDong";
+            pnlStatHopDong.Padding = new System.Windows.Forms.Padding(19, 19, 19, 19);
+            pnlStatHopDong.Size = new System.Drawing.Size(275, 125);
+            pnlStatHopDong.TabIndex = 2;
+            // 
+            // lblStatHopDongValue
+            // 
+            lblStatHopDongValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            lblStatHopDongValue.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
+            lblStatHopDongValue.ForeColor = System.Drawing.Color.FromArgb(241, 196, 15);
+            lblStatHopDongValue.Location = new System.Drawing.Point(19, 50);
+            lblStatHopDongValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblStatHopDongValue.Name = "lblStatHopDongValue";
+            lblStatHopDongValue.Size = new System.Drawing.Size(237, 56);
+            lblStatHopDongValue.TabIndex = 1;
+            lblStatHopDongValue.Text = "0";
+            lblStatHopDongValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblStatHopDong
+            // 
+            lblStatHopDong.Dock = System.Windows.Forms.DockStyle.Top;
+            lblStatHopDong.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatHopDong.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            lblStatHopDong.Location = new System.Drawing.Point(19, 19);
+            lblStatHopDong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblStatHopDong.Name = "lblStatHopDong";
+            lblStatHopDong.Size = new System.Drawing.Size(237, 31);
+            lblStatHopDong.TabIndex = 0;
+            lblStatHopDong.Text = "📝 Hợp đồng hiệu lực";
+            lblStatHopDong.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pnlStatHoaDon
+            // 
+            pnlStatHoaDon.BackColor = System.Drawing.Color.White;
+            pnlStatHoaDon.Controls.Add(lblStatHoaDonValue);
+            pnlStatHoaDon.Controls.Add(lblStatHoaDon);
+            pnlStatHoaDon.Location = new System.Drawing.Point(882, 6);
+            pnlStatHoaDon.Margin = new System.Windows.Forms.Padding(0, 0, 19, 0);
+            pnlStatHoaDon.Name = "pnlStatHoaDon";
+            pnlStatHoaDon.Padding = new System.Windows.Forms.Padding(19, 19, 19, 19);
+            pnlStatHoaDon.Size = new System.Drawing.Size(275, 125);
+            pnlStatHoaDon.TabIndex = 3;
+            // 
+            // lblStatHoaDonValue
+            // 
+            lblStatHoaDonValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            lblStatHoaDonValue.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Bold);
+            lblStatHoaDonValue.ForeColor = System.Drawing.Color.FromArgb(231, 76, 60);
+            lblStatHoaDonValue.Location = new System.Drawing.Point(19, 50);
+            lblStatHoaDonValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblStatHoaDonValue.Name = "lblStatHoaDonValue";
+            lblStatHoaDonValue.Size = new System.Drawing.Size(237, 56);
+            lblStatHoaDonValue.TabIndex = 1;
+            lblStatHoaDonValue.Text = "0";
+            lblStatHoaDonValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblStatHoaDon
+            // 
+            lblStatHoaDon.Dock = System.Windows.Forms.DockStyle.Top;
+            lblStatHoaDon.Font = new System.Drawing.Font("Segoe UI", 9F);
+            lblStatHoaDon.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            lblStatHoaDon.Location = new System.Drawing.Point(19, 19);
+            lblStatHoaDon.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblStatHoaDon.Name = "lblStatHoaDon";
+            lblStatHoaDon.Size = new System.Drawing.Size(237, 31);
+            lblStatHoaDon.TabIndex = 0;
+            lblStatHoaDon.Text = "💵 Chưa thanh toán";
+            lblStatHoaDon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblDashboardTitle
+            // 
+            lblDashboardTitle.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            lblDashboardTitle.ForeColor = System.Drawing.Color.FromArgb(44, 62, 80);
+            lblDashboardTitle.Location = new System.Drawing.Point(0, 56);
+            lblDashboardTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblDashboardTitle.Name = "lblDashboardTitle";
+            lblDashboardTitle.Size = new System.Drawing.Size(1200, 38);
+            lblDashboardTitle.TabIndex = 0;
+            lblDashboardTitle.Text = "📊 Thống kê tổng quan";
+            lblDashboardTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblWelcome
+            // 
+            lblWelcome.Dock = System.Windows.Forms.DockStyle.Top;
+            lblWelcome.Font = new System.Drawing.Font("Segoe UI Black", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            lblWelcome.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
+            lblWelcome.Location = new System.Drawing.Point(0, 0);
+            lblWelcome.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblWelcome.Name = "lblWelcome";
+            lblWelcome.Size = new System.Drawing.Size(1188, 50);
+            lblWelcome.TabIndex = 5;
+            lblWelcome.Text = "🏠 Chào mừng đến với Hệ thống Quản lý Nhà trọ";
+            lblWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // FormMain
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            ClientSize = new System.Drawing.Size(1250, 812);
+            Controls.Add(pnlContent);
+            Controls.Add(menuStrip);
+            MainMenuStrip = menuStrip;
+            Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            MinimumSize = new System.Drawing.Size(1120, 738);
+            Name = "FormMain";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Quản lý nhà trọ";
+            FormClosed += FormMain_FormClosed;
+            Resize += FormMain_Resize;
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
+            pnlContent.ResumeLayout(false);
+            pnlDashboard.ResumeLayout(false);
+            flowStats.ResumeLayout(false);
+            pnlStatKhachHang.ResumeLayout(false);
+            pnlStatPhong.ResumeLayout(false);
+            pnlStatHopDong.ResumeLayout(false);
+            pnlStatHoaDon.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem mnuHeThong;
+        private System.Windows.Forms.ToolStripMenuItem mnuTongQuan;
+        private System.Windows.Forms.ToolStripMenuItem mnuQuanLy;
+        private System.Windows.Forms.ToolStripMenuItem mnuKhachHang;
+        private System.Windows.Forms.ToolStripMenuItem mnuPhong;
+        private System.Windows.Forms.ToolStripMenuItem mnuHopDong;
+        private System.Windows.Forms.ToolStripMenuItem mnuHoaDon;
+        private System.Windows.Forms.ToolStripMenuItem mnuTaiKhoan;
+        private System.Windows.Forms.Panel pnlContent;
+        private System.Windows.Forms.Panel pnlDashboard;
+        private System.Windows.Forms.FlowLayoutPanel flowStats;
+        private System.Windows.Forms.Panel pnlStatKhachHang;
+        private System.Windows.Forms.Label lblStatKhachHangValue;
+        private System.Windows.Forms.Label lblStatKhachHang;
+        private System.Windows.Forms.Panel pnlStatPhong;
+        private System.Windows.Forms.Label lblStatPhongValue;
+        private System.Windows.Forms.Label lblStatPhong;
+        private System.Windows.Forms.Panel pnlStatHopDong;
+        private System.Windows.Forms.Label lblStatHopDongValue;
+        private System.Windows.Forms.Label lblStatHopDong;
+        private System.Windows.Forms.Panel pnlStatHoaDon;
+        private System.Windows.Forms.Label lblStatHoaDonValue;
+        private System.Windows.Forms.Label lblStatHoaDon;
+        private System.Windows.Forms.Label lblDashboardTitle;
+        private System.Windows.Forms.Label lblWelcome;
+    }
+}

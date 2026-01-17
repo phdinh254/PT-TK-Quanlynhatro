@@ -1,0 +1,441 @@
+﻿namespace QuanLyNhaTro.Forms
+{
+    partial class FormKhachHang
+    {
+        private System.ComponentModel.IContainer components = null;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        private void InitializeComponent()
+        {
+            lblTitle = new System.Windows.Forms.Label();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            pnlButtons = new System.Windows.Forms.FlowLayoutPanel();
+            btnThem = new System.Windows.Forms.Button();
+            btnSua = new System.Windows.Forms.Button();
+            btnXoa = new System.Windows.Forms.Button();
+            btnLamMoi = new System.Windows.Forms.Button();
+            cmbGioiTinh = new System.Windows.Forms.ComboBox();
+            dtpNgaySinh = new System.Windows.Forms.DateTimePicker();
+            txtGhiChu = new System.Windows.Forms.TextBox();
+            txtDiaChi = new System.Windows.Forms.TextBox();
+            txtCMND = new System.Windows.Forms.TextBox();
+            txtSoDienThoai = new System.Windows.Forms.TextBox();
+            txtTenKhach = new System.Windows.Forms.TextBox();
+            txtMaKhach = new System.Windows.Forms.TextBox();
+            lblGhiChu = new System.Windows.Forms.Label();
+            lblGioiTinh = new System.Windows.Forms.Label();
+            lblNgaySinh = new System.Windows.Forms.Label();
+            lblDiaChi = new System.Windows.Forms.Label();
+            lblCMND = new System.Windows.Forms.Label();
+            lblSoDienThoai = new System.Windows.Forms.Label();
+            lblTenKhach = new System.Windows.Forms.Label();
+            lblMaKhach = new System.Windows.Forms.Label();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            btnTimKiem = new System.Windows.Forms.Button();
+            txtTimKiem = new System.Windows.Forms.TextBox();
+            lblTimKiem = new System.Windows.Forms.Label();
+            dgvKhachHang = new System.Windows.Forms.DataGridView();
+            groupBox1.SuspendLayout();
+            pnlButtons.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvKhachHang).BeginInit();
+            SuspendLayout();
+            // 
+            // lblTitle
+            // 
+            lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            lblTitle.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
+            lblTitle.Location = new System.Drawing.Point(0, 0);
+            lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new System.Drawing.Size(1125, 62);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "QUẢN LÝ KHÁCH HÀNG";
+            lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBox1.Controls.Add(pnlButtons);
+            groupBox1.Controls.Add(cmbGioiTinh);
+            groupBox1.Controls.Add(dtpNgaySinh);
+            groupBox1.Controls.Add(txtGhiChu);
+            groupBox1.Controls.Add(txtDiaChi);
+            groupBox1.Controls.Add(txtCMND);
+            groupBox1.Controls.Add(txtSoDienThoai);
+            groupBox1.Controls.Add(txtTenKhach);
+            groupBox1.Controls.Add(txtMaKhach);
+            groupBox1.Controls.Add(lblGhiChu);
+            groupBox1.Controls.Add(lblGioiTinh);
+            groupBox1.Controls.Add(lblNgaySinh);
+            groupBox1.Controls.Add(lblDiaChi);
+            groupBox1.Controls.Add(lblCMND);
+            groupBox1.Controls.Add(lblSoDienThoai);
+            groupBox1.Controls.Add(lblTenKhach);
+            groupBox1.Controls.Add(lblMaKhach);
+            groupBox1.Location = new System.Drawing.Point(19, 62);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            groupBox1.Size = new System.Drawing.Size(1088, 225);
+            groupBox1.TabIndex = 1;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Thông tin khách hàng";
+            // 
+            // pnlButtons
+            // 
+            pnlButtons.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            pnlButtons.Controls.Add(btnThem);
+            pnlButtons.Controls.Add(btnSua);
+            pnlButtons.Controls.Add(btnXoa);
+            pnlButtons.Controls.Add(btnLamMoi);
+            pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            pnlButtons.Location = new System.Drawing.Point(77, 167);
+            pnlButtons.Margin = new System.Windows.Forms.Padding(4);
+            pnlButtons.Name = "pnlButtons";
+            pnlButtons.Size = new System.Drawing.Size(737, 50);
+            pnlButtons.TabIndex = 21;
+            // 
+            // btnThem
+            // 
+            btnThem.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
+            btnThem.FlatAppearance.BorderSize = 0;
+            btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnThem.ForeColor = System.Drawing.Color.White;
+            btnThem.Location = new System.Drawing.Point(608, 4);
+            btnThem.Margin = new System.Windows.Forms.Padding(4);
+            btnThem.Name = "btnThem";
+            btnThem.Size = new System.Drawing.Size(125, 44);
+            btnThem.TabIndex = 16;
+            btnThem.Text = "➕ Thêm";
+            btnThem.UseVisualStyleBackColor = false;
+            btnThem.Click += btnThem_Click;
+            // 
+            // btnSua
+            // 
+            btnSua.BackColor = System.Drawing.Color.FromArgb(241, 196, 15);
+            btnSua.FlatAppearance.BorderSize = 0;
+            btnSua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnSua.ForeColor = System.Drawing.Color.White;
+            btnSua.Location = new System.Drawing.Point(475, 4);
+            btnSua.Margin = new System.Windows.Forms.Padding(4);
+            btnSua.Name = "btnSua";
+            btnSua.Size = new System.Drawing.Size(125, 44);
+            btnSua.TabIndex = 17;
+            btnSua.Text = "✏️ Sửa";
+            btnSua.UseVisualStyleBackColor = false;
+            btnSua.Click += btnSua_Click;
+            // 
+            // btnXoa
+            // 
+            btnXoa.BackColor = System.Drawing.Color.FromArgb(231, 76, 60);
+            btnXoa.FlatAppearance.BorderSize = 0;
+            btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnXoa.ForeColor = System.Drawing.Color.White;
+            btnXoa.Location = new System.Drawing.Point(342, 4);
+            btnXoa.Margin = new System.Windows.Forms.Padding(4);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new System.Drawing.Size(125, 44);
+            btnXoa.TabIndex = 18;
+            btnXoa.Text = "🗑️ Xóa";
+            btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
+            // 
+            // btnLamMoi
+            // 
+            btnLamMoi.BackColor = System.Drawing.Color.FromArgb(149, 165, 166);
+            btnLamMoi.FlatAppearance.BorderSize = 0;
+            btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnLamMoi.ForeColor = System.Drawing.Color.White;
+            btnLamMoi.Location = new System.Drawing.Point(198, 4);
+            btnLamMoi.Margin = new System.Windows.Forms.Padding(4);
+            btnLamMoi.Name = "btnLamMoi";
+            btnLamMoi.Size = new System.Drawing.Size(136, 44);
+            btnLamMoi.TabIndex = 19;
+            btnLamMoi.Text = "🔄 Làm mới";
+            btnLamMoi.UseVisualStyleBackColor = false;
+            btnLamMoi.Click += btnLamMoi_Click;
+            // 
+            // cmbGioiTinh
+            // 
+            cmbGioiTinh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbGioiTinh.FormattingEnabled = true;
+            cmbGioiTinh.Items.AddRange(new object[] { "Nam", "Nữ" });
+            cmbGioiTinh.Location = new System.Drawing.Point(738, 88);
+            cmbGioiTinh.Margin = new System.Windows.Forms.Padding(4);
+            cmbGioiTinh.Name = "cmbGioiTinh";
+            cmbGioiTinh.Size = new System.Drawing.Size(149, 28);
+            cmbGioiTinh.TabIndex = 15;
+            // 
+            // dtpNgaySinh
+            // 
+            dtpNgaySinh.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            dtpNgaySinh.Location = new System.Drawing.Point(438, 88);
+            dtpNgaySinh.Margin = new System.Windows.Forms.Padding(4);
+            dtpNgaySinh.Name = "dtpNgaySinh";
+            dtpNgaySinh.Size = new System.Drawing.Size(186, 27);
+            dtpNgaySinh.TabIndex = 14;
+            // 
+            // txtGhiChu
+            // 
+            txtGhiChu.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtGhiChu.Location = new System.Drawing.Point(738, 131);
+            txtGhiChu.Margin = new System.Windows.Forms.Padding(4);
+            txtGhiChu.Name = "txtGhiChu";
+            txtGhiChu.Size = new System.Drawing.Size(499, 27);
+            txtGhiChu.TabIndex = 13;
+            // 
+            // txtDiaChi
+            // 
+            txtDiaChi.Location = new System.Drawing.Point(125, 131);
+            txtDiaChi.Margin = new System.Windows.Forms.Padding(4);
+            txtDiaChi.Name = "txtDiaChi";
+            txtDiaChi.Size = new System.Drawing.Size(499, 27);
+            txtDiaChi.TabIndex = 12;
+            // 
+            // txtCMND
+            // 
+            txtCMND.Location = new System.Drawing.Point(125, 88);
+            txtCMND.Margin = new System.Windows.Forms.Padding(4);
+            txtCMND.Name = "txtCMND";
+            txtCMND.Size = new System.Drawing.Size(186, 27);
+            txtCMND.TabIndex = 11;
+            // 
+            // txtSoDienThoai
+            // 
+            txtSoDienThoai.Location = new System.Drawing.Point(775, 44);
+            txtSoDienThoai.Margin = new System.Windows.Forms.Padding(4);
+            txtSoDienThoai.Name = "txtSoDienThoai";
+            txtSoDienThoai.Size = new System.Drawing.Size(186, 27);
+            txtSoDienThoai.TabIndex = 10;
+            // 
+            // txtTenKhach
+            // 
+            txtTenKhach.Location = new System.Drawing.Point(438, 44);
+            txtTenKhach.Margin = new System.Windows.Forms.Padding(4);
+            txtTenKhach.Name = "txtTenKhach";
+            txtTenKhach.Size = new System.Drawing.Size(249, 27);
+            txtTenKhach.TabIndex = 9;
+            // 
+            // txtMaKhach
+            // 
+            txtMaKhach.Location = new System.Drawing.Point(125, 44);
+            txtMaKhach.Margin = new System.Windows.Forms.Padding(4);
+            txtMaKhach.Name = "txtMaKhach";
+            txtMaKhach.Size = new System.Drawing.Size(186, 27);
+            txtMaKhach.TabIndex = 8;
+            // 
+            // lblGhiChu
+            // 
+            lblGhiChu.Location = new System.Drawing.Point(650, 131);
+            lblGhiChu.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblGhiChu.Name = "lblGhiChu";
+            lblGhiChu.Size = new System.Drawing.Size(88, 31);
+            lblGhiChu.TabIndex = 7;
+            lblGhiChu.Text = "Ghi chú:";
+            lblGhiChu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblGioiTinh
+            // 
+            lblGioiTinh.Location = new System.Drawing.Point(650, 88);
+            lblGioiTinh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblGioiTinh.Name = "lblGioiTinh";
+            lblGioiTinh.Size = new System.Drawing.Size(88, 31);
+            lblGioiTinh.TabIndex = 6;
+            lblGioiTinh.Text = "Giới tính:";
+            lblGioiTinh.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblNgaySinh
+            // 
+            lblNgaySinh.Location = new System.Drawing.Point(338, 88);
+            lblNgaySinh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblNgaySinh.Name = "lblNgaySinh";
+            lblNgaySinh.Size = new System.Drawing.Size(100, 31);
+            lblNgaySinh.TabIndex = 5;
+            lblNgaySinh.Text = "Ngày sinh:";
+            lblNgaySinh.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblDiaChi
+            // 
+            lblDiaChi.Location = new System.Drawing.Point(25, 131);
+            lblDiaChi.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblDiaChi.Name = "lblDiaChi";
+            lblDiaChi.Size = new System.Drawing.Size(100, 31);
+            lblDiaChi.TabIndex = 4;
+            lblDiaChi.Text = "Địa chỉ:";
+            lblDiaChi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCMND
+            // 
+            lblCMND.Location = new System.Drawing.Point(25, 88);
+            lblCMND.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblCMND.Name = "lblCMND";
+            lblCMND.Size = new System.Drawing.Size(100, 31);
+            lblCMND.TabIndex = 3;
+            lblCMND.Text = "CMND:";
+            lblCMND.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblSoDienThoai
+            // 
+            lblSoDienThoai.Location = new System.Drawing.Point(712, 44);
+            lblSoDienThoai.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblSoDienThoai.Name = "lblSoDienThoai";
+            lblSoDienThoai.Size = new System.Drawing.Size(62, 31);
+            lblSoDienThoai.TabIndex = 2;
+            lblSoDienThoai.Text = "SĐT:";
+            lblSoDienThoai.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblTenKhach
+            // 
+            lblTenKhach.Location = new System.Drawing.Point(338, 44);
+            lblTenKhach.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTenKhach.Name = "lblTenKhach";
+            lblTenKhach.Size = new System.Drawing.Size(100, 31);
+            lblTenKhach.TabIndex = 1;
+            lblTenKhach.Text = "Tên khách:";
+            lblTenKhach.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblMaKhach
+            // 
+            lblMaKhach.Location = new System.Drawing.Point(25, 44);
+            lblMaKhach.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblMaKhach.Name = "lblMaKhach";
+            lblMaKhach.Size = new System.Drawing.Size(100, 31);
+            lblMaKhach.TabIndex = 0;
+            lblMaKhach.Text = "Mã khách:";
+            lblMaKhach.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBox2.Controls.Add(btnTimKiem);
+            groupBox2.Controls.Add(txtTimKiem);
+            groupBox2.Controls.Add(lblTimKiem);
+            groupBox2.Controls.Add(dgvKhachHang);
+            groupBox2.Location = new System.Drawing.Point(19, 294);
+            groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            groupBox2.Size = new System.Drawing.Size(1088, 412);
+            groupBox2.TabIndex = 2;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Danh sách khách hàng";
+            // 
+            // btnTimKiem
+            // 
+            btnTimKiem.BackColor = System.Drawing.Color.FromArgb(52, 152, 219);
+            btnTimKiem.FlatAppearance.BorderSize = 0;
+            btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnTimKiem.ForeColor = System.Drawing.Color.White;
+            btnTimKiem.Location = new System.Drawing.Point(500, 31);
+            btnTimKiem.Margin = new System.Windows.Forms.Padding(4);
+            btnTimKiem.Name = "btnTimKiem";
+            btnTimKiem.Size = new System.Drawing.Size(138, 44);
+            btnTimKiem.TabIndex = 3;
+            btnTimKiem.Text = "🔍 Tìm kiếm";
+            btnTimKiem.UseVisualStyleBackColor = false;
+            btnTimKiem.Click += btnTimKiem_Click;
+            // 
+            // txtTimKiem
+            // 
+            txtTimKiem.Location = new System.Drawing.Point(106, 35);
+            txtTimKiem.Margin = new System.Windows.Forms.Padding(4);
+            txtTimKiem.Name = "txtTimKiem";
+            txtTimKiem.Size = new System.Drawing.Size(374, 27);
+            txtTimKiem.TabIndex = 2;
+            // 
+            // lblTimKiem
+            // 
+            lblTimKiem.Location = new System.Drawing.Point(19, 35);
+            lblTimKiem.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTimKiem.Name = "lblTimKiem";
+            lblTimKiem.Size = new System.Drawing.Size(88, 31);
+            lblTimKiem.TabIndex = 1;
+            lblTimKiem.Text = "Tìm kiếm:";
+            lblTimKiem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // dgvKhachHang
+            // 
+            dgvKhachHang.AllowUserToAddRows = false;
+            dgvKhachHang.AllowUserToDeleteRows = false;
+            dgvKhachHang.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            dgvKhachHang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dgvKhachHang.BackgroundColor = System.Drawing.Color.White;
+            dgvKhachHang.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dgvKhachHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvKhachHang.Location = new System.Drawing.Point(19, 88);
+            dgvKhachHang.Margin = new System.Windows.Forms.Padding(4);
+            dgvKhachHang.Name = "dgvKhachHang";
+            dgvKhachHang.ReadOnly = true;
+            dgvKhachHang.RowHeadersWidth = 51;
+            dgvKhachHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            dgvKhachHang.Size = new System.Drawing.Size(1050, 312);
+            dgvKhachHang.TabIndex = 0;
+            dgvKhachHang.CellClick += dgvKhachHang_CellClick;
+            // 
+            // FormKhachHang
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            BackColor = System.Drawing.Color.FromArgb(248, 249, 250);
+            ClientSize = new System.Drawing.Size(1125, 725);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Controls.Add(lblTitle);
+            Margin = new System.Windows.Forms.Padding(4);
+            MinimumSize = new System.Drawing.Size(1058, 676);
+            Name = "FormKhachHang";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Quản lý khách hàng";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            pnlButtons.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvKhachHang).EndInit();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblMaKhach;
+        private System.Windows.Forms.Label lblTenKhach;
+        private System.Windows.Forms.Label lblSoDienThoai;
+        private System.Windows.Forms.Label lblCMND;
+        private System.Windows.Forms.Label lblDiaChi;
+        private System.Windows.Forms.Label lblNgaySinh;
+        private System.Windows.Forms.Label lblGioiTinh;
+        private System.Windows.Forms.Label lblGhiChu;
+        private System.Windows.Forms.TextBox txtMaKhach;
+        private System.Windows.Forms.TextBox txtTenKhach;
+        private System.Windows.Forms.TextBox txtSoDienThoai;
+        private System.Windows.Forms.TextBox txtCMND;
+        private System.Windows.Forms.TextBox txtDiaChi;
+        private System.Windows.Forms.TextBox txtGhiChu;
+        private System.Windows.Forms.DateTimePicker dtpNgaySinh;
+        private System.Windows.Forms.ComboBox cmbGioiTinh;
+        private System.Windows.Forms.Button btnThem;
+        private System.Windows.Forms.Button btnSua;
+        private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Button btnLamMoi;
+        private System.Windows.Forms.FlowLayoutPanel pnlButtons;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridView dgvKhachHang;
+        private System.Windows.Forms.Label lblTimKiem;
+        private System.Windows.Forms.TextBox txtTimKiem;
+        private System.Windows.Forms.Button btnTimKiem;
+    }
+}

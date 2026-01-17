@@ -28,6 +28,8 @@ namespace QuanLyNhaTro.Forms
             UIHelper.StyleDangerButton(btnXoa);
             UIHelper.StyleButton(btnLamMoi, UIHelper.Colors.TextSecondary, UIHelper.Colors.White);
             UIHelper.StyleButton(btnTimKiem, UIHelper.Colors.Primary, UIHelper.Colors.White);
+            // Load danh sách tài khoản vào combobox
+            LoadTaiKhoanToComboBox();
         }
 
         private void LoadData()
@@ -54,6 +56,32 @@ namespace QuanLyNhaTro.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadTaiKhoanToComboBox()
+        {
+            try
+            {
+                // Nếu form có ComboBox chọn tên khách (cần thêm vào Designer)
+                // Tạm thời comment lại vì chưa có trong Designer
+                /*
+                string query = "SELECT TenDangNhap, HoTen FROM TaiKhoan WHERE VaiTro = 'User' ORDER BY HoTen";
+                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+                
+                if (this.Controls.Find("cmbTenKhach", true).Length > 0)
+                {
+                    ComboBox cmb = (ComboBox)this.Controls.Find("cmbTenKhach", true)[0];
+                    cmb.DataSource = dt;
+                    cmb.DisplayMember = "HoTen";
+                    cmb.ValueMember = "TenDangNhap";
+                    cmb.SelectedIndex = -1;
+                }
+                */
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải danh sách tài khoản: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -98,24 +126,25 @@ namespace QuanLyNhaTro.Forms
 
             int age = DateTime.Now.Year - dtpNgaySinh.Value.Year;
             if (dtpNgaySinh.Value.Date > DateTime.Now.AddYears(-age)) age--;
-            if (age < 18)
+            if (age < 16)
             {
-                MessageBox.Show("Khách hàng phải đủ 18 tuổi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Khách hàng phải đủ 16 tuổi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
             // Liên kết họ tên khách với tài khoản (nếu có)
-            string checkAccountQuery = "SELECT COUNT(*) FROM TaiKhoan WHERE HoTen = @HoTen";
-            SqlParameter[] accountParams = { new SqlParameter("@HoTen", txtTenKhach.Text.Trim()) };
-            int accountCount = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkAccountQuery, accountParams));
-            if (accountCount == 0)
-            {
-                MessageBox.Show("Chưa tìm thấy tài khoản có họ tên này trong hệ thống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
- 
-             return true;
-         }
+            // Tạm bỏ validation này vì admin có thể tự tạo khách hàng
+            // string checkAccountQuery = "SELECT COUNT(*) FROM TaiKhoan WHERE HoTen = @HoTen";
+            // SqlParameter[] accountParams = { new SqlParameter("@HoTen", txtTenKhach.Text.Trim()) };
+            // int accountCount = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkAccountQuery, accountParams));
+            // if (accountCount == 0)
+            // {
+            //     MessageBox.Show("Chưa tìm thấy tài khoản có họ tên này trong hệ thống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //     return false;
+            // }
+
+            return true;
+        }
 
         private void btnThem_Click(object sender, EventArgs e)
         {

@@ -87,20 +87,51 @@ namespace QuanLyNhaTro.Forms
 
             try
             {
-                string query = "SELECT HoTen, VaiTro FROM TaiKhoan WHERE TenDangNhap = @TenDangNhap AND MatKhau = @MatKhau AND TrangThai = 1";
+                // Lấy thông tin tài khoản
+                string query = "SELECT MatKhau, Salt, HoTen, VaiTro, IsVerified FROM TaiKhoan WHERE TenDangNhap = @TenDangNhap AND TrangThai = 1";
                 SqlParameter[] parameters = {
                     new SqlParameter("@TenDangNhap", tenDangNhap),
-                    new SqlParameter("@MatKhau", matKhau)
                 };
 
                 DataTable dt = DatabaseHelper.ExecuteQuery(query, parameters);
 
                 if (dt.Rows.Count > 0)
                 {
+                    string storedPassword = dt.Rows[0]["MatKhau"].ToString();
+                    string salt = dt.Rows[0]["Salt"]?.ToString();
+                    bool isVerified = dt.Rows[0]["IsVerified"] != DBNull.Value && Convert.ToBoolean(dt.Rows[0]["IsVerified"]);
+
+                    // Kiểm tra password (hỗ trợ cả password cũ và mới)
+                    bool isPasswordValid = false;
+                    if (!string.IsNullOrEmpty(salt))
+                    {
+                        // Password đã được hash
+                        isPasswordValid = PasswordHelper.VerifyPassword(matKhau, storedPassword, salt);
+                    }
+                    else
+                    {
+                        // Password cũ chưa hash (để tương thích ngược)
+                        isPasswordValid = (matKhau == storedPassword);
+                    }
+
+                    if (!isPasswordValid)
+                    {
+                        UIHelper.ShowErrorMessage("Mật khẩu không đúng!");
+                        return;
+                    }
+
+                    // Kiểm tra xác thực email (có thể bỏ qua cho admin)
+                    string vaiTro = dt.Rows[0]["VaiTro"].ToString();
+                    if (!isVerified && vaiTro != "Admin")
+                    {
+                        UIHelper.ShowWarningMessage("Tài khoản chưa được xác thực. Vui lòng kiểm tra email!");
+                        return;
+                    }
+
                     // Lưu thông tin người dùng hiện tại
                     CurrentUser.TenDangNhap = tenDangNhap;
                     CurrentUser.HoTen = dt.Rows[0]["HoTen"].ToString();
-                    CurrentUser.VaiTro = dt.Rows[0]["VaiTro"].ToString();
+                    CurrentUser.VaiTro = vaiTro;
 
                     // Tất cả vai trò đều mở FormMain, phân quyền sẽ xử lý trong FormMain
                     FormMain formMain = new FormMain();
@@ -109,7 +140,7 @@ namespace QuanLyNhaTro.Forms
                 }
                 else
                 {
-                    UIHelper.ShowErrorMessage("Tên đăng nhập hoặc mật khẩu không đúng!");
+                    UIHelper.ShowErrorMessage("Tên đăng nhập không tồn tại!");
                 }
             }
             catch (Exception ex)
@@ -121,6 +152,15 @@ namespace QuanLyNhaTro.Forms
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void linkDangKy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            FormDangKy formDangKy = new FormDangKy();
+            if (formDangKy.ShowDialog() == DialogResult.OK)
+            {
+                UIHelper.ShowSuccessMessage("Đăng ký thành công! Vui lòng đăng nhập.");
+            }
         }
 
         private void FormDangNhap_FormClosed(object sender, FormClosedEventArgs e)

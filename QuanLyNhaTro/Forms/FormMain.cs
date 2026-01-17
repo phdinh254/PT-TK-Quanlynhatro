@@ -15,12 +15,109 @@ namespace QuanLyNhaTro.Forms
             InitializeUI();
             ApplyRoleBasedAccess();
             LoadDashboardData();
+            CreateAccountMenu();
         }
 
         private void InitializeUI()
         {
             // Chuẩn hóa toàn bộ giao diện
             UIHelper.StandardizeForm(this);
+        }
+
+        private void CreateAccountMenu()
+        {
+            // Tạo MenuStrip nếu chưa có
+            MenuStrip menuStrip = this.MainMenuStrip;
+            if (menuStrip == null)
+            {
+                menuStrip = new MenuStrip();
+                menuStrip.Dock = DockStyle.Top;
+                this.Controls.Add(menuStrip);
+                this.MainMenuStrip = menuStrip;
+            }
+
+            // Tạo menu tài khoản ở bên phải
+            ToolStripMenuItem mnuTaiKhoan = new ToolStripMenuItem();
+            mnuTaiKhoan.Text = $"👤 {CurrentUser.HoTen}";
+            mnuTaiKhoan.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
+            mnuTaiKhoan.Alignment = ToolStripItemAlignment.Right;
+
+            if (IsAdmin())
+            {
+                // Menu cho Admin
+                ToolStripMenuItem mnuDangXuat = new ToolStripMenuItem("Đăng xuất");
+                mnuDangXuat.Click += MnuDangXuat_Click;
+
+                ToolStripMenuItem mnuThoat = new ToolStripMenuItem("Thoát");
+                mnuThoat.Click += MnuThoat_Click;
+
+                mnuTaiKhoan.DropDownItems.Add(mnuDangXuat);
+                mnuTaiKhoan.DropDownItems.Add(mnuThoat);
+            }
+            else
+            {
+                // Menu cho User
+                ToolStripMenuItem mnuThongTinCaNhan = new ToolStripMenuItem("Thông tin cá nhân");
+                mnuThongTinCaNhan.Click += MnuThongTinCaNhan_Click;
+
+                ToolStripMenuItem mnuDoiMatKhau = new ToolStripMenuItem("Đổi mật khẩu");
+                mnuDoiMatKhau.Click += MnuDoiMatKhau_Click;
+
+                ToolStripMenuItem mnuDangXuat = new ToolStripMenuItem("Đăng xuất");
+                mnuDangXuat.Click += MnuDangXuat_Click;
+
+                ToolStripMenuItem mnuThoat = new ToolStripMenuItem("Thoát");
+                mnuThoat.Click += MnuThoat_Click;
+
+                mnuTaiKhoan.DropDownItems.Add(mnuThongTinCaNhan);
+                mnuTaiKhoan.DropDownItems.Add(mnuDoiMatKhau);
+                mnuTaiKhoan.DropDownItems.Add(new ToolStripSeparator());
+                mnuTaiKhoan.DropDownItems.Add(mnuDangXuat);
+                mnuTaiKhoan.DropDownItems.Add(mnuThoat);
+            }
+
+            menuStrip.Items.Add(mnuTaiKhoan);
+        }
+
+        private void MnuThongTinCaNhan_Click(object sender, EventArgs e)
+        {
+            FormThongTinCaNhan form = new FormThongTinCaNhan(CurrentUser.TenDangNhap);
+            form.ShowDialog(this);
+        }
+
+        private void MnuDoiMatKhau_Click(object sender, EventArgs e)
+        {
+            FormDoiMatKhau form = new FormDoiMatKhau(CurrentUser.TenDangNhap);
+            form.ShowDialog(this);
+        }
+
+        private void MnuDangXuat_Click(object sender, EventArgs e)
+        {
+            if (UIHelper.ShowConfirmMessage("Bạn có chắc chắn muốn đăng xuất?"))
+            {
+                // Xóa thông tin người dùng hiện tại
+                CurrentUser.TenDangNhap = null;
+                CurrentUser.HoTen = null;
+                CurrentUser.VaiTro = null;
+
+                // Đóng FormMain
+                this.Hide();
+
+                // Mở lại FormDangNhap
+                FormDangNhap formDangNhap = new FormDangNhap();
+                formDangNhap.Show();
+
+                // Đóng form hiện tại khi form đăng nhập đóng
+                formDangNhap.FormClosed += (s, args) => this.Close();
+            }
+        }
+
+        private void MnuThoat_Click(object sender, EventArgs e)
+        {
+            if (UIHelper.ShowConfirmMessage("Bạn có chắc chắn muốn thoát ứng dụng?"))
+            {
+                Application.Exit();
+            }
         }
 
         private void ApplyRoleBasedAccess()
@@ -35,6 +132,18 @@ namespace QuanLyNhaTro.Forms
                 mnuHopDong.Enabled = true;
                 mnuHoaDon.Enabled = true;
                 mnuTaiKhoan.Enabled = true;
+                
+                // Admin thêm menu Quản lý đơn đặt phòng
+                if (this.MainMenuStrip != null && !MenuHasItem(this.MainMenuStrip, "mnuDonDatPhong"))
+                {
+                    ToolStripMenuItem mnuDonDatPhong = new ToolStripMenuItem();
+                    mnuDonDatPhong.Name = "mnuDonDatPhong";
+                    mnuDonDatPhong.Text = "Đơn đặt phòng";
+                    mnuDonDatPhong.Font = new System.Drawing.Font("Times New Roman", 10F);
+                    mnuDonDatPhong.ForeColor = System.Drawing.Color.White;
+                    mnuDonDatPhong.Click += MnuDonDatPhong_Click;
+                    this.MainMenuStrip.Items.Insert(this.MainMenuStrip.Items.Count - 1, mnuDonDatPhong);
+                }
             }
             else
             {
@@ -45,6 +154,35 @@ namespace QuanLyNhaTro.Forms
                 mnuHoaDon.Enabled = true;
                 mnuTaiKhoan.Enabled = false;
             }
+            
+            // Đổi màu chữ menu thành trắng
+            SetMenuForeColor(System.Drawing.Color.White);
+        }
+        
+        private bool MenuHasItem(MenuStrip menu, string itemName)
+        {
+            foreach (ToolStripItem item in menu.Items)
+            {
+                if (item.Name == itemName)
+                    return true;
+            }
+            return false;
+        }
+
+        private void SetMenuForeColor(System.Drawing.Color color)
+        {
+            if (this.MainMenuStrip == null) return;
+            
+            foreach (ToolStripItem item in this.MainMenuStrip.Items)
+            {
+                item.ForeColor = color;
+                item.Font = new System.Drawing.Font("Times New Roman", 10F);
+            }
+        }
+
+        private void MnuDonDatPhong_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormDonDatPhong());
         }
 
         public static bool IsAdmin()

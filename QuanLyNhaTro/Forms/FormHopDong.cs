@@ -109,12 +109,32 @@ namespace QuanLyNhaTro.Forms
         {
             try
             {
-                string query = @"SELECT hd.*, kh.TenKhach, p.TenPhong 
-                                FROM HopDong hd 
-                                LEFT JOIN KhachHang kh ON hd.MaKhach = kh.MaKhach 
-                                LEFT JOIN Phong p ON hd.MaPhong = p.MaPhong 
-                                ORDER BY hd.MaHopDong";
-                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+                string query;
+                SqlParameter[] parameters = null;
+
+                if (FormMain.IsAdmin())
+                {
+                    // Admin xem tất cả hợp đồng
+                    query = @"SELECT hd.*, kh.TenKhach, p.TenPhong 
+                             FROM HopDong hd 
+                             LEFT JOIN KhachHang kh ON hd.MaKhach = kh.MaKhach 
+                             LEFT JOIN Phong p ON hd.MaPhong = p.MaPhong 
+                             ORDER BY hd.MaHopDong";
+                }
+                else
+                {
+                    // User chỉ xem hợp đồng của mình
+                    query = @"SELECT hd.*, kh.TenKhach, p.TenPhong 
+                             FROM HopDong hd 
+                             LEFT JOIN KhachHang kh ON hd.MaKhach = kh.MaKhach 
+                             LEFT JOIN Phong p ON hd.MaPhong = p.MaPhong
+                             LEFT JOIN TaiKhoan tk ON kh.TenKhach = tk.HoTen
+                             WHERE tk.TenDangNhap = @TenDangNhap
+                             ORDER BY hd.MaHopDong";
+                    parameters = new SqlParameter[] { new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap) };
+                }
+
+                DataTable dt = DatabaseHelper.ExecuteQuery(query, parameters);
                 dgvHopDong.DataSource = dt;
                 
                 // Đặt tên cột hiển thị

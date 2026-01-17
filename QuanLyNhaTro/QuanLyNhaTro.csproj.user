@@ -2,7 +2,16 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Forms\FormDangKy.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\FormDangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormDoiMatKhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormDonDatPhong.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\FormHoaDon.cs">
@@ -24,6 +33,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\FormThanhToan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormThongTinCaNhan.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

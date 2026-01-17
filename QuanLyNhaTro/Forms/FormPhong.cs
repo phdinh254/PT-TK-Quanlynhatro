@@ -54,11 +54,26 @@ namespace QuanLyNhaTro.Forms
                 txtMoTa.ReadOnly = true;
                 cmbTrangThai.Enabled = false;
                 cmbLoaiPhong.Enabled = false;
+                
+                // Hiện nút đặt phòng cho User
+                if (this.Controls.Find("btnDatPhong", true).Length > 0)
+                {
+                    Button btnDatPhong = (Button)this.Controls.Find("btnDatPhong", true)[0];
+                    btnDatPhong.Visible = true;
+                    UIHelper.StyleButton(btnDatPhong, UIHelper.Colors.Success, UIHelper.Colors.White);
+                }
             }
             else
             {
                 txtGiaPhong.ReadOnly = false;
                 txtDienTich.ReadOnly = false;
+                
+                // Ẩn nút đặt phòng cho Admin
+                if (this.Controls.Find("btnDatPhong", true).Length > 0)
+                {
+                    Button btnDatPhong = (Button)this.Controls.Find("btnDatPhong", true)[0];
+                    btnDatPhong.Visible = false;
+                }
             }
         }
 
@@ -361,6 +376,197 @@ namespace QuanLyNhaTro.Forms
         {
             ClearInputs();
             LoadData();
+        }
+
+        private void btnDatPhong_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtMaPhong.Text))
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn phòng cần đặt!");
+                    return;
+                }
+
+                // Kiểm tra thông tin cá nhân đã đầy đủ chưa
+                if (!CheckUserInfoComplete())
+                {
+                    if (UIHelper.ShowConfirmMessage("Bạn cần cập nhật đầy đủ thông tin cá nhân trước khi đặt phòng!\n\nBạn có muốn cập nhật ngay không?"))
+                    {
+                        FormThongTinCaNhan form = new FormThongTinCaNhan(CurrentUser.TenDangNhap);
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            // Kiểm tra lại sau khi cập nhật
+                            if (!CheckUserInfoComplete())
+                            {
+                                UIHelper.ShowWarningMessage("Vui lòng điền đầy đủ: Email, Số điện thoại, CMND/CCCD, Địa chỉ, Ngày sinh!");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
+                // Kiểm tra trạng thái phòng
+                string trangThai = cmbTrangThai.Text;
+                if (trangThai != "Trống")
+                {
+                    UIHelper.ShowWarningMessage("Phòng này không còn trống!");
+                    return;
+                }
+
+                // Kiểm tra xem user đã đặt phòng này chưa
+                string checkQuery = @"SELECT COUNT(*) FROM DonDatPhong 
+                                     WHERE TenDangNhap = @TenDangNhap 
+                                     AND MaPhong = @MaPhong 
+                                     AND TrangThai = N'Chờ xử lý'";
+                SqlParameter[] checkParams = {
+                    new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap),
+                    new SqlParameter("@MaPhong", txtMaPhong.Text)
+                };
+                int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkQuery, checkParams));
+                
+                if (count > 0)
+                {
+                    UIHelper.ShowWarningMessage("Bạn đã đặt phòng này rồi. Vui lòng chờ admin liên hệ!");
+                    return;
+                }
+
+                if (UIHelper.ShowConfirmMessage($"Bạn có chắc muốn đặt phòng {txtTenPhong.Text}?"))
+                {
+                    // Tạo mã đơn đặt
+                    string maDonDat = "DD" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                    // Thêm đơn đặt phòng
+                    string insertQuery = @"
+                        INSERT INTO DonDatPhong (MaDonDat, MaPhong, TenDangNhap, NgayDat, TrangThai, GhiChu)
+                        VALUES (@MaDonDat, @MaPhong, @TenDangNhap, GETDATE(), N'Chờ xử lý', @GhiChu)";
+
+                    SqlParameter[] insertParams = {
+                        new SqlParameter("@MaDonDat", maDonDat),
+                        new SqlParameter("@MaPhong", txtMaPhong.Text),
+                        new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap),
+                        new SqlParameter("@GhiChu", $"Đặt phòng {txtTenPhong.Text} - {cmbLoaiPhong.Text}")
+                    };
+
+                    DatabaseHelper.ExecuteNonQuery(insertQuery, insertParams);
+
+                    // Tự động tạo khách hàng nếu chưa có
+                    CreateCustomerFromUserInfo();
+
+                    UIHelper.ShowSuccessMessage("Đặt phòng thành công!\n\nAdmin sẽ liên hệ với bạn sớm nhất có thể.");
+                    ClearInputs();
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi đặt phòng: " + ex.Message);
+            }
+        }
+
+        private bool CheckUserInfoComplete()
+        {
+            try
+            {
+                string query = @"
+                    SELECT tk.Email, kh.SoDienThoai, kh.CMND, kh.DiaChi, kh.NgaySinh
+                    FROM TaiKhoan tk
+                    LEFT JOIN KhachHang kh ON tk.HoTen = kh.TenKhach
+                    WHERE tk.TenDangNhap = @TenDangNhap";
+
+                SqlParameter[] parameters = { new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap) };
+                DataTable dt = DatabaseHelper.ExecuteQuery(query, parameters);
+
+                if (dt.Rows.Count == 0)
+                    return false;
+
+                DataRow row = dt.Rows[0];
+
+                // Kiểm tra các trường bắt buộc
+                if (string.IsNullOrWhiteSpace(row["Email"]?.ToString()))
+                    return false;
+
+                if (string.IsNullOrWhiteSpace(row["SoDienThoai"]?.ToString()))
+                    return false;
+
+                if (string.IsNullOrWhiteSpace(row["CMND"]?.ToString()))
+                    return false;
+
+                if (string.IsNullOrWhiteSpace(row["DiaChi"]?.ToString()))
+                    return false;
+
+                if (row["NgaySinh"] == DBNull.Value)
+                    return false;
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void CreateCustomerFromUserInfo()
+        {
+            try
+            {
+                // Kiểm tra xem đã tồn tại khách hàng chưa
+                string checkQuery = @"
+                    SELECT COUNT(*) FROM KhachHang kh
+                    JOIN TaiKhoan tk ON kh.TenKhach = tk.HoTen
+                    WHERE tk.TenDangNhap = @TenDangNhap";
+
+                SqlParameter[] checkParams = { new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap) };
+                int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkQuery, checkParams));
+
+                if (count > 0)
+                    return; // Đã tồn tại
+
+                // Lấy thông tin từ tài khoản
+                string getInfoQuery = @"
+                    SELECT tk.HoTen, tk.Email, kh.SoDienThoai, kh.CMND, kh.DiaChi, kh.NgaySinh, kh.GioiTinh
+                    FROM TaiKhoan tk
+                    LEFT JOIN KhachHang kh ON tk.HoTen = kh.TenKhach
+                    WHERE tk.TenDangNhap = @TenDangNhap";
+
+                SqlParameter[] getInfoParams = { new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap) };
+                DataTable dt = DatabaseHelper.ExecuteQuery(getInfoQuery, getInfoParams);
+
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow row = dt.Rows[0];
+                    string maKhach = "KH" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                    string insertQuery = @"
+                        INSERT INTO KhachHang (MaKhach, TenKhach, SoDienThoai, CMND, DiaChi, NgaySinh, GioiTinh, GhiChu)
+                        VALUES (@MaKhach, @TenKhach, @SoDienThoai, @CMND, @DiaChi, @NgaySinh, @GioiTinh, @GhiChu)";
+
+                    SqlParameter[] insertParams = {
+                        new SqlParameter("@MaKhach", maKhach),
+                        new SqlParameter("@TenKhach", row["HoTen"].ToString()),
+                        new SqlParameter("@SoDienThoai", row["SoDienThoai"]?.ToString() ?? ""),
+                        new SqlParameter("@CMND", row["CMND"]?.ToString() ?? ""),
+                        new SqlParameter("@DiaChi", row["DiaChi"]?.ToString() ?? ""),
+                        new SqlParameter("@NgaySinh", row["NgaySinh"] != DBNull.Value ? row["NgaySinh"] : (object)DBNull.Value),
+                        new SqlParameter("@GioiTinh", row["GioiTinh"]?.ToString() ?? ""),
+                        new SqlParameter("@GhiChu", $"Tài khoản: {CurrentUser.TenDangNhap}")
+                    };
+
+                    DatabaseHelper.ExecuteNonQuery(insertQuery, insertParams);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error nhưng không ngăn đặt phòng
+                System.Diagnostics.Debug.WriteLine("Lỗi khi tạo khách hàng: " + ex.Message);
+            }
         }
     }
 }

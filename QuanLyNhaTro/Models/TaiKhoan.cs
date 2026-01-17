@@ -6,11 +6,16 @@ namespace QuanLyNhaTro.Models
     {
         public string TenDangNhap { get; set; }
         public string MatKhau { get; set; }
+        public string Salt { get; set; }
         public string HoTen { get; set; }
         public string Email { get; set; }
         public string VaiTro { get; set; } // "Admin", "User"
         public DateTime NgayTao { get; set; }
         public bool TrangThai { get; set; } // true: Hoạt động, false: Khóa
+        public bool IsVerified { get; set; }
+        public string VerificationToken { get; set; }
+        public string ResetPasswordToken { get; set; }
+        public DateTime? ResetPasswordExpiry { get; set; }
 
         public TaiKhoan()
         {
@@ -25,6 +30,7 @@ namespace QuanLyNhaTro.Models
             VaiTro = vaiTro;
             NgayTao = DateTime.Now;
             TrangThai = trangThai;
+            IsVerified = false;
         }
     }
 }
