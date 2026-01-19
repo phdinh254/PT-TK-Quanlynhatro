@@ -152,6 +152,9 @@ namespace QuanLyNhaTro.Forms
             // 
             // flowStats
             // 
+            flowStats.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            flowStats.AutoSize = true;
+            flowStats.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             flowStats.Controls.Add(pnlStatKhachHang);
             flowStats.Controls.Add(pnlStatPhong);
             flowStats.Controls.Add(pnlStatHopDong);
@@ -160,7 +163,7 @@ namespace QuanLyNhaTro.Forms
             flowStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             flowStats.Name = "flowStats";
             flowStats.Padding = new System.Windows.Forms.Padding(0, 6, 0, 6);
-            flowStats.Size = new System.Drawing.Size(1200, 150);
+            flowStats.Size = new System.Drawing.Size(1188, 150);
             flowStats.TabIndex = 1;
             // 
             // pnlStatKhachHang

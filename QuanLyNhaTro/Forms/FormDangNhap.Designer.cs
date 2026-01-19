@@ -35,11 +35,11 @@ namespace QuanLyNhaTro.Forms
             pictureBox1 = new System.Windows.Forms.PictureBox();
             btnThoat = new System.Windows.Forms.Button();
             btnDangNhap = new System.Windows.Forms.Button();
+            linkDangKy = new System.Windows.Forms.LinkLabel();
             txtMatKhau = new System.Windows.Forms.TextBox();
             txtTenDangNhap = new System.Windows.Forms.TextBox();
             lblTitle = new System.Windows.Forms.Label();
             lblStatus = new System.Windows.Forms.Label();
-            linkDangKy = new System.Windows.Forms.LinkLabel();
             pnlMain.SuspendLayout();
             pnlLogin.SuspendLayout();
             panel1.SuspendLayout();
@@ -135,7 +135,7 @@ namespace QuanLyNhaTro.Forms
             linkDangKy.Font = new System.Drawing.Font("Segoe UI", 10F);
             linkDangKy.Location = new System.Drawing.Point(600, 362);
             linkDangKy.Name = "linkDangKy";
-            linkDangKy.Size = new System.Drawing.Size(160, 23);
+            linkDangKy.Size = new System.Drawing.Size(224, 23);
             linkDangKy.TabIndex = 9;
             linkDangKy.TabStop = true;
             linkDangKy.Text = "Chưa có tài khoản? Đăng ký";
@@ -195,6 +195,7 @@ namespace QuanLyNhaTro.Forms
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Đăng nhập - Quản lý nhà trọ";
             FormClosed += FormDangNhap_FormClosed;
+            Load += FormDangNhap_Load;
             pnlMain.ResumeLayout(false);
             pnlLogin.ResumeLayout(false);
             pnlLogin.PerformLayout();

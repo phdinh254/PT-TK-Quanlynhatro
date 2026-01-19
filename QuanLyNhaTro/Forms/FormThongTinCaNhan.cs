@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
@@ -26,9 +26,69 @@ namespace QuanLyNhaTro.Forms
             UIHelper.StylePrimaryButton(btnCapNhat);
             UIHelper.StyleSecondaryButton(btnDong);
 
-            // Kh�a t�n ??ng nh?p
+            // Căn giữa panelMain
+            CenterPanel();
+            
+            // Khóa tên đăng nhập
             txtTenDangNhap.ReadOnly = true;
             txtTenDangNhap.BackColor = Color.LightGray;
+        }
+
+        private void CenterPanel()
+        {
+            // Căn giữa panelMain theo chiều ngang
+            var panelMain = this.Controls.Find("panelMain", true);
+            if (panelMain.Length > 0)
+            {
+                var panel = panelMain[0];
+                panel.Left = (this.ClientSize.Width - panel.Width) / 2;
+                
+                // Căn giữa các controls bên trong panel
+                CenterControlsInPanel(panel);
+            }
+        }
+        
+        private void CenterControlsInPanel(Control panel)
+        {
+            // Tìm width lớn nhất của các label và textbox
+            int maxLabelWidth = 0;
+            int maxControlWidth = 0;
+            int leftMargin = 30; // Margin trái tối thiểu
+            
+            // Tìm tất cả label và textbox
+            foreach (Control ctrl in panel.Controls)
+            {
+                if (ctrl is Label lbl && !lbl.Name.Contains("Title"))
+                {
+                    if (lbl.Width > maxLabelWidth)
+                        maxLabelWidth = lbl.Width;
+                }
+                else if (ctrl is TextBox || ctrl is ComboBox || ctrl is DateTimePicker)
+                {
+                    if (ctrl.Width > maxControlWidth)
+                        maxControlWidth = ctrl.Width;
+                }
+            }
+            
+            // Tính vị trí căn giữa
+            int totalWidth = maxLabelWidth + maxControlWidth + 30; // 30 = khoảng cách giữa label và control
+            int startX = (panel.Width - totalWidth) / 2;
+            
+            if (startX < leftMargin)
+                startX = leftMargin;
+            
+            // Căn giữa các controls
+            foreach (Control ctrl in panel.Controls)
+            {
+                if (ctrl is Label lbl && !lbl.Name.Contains("Title"))
+                {
+                    lbl.Left = startX;
+                }
+                else if (ctrl is TextBox || ctrl is ComboBox || ctrl is DateTimePicker)
+                {
+                    ctrl.Left = startX + maxLabelWidth + 20;
+                }
+            }
         }
 
         private void LoadUserInfo()
@@ -69,7 +129,7 @@ namespace QuanLyNhaTro.Forms
             }
             catch (Exception ex)
             {
-                UIHelper.ShowErrorMessage("L?i khi t?i th�ng tin: " + ex.Message);
+                UIHelper.ShowErrorMessage("Lỗi khi tải thông tin: " + ex.Message);
             }
         }
 
@@ -80,7 +140,7 @@ namespace QuanLyNhaTro.Forms
                 if (!ValidateInput())
                     return;
 
-                // C?p nh?t th�ng tin t�i kho?n
+                // Cập nhật thông tin tài khoản
                 string updateTaiKhoanQuery = @"
                     UPDATE TaiKhoan 
                     SET HoTen = @HoTen, Email = @Email
@@ -94,7 +154,7 @@ namespace QuanLyNhaTro.Forms
 
                 DatabaseHelper.ExecuteNonQuery(updateTaiKhoanQuery, tkParams);
 
-                // Ki?m tra xem ?� c� b?n ghi kh�ch h�ng ch?a
+                // Kiểm tra xem đã có bản ghi khách hàng chưa
                 string checkKhachHangQuery = @"
                     SELECT kh.MaKhach 
                     FROM KhachHang kh
@@ -105,7 +165,7 @@ namespace QuanLyNhaTro.Forms
 
                 if (maKhach != null)
                 {
-                    // C?p nh?t kh�ch h�ng
+                    // Cập nhật khách hàng
                     string updateKhachHangQuery = @"
                         UPDATE KhachHang 
                         SET SoDienThoai = @SoDienThoai, 
@@ -128,7 +188,7 @@ namespace QuanLyNhaTro.Forms
                 }
                 else
                 {
-                    // T?o m?i kh�ch h�ng
+                    // Tạo mới khách hàng
                     string maKhachMoi = "KH" + DateTime.Now.ToString("yyyyMMddHHmmss");
                     string insertKhachHangQuery = @"
                         INSERT INTO KhachHang (MaKhach, TenKhach, SoDienThoai, CMND, DiaChi, NgaySinh, GioiTinh, GhiChu)
@@ -142,18 +202,18 @@ namespace QuanLyNhaTro.Forms
                         new SqlParameter("@DiaChi", txtDiaChi.Text.Trim()),
                         new SqlParameter("@NgaySinh", dtpNgaySinh.Value),
                         new SqlParameter("@GioiTinh", cmbGioiTinh.Text),
-                        new SqlParameter("@GhiChu", "T�i kho?n: " + tenDangNhap)
+                        new SqlParameter("@GhiChu", "Tài khoản: " + tenDangNhap)
                     };
 
                     DatabaseHelper.ExecuteNonQuery(insertKhachHangQuery, insertParams);
                 }
 
-                UIHelper.ShowSuccessMessage("C?p nh?t th�ng tin th�nh c�ng!");
+                UIHelper.ShowSuccessMessage("Cập nhật thông tin thành công!");
                 this.DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                UIHelper.ShowErrorMessage("L?i khi c?p nh?t: " + ex.Message);
+                UIHelper.ShowErrorMessage("Lỗi khi cập nhật: " + ex.Message);
             }
         }
 
@@ -161,60 +221,60 @@ namespace QuanLyNhaTro.Forms
         {
             if (string.IsNullOrWhiteSpace(txtHoTen.Text))
             {
-                UIHelper.ShowWarningMessage("Vui l�ng nh?p h? t�n!");
+                UIHelper.ShowWarningMessage("Vui lòng nhập họ tên!");
                 txtHoTen.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                UIHelper.ShowWarningMessage("Vui l�ng nh?p email!");
+                UIHelper.ShowWarningMessage("Vui lòng nhập email!");
                 txtEmail.Focus();
                 return false;
             }
 
             if (!PasswordHelper.IsValidEmail(txtEmail.Text))
             {
-                UIHelper.ShowWarningMessage("Email kh�ng h?p l?!");
+                UIHelper.ShowWarningMessage("Email không hợp lệ!");
                 txtEmail.Focus();
                 return false;
             }
 
-            // Ki?m tra c�c tr??ng b?t bu?c ?? t?o kh�ch h�ng
+            // Kiểm tra các trường bắt buộc để tạo khách hàng
             if (string.IsNullOrWhiteSpace(txtSoDienThoai.Text))
             {
-                UIHelper.ShowWarningMessage("Vui l�ng nh?p s? ?i?n tho?i!");
+                UIHelper.ShowWarningMessage("Vui lòng nhập số điện thoại!");
                 txtSoDienThoai.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtCMND.Text))
             {
-                UIHelper.ShowWarningMessage("Vui l�ng nh?p CMND/CCCD!");
+                UIHelper.ShowWarningMessage("Vui lòng nhập CMND/CCCD!");
                 txtCMND.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtDiaChi.Text))
             {
-                UIHelper.ShowWarningMessage("Vui l�ng nh?p ??a ch?!");
+                UIHelper.ShowWarningMessage("Vui lòng nhập địa chỉ!");
                 txtDiaChi.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(cmbGioiTinh.Text))
             {
-                UIHelper.ShowWarningMessage("Vui l�ng ch?n gi?i t�nh!");
+                UIHelper.ShowWarningMessage("Vui lòng chọn giới tính!");
                 cmbGioiTinh.Focus();
                 return false;
             }
 
-            // Ki?m tra tu?i >= 18
+            // Kiểm tra tuổi >= 18
             int age = DateTime.Now.Year - dtpNgaySinh.Value.Year;
             if (dtpNgaySinh.Value.Date > DateTime.Now.AddYears(-age)) age--;
             if (age < 18)
             {
-                UIHelper.ShowWarningMessage("B?n ph?i ?? 18 tu?i!");
+                UIHelper.ShowWarningMessage("Bạn phải đủ 18 tuổi!");
                 return false;
             }
 

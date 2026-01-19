@@ -172,6 +172,11 @@ namespace QuanLyNhaTro.Forms
         {
 
         }
+
+        private void FormDangNhap_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
     // Class để lưu thông tin người dùng hiện tại

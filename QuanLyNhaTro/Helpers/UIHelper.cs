@@ -82,7 +82,7 @@ namespace QuanLyNhaTro.Helpers
         public static void StyleTextBox(TextBox textBox)
         {
             textBox.BorderStyle = BorderStyle.FixedSingle;
-            textBox.Font = new Font("Segoe UI", 9F);
+            textBox.Font = DefaultFont;
             textBox.BackColor = Colors.White;
             textBox.ForeColor = Colors.TextPrimary;
         }
@@ -90,7 +90,7 @@ namespace QuanLyNhaTro.Helpers
         public static void StyleComboBox(ComboBox comboBox)
         {
             comboBox.FlatStyle = FlatStyle.Flat;
-            comboBox.Font = new Font("Segoe UI", 9F);
+            comboBox.Font = DefaultFont;
             comboBox.BackColor = Colors.White;
             comboBox.ForeColor = Colors.TextPrimary;
         }
@@ -104,20 +104,24 @@ namespace QuanLyNhaTro.Helpers
             dgv.DefaultCellStyle.SelectionForeColor = Colors.White;
             dgv.DefaultCellStyle.BackColor = Colors.White;
             dgv.DefaultCellStyle.ForeColor = Colors.TextPrimary;
-            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgv.DefaultCellStyle.Font = DefaultFont;
             dgv.ColumnHeadersDefaultCellStyle.BackColor = Colors.Light;
             dgv.ColumnHeadersDefaultCellStyle.ForeColor = Colors.TextPrimary;
-            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Times New Roman", 10F, FontStyle.Bold);
             dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv.EnableHeadersVisualStyles = false;
             dgv.GridColor = Colors.Light;
             dgv.RowHeadersVisible = false;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            
+            // Auto resize columns when DataGridView size changes
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
         }
 
         public static void StyleGroupBox(GroupBox groupBox)
         {
-            groupBox.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            groupBox.Font = new Font("Times New Roman", 10F, FontStyle.Bold);
             groupBox.ForeColor = Colors.TextPrimary;
         }
 
@@ -130,7 +134,7 @@ namespace QuanLyNhaTro.Helpers
             }
             else
             {
-                label.Font = new Font("Segoe UI", 9F);
+                label.Font = DefaultFont;
                 label.ForeColor = Colors.TextPrimary;
             }
         }
@@ -193,7 +197,96 @@ namespace QuanLyNhaTro.Helpers
         public static void StandardizeForm(Form form)
         {
             ApplyModernStyle(form);
+            
+            // Enable form resize
+            if (form.MinimumSize.Width == 0)
+            {
+                form.MinimumSize = new Size(800, 600);
+            }
+            form.FormBorderStyle = FormBorderStyle.Sizable;
+            form.MaximizeBox = true;
+            
             StandardizeControls(form.Controls);
+            
+            // Fix responsive cho tất cả GroupBox và DataGridView
+            FixResponsiveLayout(form);
+        }
+
+        /// <summary>
+        /// Sửa layout responsive cho form - chỉ áp dụng cho containers chính
+        /// </summary>
+        private static void FixResponsiveLayout(Form form)
+        {
+            foreach (Control ctrl in form.Controls)
+            {
+                // GroupBox chứa DataGridView - anchor all sides
+                if (ctrl is GroupBox gb)
+                {
+                    bool hasDataGridView = ContainsDataGridView(gb);
+                    
+                    if (hasDataGridView)
+                    {
+                        // GroupBox danh sách - anchor all
+                        if (gb.Anchor == (AnchorStyles.Top | AnchorStyles.Left))
+                        {
+                            gb.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+                        }
+                        
+                        // Tìm và fix DataGridView bên trong
+                        foreach (Control child in gb.Controls)
+                        {
+                            if (child is DataGridView dgv)
+                            {
+                                if (dgv.Anchor == (AnchorStyles.Top | AnchorStyles.Left))
+                                {
+                                    dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+                                    dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // GroupBox thông tin - chỉ anchor ngang
+                        if (gb.Anchor == (AnchorStyles.Top | AnchorStyles.Left))
+                        {
+                            gb.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+                        }
+                        
+                        // Fix button panel bên trong
+                        foreach (Control child in gb.Controls)
+                        {
+                            if (child is FlowLayoutPanel flp)
+                            {
+                                if (flp.Anchor == (AnchorStyles.Top | AnchorStyles.Left))
+                                {
+                                    flp.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+                                }
+                            }
+                            else if (child is Panel pnl && pnl.Name.Contains("Button"))
+                            {
+                                if (pnl.Anchor == (AnchorStyles.Top | AnchorStyles.Left))
+                                {
+                                    pnl.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Kiểm tra GroupBox có chứa DataGridView không
+        /// </summary>
+        private static bool ContainsDataGridView(GroupBox gb)
+        {
+            foreach (Control ctrl in gb.Controls)
+            {
+                if (ctrl is DataGridView)
+                    return true;
+            }
+            return false;
         }
 
         // Kích thước chuẩn
@@ -218,7 +311,7 @@ namespace QuanLyNhaTro.Helpers
                 // Label
                 if (ctrl is Label lbl && !lbl.Name.Contains("Title") && !lbl.Name.Contains("Value") && !lbl.Name.Contains("TongTien"))
                 {
-                    lbl.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular);
+                    lbl.Font = new Font("Times New Roman", 10F, FontStyle.Regular);
                     lbl.ForeColor = Colors.TextPrimary;
                     lbl.AutoSize = true;
                 }
@@ -226,7 +319,7 @@ namespace QuanLyNhaTro.Helpers
                 // TextBox
                 if (ctrl is TextBox txt)
                 {
-                    txt.Font = new Font("Segoe UI", 10F);
+                    txt.Font = new Font("Times New Roman", 10F);
                     txt.BorderStyle = BorderStyle.FixedSingle;
                     txt.Height = Sizes.TextBoxHeight;
                     if (txt.Width < 100) txt.Width = Sizes.TextBoxWidth;
@@ -235,7 +328,7 @@ namespace QuanLyNhaTro.Helpers
                 // ComboBox
                 if (ctrl is ComboBox cmb)
                 {
-                    cmb.Font = new Font("Segoe UI", 10F);
+                    cmb.Font = new Font("Times New Roman", 10F);
                     cmb.FlatStyle = FlatStyle.Flat;
                     cmb.Height = Sizes.ComboBoxHeight;
                     if (cmb.Width < 100) cmb.Width = Sizes.ComboBoxWidth;
@@ -244,45 +337,58 @@ namespace QuanLyNhaTro.Helpers
                 // DateTimePicker
                 if (ctrl is DateTimePicker dtp)
                 {
-                    dtp.Font = new Font("Segoe UI", 10F);
+                    dtp.Font = new Font("Times New Roman", 10F);
                     dtp.Height = Sizes.TextBoxHeight;
-                }
-
-                // Button
-                if (ctrl is Button btn)
-                {
-                    btn.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-                    btn.FlatStyle = FlatStyle.Flat;
-                    btn.FlatAppearance.BorderSize = 0;
-                    btn.Cursor = Cursors.Hand;
-                    btn.Height = Sizes.ButtonHeight;
-                    if (btn.Width < 80) btn.Width = Sizes.ButtonWidth;
-                }
-
-                // GroupBox
-                if (ctrl is GroupBox grp)
-                {
-                    grp.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-                    grp.ForeColor = Colors.Dark;
-                    StandardizeControls(grp.Controls);
-                }
-
-                // Panel
-                if (ctrl is Panel pnl)
-                {
-                    StandardizeControls(pnl.Controls);
-                }
-
-                // FlowLayoutPanel
-                if (ctrl is FlowLayoutPanel flp)
-                {
-                    StandardizeControls(flp.Controls);
                 }
 
                 // DataGridView
                 if (ctrl is DataGridView dgv)
                 {
                     StyleDataGridView(dgv);
+                }
+
+                // GroupBox
+                if (ctrl is GroupBox gb)
+                {
+                    gb.Font = new Font("Times New Roman", 10F, FontStyle.Bold);
+                    gb.ForeColor = Colors.TextPrimary;
+                }
+
+                // Panel
+                if (ctrl is Panel panel)
+                {
+                    panel.BackColor = Colors.CardBackground;
+                }
+
+                // Đệ quy cho các control con
+                if (ctrl.HasChildren)
+                {
+                    StandardizeControls(ctrl.Controls);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Áp dụng Anchor/Dock tự động cho các control
+        /// </summary>
+        private static void ApplyResponsiveAnchoring(Control.ControlCollection controls)
+        {
+            foreach (Control ctrl in controls)
+            {
+                // Title labels - dock top
+                if (ctrl is Label lbl && (lbl.Name.Contains("Title") || lbl.Name.Contains("lblTitle")))
+                {
+                    if (lbl.Dock != DockStyle.Top)
+                    {
+                        lbl.Dock = DockStyle.Top;
+                        lbl.TextAlign = ContentAlignment.MiddleCenter;
+                    }
+                }
+
+                // Đệ quy cho các control con
+                if (ctrl.HasChildren)
+                {
+                    ApplyResponsiveAnchoring(ctrl.Controls);
                 }
             }
         }

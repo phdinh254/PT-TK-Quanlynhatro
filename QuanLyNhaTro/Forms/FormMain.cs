@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using QuanLyNhaTro.Data;
 using QuanLyNhaTro.Helpers;
+using System.Linq;
 
 namespace QuanLyNhaTro.Forms
 {
@@ -22,6 +23,63 @@ namespace QuanLyNhaTro.Forms
         {
             // Chuẩn hóa toàn bộ giao diện
             UIHelper.StandardizeForm(this);
+            
+            // Handle resize để phân bố đều các panel stats
+            this.Resize += FormMain_Resize;
+            AdjustStatsLayout();
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                AdjustStatsLayout();
+            }
+        }
+
+        private void AdjustStatsLayout()
+        {
+            try
+            {
+                // Tìm flowStats panel
+                var flowStats = pnlDashboard.Controls.Find("flowStats", false);
+                if (flowStats.Length == 0) return;
+                
+                FlowLayoutPanel flow = flowStats[0] as FlowLayoutPanel;
+                if (flow == null) return;
+                
+                // Đếm số panel stats
+                int panelCount = 0;
+                foreach (Control ctrl in flow.Controls)
+                {
+                    if (ctrl is Panel && ctrl.Name.StartsWith("pnlStat"))
+                        panelCount++;
+                }
+                
+                if (panelCount == 0) return;
+                
+                // Tính toán width cho mỗi panel
+                int availableWidth = pnlDashboard.Width - 40; // Trừ margins
+                int totalMargin = (panelCount - 1) * 19; // Margin giữa các panels
+                int panelWidth = (availableWidth - totalMargin) / panelCount;
+                
+                // Đảm bảo width tối thiểu
+                if (panelWidth < 200)
+                    panelWidth = 275; // Width mặc định
+                
+                // Áp dụng width cho các panels
+                foreach (Control ctrl in flow.Controls)
+                {
+                    if (ctrl is Panel && ctrl.Name.StartsWith("pnlStat"))
+                    {
+                        ctrl.Width = panelWidth;
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore errors
+            }
         }
 
         private void CreateAccountMenu()
@@ -294,26 +352,51 @@ namespace QuanLyNhaTro.Forms
             Application.Exit();
         }
 
-        private void FormMain_Resize(object sender, EventArgs e)
+        private void LoadStatsData()
         {
-            // Tự động điều chỉnh kích thước các card thống kê theo kích thước form
-            if (flowStats != null && this.ClientSize.Width > 0)
+            try
             {
-                int availableWidth = pnlContent.ClientSize.Width - 50;
-                int cardCount = 4;
-                int spacing = 20;
-                int cardWidth = (availableWidth - (spacing * (cardCount - 1))) / cardCount;
-                
-                if (cardWidth < 200) cardWidth = 200;
-                if (cardWidth > 300) cardWidth = 300;
+                // Lấy danh sách các card thống kê (panel có tên bắt đầu bằng "pnlStat")
+                var statPanels = pnlDashboard.Controls.OfType<Panel>().Where(p => p.Name.StartsWith("pnlStat")).ToArray();
 
-                foreach (Control ctrl in flowStats.Controls)
+                // Nếu không có panel thống kê nào, thoát
+                if (statPanels.Length == 0) return;
+
+                // Tính toán số liệu thống kê cho từng panel
+                foreach (var panel in statPanels)
                 {
-                    if (ctrl is Panel panel)
+                    // Ví dụ: panel có tên "pnlStatKhachHang" sẽ lấy dữ liệu khách hàng
+                    string statName = panel.Name.Substring(7); // Lấy phần tên sau "pnlStat"
+                    string query = $"SELECT COUNT(*) FROM {statName}";
+
+                    // Cập nhật giá trị cho nhãn trong panel thống kê
+                    var lblValue = panel.Controls.OfType<Label>().FirstOrDefault(lbl => lbl.Name == "lblValue");
+                    if (lblValue != null)
                     {
-                        panel.Width = cardWidth;
+                        lblValue.Text = DatabaseHelper.ExecuteScalar(query)?.ToString() ?? "0";
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tải dữ liệu thống kê: " + ex.Message);
+            }
+        }
+
+        private void RefreshStatPanel(Panel statPanel, string query)
+        {
+            try
+            {
+                // Cập nhật dữ liệu cho panel thống kê
+                var lblValue = statPanel.Controls.OfType<Label>().FirstOrDefault(lbl => lbl.Name == "lblValue");
+                if (lblValue != null)
+                {
+                    lblValue.Text = DatabaseHelper.ExecuteScalar(query)?.ToString() ?? "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi làm mới dữ liệu thống kê: " + ex.Message);
             }
         }
     }

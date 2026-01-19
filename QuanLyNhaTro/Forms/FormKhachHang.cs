@@ -87,61 +87,21 @@ namespace QuanLyNhaTro.Forms
 
         private void ClearInputs()
         {
-            txtMaKhach.Clear();
-            txtTenKhach.Clear();
-            txtSoDienThoai.Clear();
-            txtCMND.Clear();
-            txtDiaChi.Clear();
-            dtpNgaySinh.Value = DateTime.Now;
-            cmbGioiTinh.SelectedIndex = -1;
+            // Chỉ clear ghi chú
             txtGhiChu.Clear();
+            
+            // Bỏ chọn dòng trong DataGridView
+            if (dgvKhachHang.SelectedRows.Count > 0)
+            {
+                dgvKhachHang.ClearSelection();
+            }
         }
 
         private bool ValidateInput()
         {
-            if (string.IsNullOrWhiteSpace(txtMaKhach.Text))
-            {
-                MessageBox.Show("Vui lòng nhập mã khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMaKhach.Focus();
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtTenKhach.Text))
-            {
-                MessageBox.Show("Vui lòng nhập tên khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtTenKhach.Focus();
-                return false;
-            }
-
-            // Kiểm tra số điện thoại (nếu có nhập)
-            if (!string.IsNullOrWhiteSpace(txtSoDienThoai.Text))
-            {
-                if (txtSoDienThoai.Text.Length < 10 || txtSoDienThoai.Text.Length > 11)
-                {
-                    MessageBox.Show("Số điện thoại phải có 10-11 chữ số!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtSoDienThoai.Focus();
-                    return false;
-                }
-            }
-
-            int age = DateTime.Now.Year - dtpNgaySinh.Value.Year;
-            if (dtpNgaySinh.Value.Date > DateTime.Now.AddYears(-age)) age--;
-            if (age < 16)
-            {
-                MessageBox.Show("Khách hàng phải đủ 16 tuổi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            // Liên kết họ tên khách với tài khoản (nếu có)
-            // Tạm bỏ validation này vì admin có thể tự tạo khách hàng
-            // string checkAccountQuery = "SELECT COUNT(*) FROM TaiKhoan WHERE HoTen = @HoTen";
-            // SqlParameter[] accountParams = { new SqlParameter("@HoTen", txtTenKhach.Text.Trim()) };
-            // int accountCount = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkAccountQuery, accountParams));
-            // if (accountCount == 0)
-            // {
-            //     MessageBox.Show("Chưa tìm thấy tài khoản có họ tên này trong hệ thống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //     return false;
-            // }
+            // Chỉ cho phép cập nhật ghi chú, không cần validate
+            // Tất cả thông tin khách hàng đã được tạo tự động từ TaiKhoan
+            // Chỉ cần kiểm tra có chọn khách hàng không (khi sửa)
 
             return true;
         }
@@ -150,42 +110,8 @@ namespace QuanLyNhaTro.Forms
         {
             try
             {
-                if (!ValidateInput())
-                    return;
-
-                // Kiểm tra mã khách đã tồn tại chưa
-                string checkQuery = "SELECT COUNT(*) FROM KhachHang WHERE MaKhach = @MaKhach";
-                SqlParameter[] checkParams = { new SqlParameter("@MaKhach", txtMaKhach.Text) };
-                int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkQuery, checkParams));
-                
-                if (count > 0)
-                {
-                    MessageBox.Show("Mã khách hàng đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtMaKhach.Focus();
-                    return;
-                }
-
-                string query = @"INSERT INTO KhachHang (MaKhach, TenKhach, SoDienThoai, CMND, DiaChi, NgaySinh, GioiTinh, GhiChu) 
-                                VALUES (@MaKhach, @TenKhach, @SoDienThoai, @CMND, @DiaChi, @NgaySinh, @GioiTinh, @GhiChu)";
-
-                SqlParameter[] parameters = {
-                    new SqlParameter("@MaKhach", txtMaKhach.Text),
-                    new SqlParameter("@TenKhach", txtTenKhach.Text),
-                    new SqlParameter("@SoDienThoai", txtSoDienThoai.Text),
-                    new SqlParameter("@CMND", txtCMND.Text),
-                    new SqlParameter("@DiaChi", txtDiaChi.Text),
-                    new SqlParameter("@NgaySinh", dtpNgaySinh.Value),
-                    new SqlParameter("@GioiTinh", cmbGioiTinh.Text),
-                    new SqlParameter("@GhiChu", txtGhiChu.Text)
-                };
-
-                int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
-                if (result > 0)
-                {
-                    MessageBox.Show("Thêm khách hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadData();
-                    ClearInputs();
-                }
+                MessageBox.Show("Khách hàng được tạo tự động từ tài khoản!\n\nVui lòng yêu cầu người dùng đăng ký tài khoản và cập nhật thông tin cá nhân.", 
+                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -197,34 +123,32 @@ namespace QuanLyNhaTro.Forms
         {
             try
             {
-                if (string.IsNullOrEmpty(txtMaKhach.Text))
+                // Lấy MaKhach từ row được chọn trong DataGridView
+                if (dgvKhachHang.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Vui lòng chọn khách hàng cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (!ValidateInput())
+                string maKhach = dgvKhachHang.SelectedRows[0].Cells["MaKhach"].Value?.ToString();
+                if (string.IsNullOrEmpty(maKhach))
+                {
+                    MessageBox.Show("Không tìm thấy mã khách hàng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
 
-                string query = @"UPDATE KhachHang SET TenKhach = @TenKhach, SoDienThoai = @SoDienThoai, CMND = @CMND, 
-                                DiaChi = @DiaChi, NgaySinh = @NgaySinh, GioiTinh = @GioiTinh, GhiChu = @GhiChu 
-                                WHERE MaKhach = @MaKhach";
+                // Chỉ cập nhật ghi chú
+                string query = "UPDATE KhachHang SET GhiChu = @GhiChu WHERE MaKhach = @MaKhach";
 
                 SqlParameter[] parameters = {
-                    new SqlParameter("@MaKhach", txtMaKhach.Text),
-                    new SqlParameter("@TenKhach", txtTenKhach.Text),
-                    new SqlParameter("@SoDienThoai", txtSoDienThoai.Text),
-                    new SqlParameter("@CMND", txtCMND.Text),
-                    new SqlParameter("@DiaChi", txtDiaChi.Text),
-                    new SqlParameter("@NgaySinh", dtpNgaySinh.Value),
-                    new SqlParameter("@GioiTinh", cmbGioiTinh.Text),
+                    new SqlParameter("@MaKhach", maKhach),
                     new SqlParameter("@GhiChu", txtGhiChu.Text)
                 };
 
                 int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
                 if (result > 0)
                 {
-                    MessageBox.Show("Cập nhật khách hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Cập nhật ghi chú thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadData();
                     ClearInputs();
                 }
@@ -239,20 +163,23 @@ namespace QuanLyNhaTro.Forms
         {
             try
             {
-                if (string.IsNullOrEmpty(txtMaKhach.Text))
+                if (dgvKhachHang.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Vui lòng chọn khách hàng cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa khách hàng này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                string maKhach = dgvKhachHang.SelectedRows[0].Cells["MaKhach"].Value?.ToString();
+                string tenKhach = dgvKhachHang.SelectedRows[0].Cells["TenKhach"].Value?.ToString();
+                
+                if (MessageBox.Show($"Bạn có chắc chắn muốn xóa khách hàng '{tenKhach}'?\n\nLưu ý: Thao tác này không thể hoàn tác!", 
+                    "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     string query = "DELETE FROM KhachHang WHERE MaKhach = @MaKhach";
-                    SqlParameter[] parameters = { new SqlParameter("@MaKhach", txtMaKhach.Text) };
+                    SqlParameter[] parameters = { new SqlParameter("@MaKhach", maKhach) };
 
-                    int deleteResult = DatabaseHelper.ExecuteNonQuery(query, parameters);
-                    if (deleteResult > 0)
+                    int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                    if (result > 0)
                     {
                         MessageBox.Show("Xóa khách hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadData();
@@ -296,16 +223,7 @@ namespace QuanLyNhaTro.Forms
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dgvKhachHang.Rows[e.RowIndex];
-                txtMaKhach.Text = row.Cells["MaKhach"].Value?.ToString();
-                txtTenKhach.Text = row.Cells["TenKhach"].Value?.ToString();
-                txtSoDienThoai.Text = row.Cells["SoDienThoai"].Value?.ToString();
-                txtCMND.Text = row.Cells["CMND"].Value?.ToString();
-                txtDiaChi.Text = row.Cells["DiaChi"].Value?.ToString();
-                
-                if (DateTime.TryParse(row.Cells["NgaySinh"].Value?.ToString(), out DateTime ngaySinh))
-                    dtpNgaySinh.Value = ngaySinh;
-                
-                cmbGioiTinh.Text = row.Cells["GioiTinh"].Value?.ToString();
+                // Chỉ load ghi chú vào textbox
                 txtGhiChu.Text = row.Cells["GhiChu"].Value?.ToString();
             }
         }

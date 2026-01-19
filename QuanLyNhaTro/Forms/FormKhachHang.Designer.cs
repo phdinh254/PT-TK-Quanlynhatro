@@ -88,7 +88,7 @@ namespace QuanLyNhaTro.Forms
             groupBox1.Margin = new System.Windows.Forms.Padding(4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            groupBox1.Size = new System.Drawing.Size(1088, 225);
+            groupBox1.Size = new System.Drawing.Size(1088, 230);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin khách hàng";
@@ -101,7 +101,7 @@ namespace QuanLyNhaTro.Forms
             pnlButtons.Controls.Add(btnXoa);
             pnlButtons.Controls.Add(btnLamMoi);
             pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            pnlButtons.Location = new System.Drawing.Point(77, 167);
+            pnlButtons.Location = new System.Drawing.Point(343, 166);
             pnlButtons.Margin = new System.Windows.Forms.Padding(4);
             pnlButtons.Name = "pnlButtons";
             pnlButtons.Size = new System.Drawing.Size(737, 50);
@@ -177,6 +177,7 @@ namespace QuanLyNhaTro.Forms
             cmbGioiTinh.Name = "cmbGioiTinh";
             cmbGioiTinh.Size = new System.Drawing.Size(149, 28);
             cmbGioiTinh.TabIndex = 15;
+            cmbGioiTinh.Visible = false;
             // 
             // dtpNgaySinh
             // 
@@ -186,14 +187,16 @@ namespace QuanLyNhaTro.Forms
             dtpNgaySinh.Name = "dtpNgaySinh";
             dtpNgaySinh.Size = new System.Drawing.Size(186, 27);
             dtpNgaySinh.TabIndex = 14;
+            dtpNgaySinh.Visible = false;
             // 
             // txtGhiChu
             // 
             txtGhiChu.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            txtGhiChu.Location = new System.Drawing.Point(738, 131);
+            txtGhiChu.Location = new System.Drawing.Point(125, 35);
             txtGhiChu.Margin = new System.Windows.Forms.Padding(4);
+            txtGhiChu.Multiline = true;
             txtGhiChu.Name = "txtGhiChu";
-            txtGhiChu.Size = new System.Drawing.Size(499, 27);
+            txtGhiChu.Size = new System.Drawing.Size(950, 40);
             txtGhiChu.TabIndex = 13;
             // 
             // txtDiaChi
@@ -203,6 +206,7 @@ namespace QuanLyNhaTro.Forms
             txtDiaChi.Name = "txtDiaChi";
             txtDiaChi.Size = new System.Drawing.Size(499, 27);
             txtDiaChi.TabIndex = 12;
+            txtDiaChi.Visible = false;
             // 
             // txtCMND
             // 
@@ -211,6 +215,7 @@ namespace QuanLyNhaTro.Forms
             txtCMND.Name = "txtCMND";
             txtCMND.Size = new System.Drawing.Size(186, 27);
             txtCMND.TabIndex = 11;
+            txtCMND.Visible = false;
             // 
             // txtSoDienThoai
             // 
@@ -219,6 +224,7 @@ namespace QuanLyNhaTro.Forms
             txtSoDienThoai.Name = "txtSoDienThoai";
             txtSoDienThoai.Size = new System.Drawing.Size(186, 27);
             txtSoDienThoai.TabIndex = 10;
+            txtSoDienThoai.Visible = false;
             // 
             // txtTenKhach
             // 
@@ -227,6 +233,7 @@ namespace QuanLyNhaTro.Forms
             txtTenKhach.Name = "txtTenKhach";
             txtTenKhach.Size = new System.Drawing.Size(249, 27);
             txtTenKhach.TabIndex = 9;
+            txtTenKhach.Visible = false;
             // 
             // txtMaKhach
             // 
@@ -235,16 +242,16 @@ namespace QuanLyNhaTro.Forms
             txtMaKhach.Name = "txtMaKhach";
             txtMaKhach.Size = new System.Drawing.Size(186, 27);
             txtMaKhach.TabIndex = 8;
+            txtMaKhach.Visible = false;
             // 
             // lblGhiChu
             // 
-            lblGhiChu.Location = new System.Drawing.Point(650, 131);
+            lblGhiChu.Location = new System.Drawing.Point(25, 35);
             lblGhiChu.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             lblGhiChu.Name = "lblGhiChu";
-            lblGhiChu.Size = new System.Drawing.Size(88, 31);
+            lblGhiChu.Size = new System.Drawing.Size(100, 40);
             lblGhiChu.TabIndex = 7;
             lblGhiChu.Text = "Ghi chú:";
-            lblGhiChu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblGioiTinh
             // 
@@ -255,6 +262,7 @@ namespace QuanLyNhaTro.Forms
             lblGioiTinh.TabIndex = 6;
             lblGioiTinh.Text = "Giới tính:";
             lblGioiTinh.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblGioiTinh.Visible = false;
             // 
             // lblNgaySinh
             // 
@@ -265,6 +273,7 @@ namespace QuanLyNhaTro.Forms
             lblNgaySinh.TabIndex = 5;
             lblNgaySinh.Text = "Ngày sinh:";
             lblNgaySinh.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblNgaySinh.Visible = false;
             // 
             // lblDiaChi
             // 
@@ -275,6 +284,7 @@ namespace QuanLyNhaTro.Forms
             lblDiaChi.TabIndex = 4;
             lblDiaChi.Text = "Địa chỉ:";
             lblDiaChi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblDiaChi.Visible = false;
             // 
             // lblCMND
             // 
@@ -285,6 +295,7 @@ namespace QuanLyNhaTro.Forms
             lblCMND.TabIndex = 3;
             lblCMND.Text = "CMND:";
             lblCMND.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblCMND.Visible = false;
             // 
             // lblSoDienThoai
             // 
@@ -295,6 +306,7 @@ namespace QuanLyNhaTro.Forms
             lblSoDienThoai.TabIndex = 2;
             lblSoDienThoai.Text = "SĐT:";
             lblSoDienThoai.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblSoDienThoai.Visible = false;
             // 
             // lblTenKhach
             // 
@@ -305,6 +317,7 @@ namespace QuanLyNhaTro.Forms
             lblTenKhach.TabIndex = 1;
             lblTenKhach.Text = "Tên khách:";
             lblTenKhach.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblTenKhach.Visible = false;
             // 
             // lblMaKhach
             // 
@@ -315,6 +328,7 @@ namespace QuanLyNhaTro.Forms
             lblMaKhach.TabIndex = 0;
             lblMaKhach.Text = "Mã khách:";
             lblMaKhach.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblMaKhach.Visible = false;
             // 
             // groupBox2
             // 
@@ -323,11 +337,11 @@ namespace QuanLyNhaTro.Forms
             groupBox2.Controls.Add(txtTimKiem);
             groupBox2.Controls.Add(lblTimKiem);
             groupBox2.Controls.Add(dgvKhachHang);
-            groupBox2.Location = new System.Drawing.Point(19, 294);
+            groupBox2.Location = new System.Drawing.Point(19, 295);
             groupBox2.Margin = new System.Windows.Forms.Padding(4);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            groupBox2.Size = new System.Drawing.Size(1088, 412);
+            groupBox2.Size = new System.Drawing.Size(1088, 411);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Danh sách khách hàng";
@@ -380,7 +394,7 @@ namespace QuanLyNhaTro.Forms
             dgvKhachHang.ReadOnly = true;
             dgvKhachHang.RowHeadersWidth = 51;
             dgvKhachHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvKhachHang.Size = new System.Drawing.Size(1050, 312);
+            dgvKhachHang.Size = new System.Drawing.Size(1050, 307);
             dgvKhachHang.TabIndex = 0;
             dgvKhachHang.CellClick += dgvKhachHang_CellClick;
             // 

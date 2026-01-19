@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
 using QuanLyNhaTro.Data;
 using QuanLyNhaTro.Helpers;
+using System.Linq;
 
 namespace QuanLyNhaTro.Forms
 {
@@ -23,9 +24,103 @@ namespace QuanLyNhaTro.Forms
             UIHelper.StylePrimaryButton(btnDoiMatKhau);
             UIHelper.StyleSecondaryButton(btnHuy);
 
+            // C?n gi?a panelMain
+            CenterPanel();
+
             txtMatKhauCu.PasswordChar = '?';
             txtMatKhauMoi.PasswordChar = '?';
             txtXacNhanMatKhau.PasswordChar = '?';
+        }
+
+        private void CenterPanel()
+        {
+            // C?n gi?a panelMain theo chi?u ngang
+            var panelMain = this.Controls.Find("panelMain", true);
+            if (panelMain.Length > 0)
+            {
+                var panel = panelMain[0];
+                panel.Left = (this.ClientSize.Width - panel.Width) / 2;
+                
+                // C?n gi?a các controls bên trong panel
+                CenterControlsInPanel(panel);
+            }
+        }
+        
+        private void CenterControlsInPanel(Control panel)
+        {
+            // Tìm width l?n nh?t c?a các label và textbox
+            int maxLabelWidth = 0;
+            int maxControlWidth = 0;
+            int leftMargin = 30;
+            
+            // Tìm t?t c? label và textbox
+            foreach (Control ctrl in panel.Controls)
+            {
+                if (ctrl is Label lbl && !lbl.Name.Contains("Title") && !lbl.Name.Contains("Note"))
+                {
+                    if (lbl.Width > maxLabelWidth)
+                        maxLabelWidth = lbl.Width;
+                }
+                else if (ctrl is TextBox)
+                {
+                    if (ctrl.Width > maxControlWidth)
+                        maxControlWidth = ctrl.Width;
+                }
+            }
+            
+            // Tính v? trí c?n gi?a
+            int totalWidth = maxLabelWidth + maxControlWidth + 30;
+            int startX = (panel.Width - totalWidth) / 2;
+            
+            if (startX < leftMargin)
+                startX = leftMargin;
+            
+            // C?n gi?a các controls
+            foreach (Control ctrl in panel.Controls)
+            {
+                if (ctrl is Label lbl && !lbl.Name.Contains("Title") && !lbl.Name.Contains("Note"))
+                {
+                    lbl.Left = startX;
+                }
+                else if (ctrl is TextBox txt)
+                {
+                    txt.Left = startX + maxLabelWidth + 20;
+                }
+                else if (ctrl is Button btn)
+                {
+                    // C?n gi?a buttons
+                    if (panel.Controls.Cast<Control>().Count(c => c is Button) == 2)
+                    {
+                        // 2 buttons c?nh nhau
+                        int totalButtonWidth = 0;
+                        foreach (Control c in panel.Controls)
+                        {
+                            if (c is Button b)
+                                totalButtonWidth += b.Width + 10;
+                        }
+                        
+                        int buttonStartX = (panel.Width - totalButtonWidth) / 2;
+                        int currentX = buttonStartX;
+                        
+                        foreach (Control c in panel.Controls)
+                        {
+                            if (c is Button b && b.Name.Contains("DoiMatKhau"))
+                            {
+                                b.Left = currentX;
+                                currentX += b.Width + 10;
+                            }
+                        }
+                        
+                        foreach (Control c in panel.Controls)
+                        {
+                            if (c is Button b && b.Name.Contains("Huy"))
+                            {
+                                b.Left = currentX;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void btnDoiMatKhau_Click(object sender, EventArgs e)
@@ -91,7 +186,7 @@ namespace QuanLyNhaTro.Forms
 
                 if (!isOldPasswordValid)
                 {
-                    UIHelper.ShowErrorMessage("M?t kh?u c? không ?úng!");
+                    UIHelper.ShowErrorMessage("M?t kh?u c? không ??ng!");
                     txtMatKhauCu.Focus();
                     return;
                 }

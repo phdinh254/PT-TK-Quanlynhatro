@@ -46,6 +46,10 @@ namespace QuanLyNhaTro.Forms
                 DataTable dt = DatabaseHelper.ExecuteQuery(query);
                 dgvDonDat.DataSource = dt;
 
+                // Áp d?ng font Times New Roman cho DataGridView
+                dgvDonDat.DefaultCellStyle.Font = new System.Drawing.Font("Times New Roman", 10F);
+                dgvDonDat.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
+
                 if (dgvDonDat.Columns.Count > 0)
                 {
                     dgvDonDat.Columns["MaDonDat"].HeaderText = "Mã ??n";
@@ -114,9 +118,9 @@ namespace QuanLyNhaTro.Forms
                 lblTrangThai.Text = row.Cells["TrangThai"].Value?.ToString();
 
                 // Ch? cho phép duy?t/t? ch?i ??n ch? x? lý
-                string trangThai = row.Cells["TrangThai"].Value?.ToString();
-                btnDuyet.Enabled = (trangThai == "Ch? x? lý");
-                btnTuChoi.Enabled = (trangThai == "Ch? x? lý");
+                string trangThai = row.Cells["TrangThai"].Value?.ToString()?.Trim().ToLower();
+                btnDuyet.Enabled = (trangThai == "ch? x? lý");
+                btnTuChoi.Enabled = (trangThai == "ch? x? lý");
             }
         }
 
@@ -132,6 +136,7 @@ namespace QuanLyNhaTro.Forms
 
                 if (UIHelper.ShowConfirmMessage($"B?n có ch?c mu?n duy?t ??n ??t phòng này?\n\nKhách hàng: {txtHoTenKhach.Text}\nPhòng: {txtTenPhong.Text}"))
                 {
+                    // C?p nh?t tr?ng thái ??n ??t
                     string updateQuery = @"
                         UPDATE DonDatPhong 
                         SET TrangThai = N'?ã duy?t', 
@@ -146,7 +151,12 @@ namespace QuanLyNhaTro.Forms
 
                     DatabaseHelper.ExecuteNonQuery(updateQuery, parameters);
 
-                    UIHelper.ShowSuccessMessage("?ã duy?t ??n ??t phòng!\n\nVui lòng liên h? v?i khách hàng qua email: " + txtEmail.Text);
+                    // C?p nh?t tr?ng thái phòng thành "?ã ??t"
+                    string updatePhongQuery = "UPDATE Phong SET TrangThai = N'?ã ??t' WHERE MaPhong = @MaPhong";
+                    SqlParameter[] phongParams = { new SqlParameter("@MaPhong", txtMaPhong.Text) };
+                    DatabaseHelper.ExecuteNonQuery(updatePhongQuery, phongParams);
+
+                    UIHelper.ShowSuccessMessage("?ã duy?t ??n ??t phòng!\n\nPhòng ?ã ???c chuy?n sang tr?ng thái '?ã ??t'.\nVui lòng liên h? v?i khách hàng qua email: " + txtEmail.Text);
                     LoadData();
                     ClearInputs();
                 }
@@ -167,30 +177,23 @@ namespace QuanLyNhaTro.Forms
                     return;
                 }
 
-                if (UIHelper.ShowConfirmMessage($"B?n có ch?c mu?n t? ch?i ??n ??t phòng này?\n\nKhách hàng: {txtHoTenKhach.Text}\nPhòng: {txtTenPhong.Text}"))
+                if (UIHelper.ShowConfirmMessage($"B?n có ch?c mu?n XÓA ??n ??t phòng này?\n\nKhách hàng: {txtHoTenKhach.Text}\nPhòng: {txtTenPhong.Text}\n\nL?u ý: ??n ??t s? b? xóa v?nh vi?n!"))
                 {
-                    string updateQuery = @"
-                        UPDATE DonDatPhong 
-                        SET TrangThai = N'T? ch?i', 
-                            NgayXuLy = GETDATE(), 
-                            NguoiXuLy = @NguoiXuLy
-                        WHERE MaDonDat = @MaDonDat";
+                    // Xóa ??n ??t phòng
+                    string deleteQuery = "DELETE FROM DonDatPhong WHERE MaDonDat = @MaDonDat";
 
-                    SqlParameter[] parameters = {
-                        new SqlParameter("@MaDonDat", txtMaDonDat.Text),
-                        new SqlParameter("@NguoiXuLy", CurrentUser.TenDangNhap)
-                    };
+                    SqlParameter[] parameters = { new SqlParameter("@MaDonDat", txtMaDonDat.Text) };
 
-                    DatabaseHelper.ExecuteNonQuery(updateQuery, parameters);
+                    DatabaseHelper.ExecuteNonQuery(deleteQuery, parameters);
 
-                    UIHelper.ShowSuccessMessage("?ã t? ch?i ??n ??t phòng!");
+                    UIHelper.ShowSuccessMessage("?ã xóa ??n ??t phòng!");
                     LoadData();
                     ClearInputs();
                 }
             }
             catch (Exception ex)
             {
-                UIHelper.ShowErrorMessage("L?i khi t? ch?i ??n: " + ex.Message);
+                UIHelper.ShowErrorMessage("L?i khi xóa ??n: " + ex.Message);
             }
         }
 
