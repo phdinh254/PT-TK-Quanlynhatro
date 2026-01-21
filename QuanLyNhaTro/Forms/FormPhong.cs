@@ -1,0 +1,572 @@
+using System;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.Windows.Forms;
+using QuanLyNhaTro.Data;
+using QuanLyNhaTro.Models;
+using QuanLyNhaTro.Helpers;
+
+namespace QuanLyNhaTro.Forms
+{
+    public partial class FormPhong : Form
+    {
+        private readonly (decimal gia, int dienTich) phongDon = (800000m, 22);
+        private readonly (decimal gia, int dienTich) phongDoi = (1300000m, 30);
+        private readonly (decimal gia, int dienTich) phongVip = (2000000m, 40);
+        private readonly (decimal gia, int dienTich) phongGiaDinh = (3500000m, 60);
+        private bool _suppressLoaiPhongChange;
+
+        public FormPhong()
+        {
+            InitializeComponent();
+            InitializeUI();
+            LoadData();
+            HookEvents();
+        }
+
+        private void HookEvents()
+        {
+            cmbLoaiPhong.SelectedIndexChanged += (_, __) => ApplyDefaultByLoaiPhong();
+        }
+
+        private void InitializeUI()
+        {
+            // Chuẩn hóa toàn bộ giao diện
+            UIHelper.StandardizeForm(this);
+            
+            // Style riêng cho các nút
+            UIHelper.StylePrimaryButton(btnThem);
+            UIHelper.StyleSecondaryButton(btnSua);
+            UIHelper.StyleDangerButton(btnXoa);
+            UIHelper.StyleButton(btnLamMoi, UIHelper.Colors.TextSecondary, UIHelper.Colors.White);
+            UIHelper.StyleButton(btnTimKiem, UIHelper.Colors.Primary, UIHelper.Colors.White);
+
+            // Phân quyền: User chỉ được xem
+            if (!FormMain.IsAdmin())
+            {
+                btnThem.Visible = false;
+                btnSua.Visible = false;
+                btnXoa.Visible = false;
+                txtMaPhong.ReadOnly = true;
+                txtTenPhong.ReadOnly = true;
+                txtGiaPhong.ReadOnly = true;
+                txtDienTich.ReadOnly = true;
+                txtMoTa.ReadOnly = true;
+                cmbTrangThai.Enabled = false;
+                cmbLoaiPhong.Enabled = false;
+                
+                // Hiện nút đặt phòng cho User
+                if (this.Controls.Find("btnDatPhong", true).Length > 0)
+                {
+                    Button btnDatPhong = (Button)this.Controls.Find("btnDatPhong", true)[0];
+                    btnDatPhong.Visible = true;
+                    UIHelper.StyleButton(btnDatPhong, UIHelper.Colors.Success, UIHelper.Colors.White);
+                }
+            }
+            else
+            {
+                txtGiaPhong.ReadOnly = false;
+                txtDienTich.ReadOnly = false;
+                
+                // Ẩn nút đặt phòng cho Admin
+                if (this.Controls.Find("btnDatPhong", true).Length > 0)
+                {
+                    Button btnDatPhong = (Button)this.Controls.Find("btnDatPhong", true)[0];
+                    btnDatPhong.Visible = false;
+                }
+            }
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                string query = "SELECT * FROM Phong ORDER BY MaPhong";
+                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+                dgvPhong.DataSource = dt;
+                
+                // Đặt tên cột hiển thị
+                if (dgvPhong.Columns.Count > 0)
+                {
+                    dgvPhong.Columns["MaPhong"].HeaderText = "Mã phòng";
+                    dgvPhong.Columns["TenPhong"].HeaderText = "Tên phòng";
+                    dgvPhong.Columns["GiaPhong"].HeaderText = "Giá phòng";
+                    dgvPhong.Columns["TrangThai"].HeaderText = "Trạng thái";
+                    dgvPhong.Columns["LoaiPhong"].HeaderText = "Loại phòng";
+                    dgvPhong.Columns["DienTich"].HeaderText = "Diện tích (m²)";
+                    dgvPhong.Columns["MoTa"].HeaderText = "Mô tả";
+                    
+                    // Format giá phòng
+                    dgvPhong.Columns["GiaPhong"].DefaultCellStyle.Format = "N0";
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tải dữ liệu: " + ex.Message);
+            }
+        }
+
+        private void ClearInputs()
+        {
+            txtMaPhong.Clear();
+            txtTenPhong.Clear();
+            txtGiaPhong.Clear();
+            txtDienTich.Clear();
+            txtMoTa.Clear();
+            cmbTrangThai.SelectedIndex = -1;
+            cmbLoaiPhong.SelectedIndex = -1;
+        }
+
+        private void ApplyDefaultByLoaiPhong()
+        {
+            if (_suppressLoaiPhongChange)
+                return;
+            
+            var loai = cmbLoaiPhong.Text.Trim().ToLower();
+            (decimal gia, int dienTich) preset = loai switch
+            {
+                "phòng đơn" or "phong don" or "đơn" => phongDon,
+                "phòng đôi" or "phong doi" or "đôi" => phongDoi,
+                "phòng vip" or "phong vip" or "vip" => phongVip,
+                "phòng gia đình" or "phong gia dinh" or "gia đình" or "gia dinh" => phongGiaDinh,
+                _ => (0m, 0)
+            };
+
+            if (preset.gia > 0)
+            {
+                txtGiaPhong.Text = preset.gia.ToString("N0").Replace(",", "");
+            }
+
+            if (preset.dienTich > 0)
+            {
+                txtDienTich.Text = preset.dienTich.ToString();
+            }
+            
+            GenerateMaTenPhong(loai);
+        }
+
+        private (int start, int end) GetLoaiPhongRange(string loai)
+        {
+            return loai switch
+            {
+                "phòng đơn" or "phong don" or "đơn" => (1, 99),
+                "phòng đôi" or "phong doi" or "đôi" => (101, 199),
+                "phòng vip" or "phong vip" or "vip" => (201, 299),
+                "phòng gia đình" or "phong gia dinh" or "gia đình" or "gia dinh" => (301, 399),
+                _ => (0, 0)
+            };
+        }
+
+        private void GenerateMaTenPhong(string loai)
+        {
+            var range = GetLoaiPhongRange(loai);
+            if (range.start == 0)
+                return;
+
+            string query = @"SELECT ISNULL(MAX(CAST(SUBSTRING(MaPhong, 2, 10) AS INT)), @Start - 1)
+                             FROM Phong
+                             WHERE MaPhong LIKE 'P%' AND CAST(SUBSTRING(MaPhong, 2, 10) AS INT) BETWEEN @Start AND @End";
+
+            SqlParameter[] p =
+            {
+                new("@Start", range.start),
+                new("@End", range.end)
+            };
+
+            int currentMax = Convert.ToInt32(DatabaseHelper.ExecuteScalar(query, p));
+            int next = Math.Max(range.start, currentMax + 1);
+
+            txtMaPhong.Text = $"P{next:D3}";
+            txtTenPhong.Text = $"{next:D3}";
+        }
+
+        private bool ValidateInput()
+        {
+            if (string.IsNullOrWhiteSpace(txtMaPhong.Text))
+            {
+                UIHelper.ShowWarningMessage("Vui lòng nhập mã phòng!");
+                txtMaPhong.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtTenPhong.Text))
+            {
+                UIHelper.ShowWarningMessage("Vui lòng nhập tên phòng!");
+                txtTenPhong.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtGiaPhong.Text, out decimal giaPhong) || giaPhong <= 0)
+            {
+                UIHelper.ShowWarningMessage("Vui lòng nhập giá phòng hợp lệ!");
+                txtGiaPhong.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(txtDienTich.Text, out int dienTich) || dienTich <= 0)
+            {
+                UIHelper.ShowWarningMessage("Vui lòng nhập diện tích hợp lệ!");
+                txtDienTich.Focus();
+                return false;
+            }
+ 
+            return true;
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!ValidateInput())
+                    return;
+
+                // Kiểm tra mã phòng đã tồn tại chưa
+                string checkQuery = "SELECT COUNT(*) FROM Phong WHERE MaPhong = @MaPhong";
+                SqlParameter[] checkParams = { new SqlParameter("@MaPhong", txtMaPhong.Text) };
+                int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkQuery, checkParams));
+                
+                if (count > 0)
+                {
+                    UIHelper.ShowWarningMessage("Mã phòng đã tồn tại!");
+                    txtMaPhong.Focus();
+                    return;
+                }
+
+                string query = @"INSERT INTO Phong (MaPhong, TenPhong, GiaPhong, TrangThai, LoaiPhong, DienTich, MoTa) 
+                                VALUES (@MaPhong, @TenPhong, @GiaPhong, @TrangThai, @LoaiPhong, @DienTich, @MoTa)";
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@MaPhong", txtMaPhong.Text),
+                    new SqlParameter("@TenPhong", txtTenPhong.Text),
+                    new SqlParameter("@GiaPhong", decimal.Parse(txtGiaPhong.Text)),
+                    new SqlParameter("@TrangThai", cmbTrangThai.Text),
+                    new SqlParameter("@LoaiPhong", cmbLoaiPhong.Text),
+                    new SqlParameter("@DienTich", int.Parse(txtDienTich.Text)),
+                    new SqlParameter("@MoTa", txtMoTa.Text)
+                };
+
+                int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                if (result > 0)
+                {
+                    UIHelper.ShowSuccessMessage("Thêm phòng thành công!");
+                    LoadData();
+                    ClearInputs();
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi thêm phòng: " + ex.Message);
+            }
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtMaPhong.Text))
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn phòng cần sửa!");
+                    return;
+                }
+
+                if (!ValidateInput())
+                    return;
+
+                string query = @"UPDATE Phong SET TenPhong = @TenPhong, GiaPhong = @GiaPhong, TrangThai = @TrangThai, 
+                                LoaiPhong = @LoaiPhong, DienTich = @DienTich, MoTa = @MoTa 
+                                WHERE MaPhong = @MaPhong";
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@MaPhong", txtMaPhong.Text),
+                    new SqlParameter("@TenPhong", txtTenPhong.Text),
+                    new SqlParameter("@GiaPhong", decimal.Parse(txtGiaPhong.Text)),
+                    new SqlParameter("@TrangThai", cmbTrangThai.Text),
+                    new SqlParameter("@LoaiPhong", cmbLoaiPhong.Text),
+                    new SqlParameter("@DienTich", int.Parse(txtDienTich.Text)),
+                    new SqlParameter("@MoTa", txtMoTa.Text)
+                };
+
+                int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                if (result > 0)
+                {
+                    UIHelper.ShowSuccessMessage("Cập nhật phòng thành công!");
+                    LoadData();
+                    ClearInputs();
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi cập nhật phòng: " + ex.Message);
+            }
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtMaPhong.Text))
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn phòng cần xóa!");
+                    return;
+                }
+
+                if (UIHelper.ShowConfirmMessage("Bạn có chắc chắn muốn xóa phòng này?"))
+                {
+                    string query = "DELETE FROM Phong WHERE MaPhong = @MaPhong";
+                    SqlParameter[] parameters = { new SqlParameter("@MaPhong", txtMaPhong.Text) };
+
+                    int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                    if (result > 0)
+                    {
+                        UIHelper.ShowSuccessMessage("Xóa phòng thành công!");
+                        LoadData();
+                        ClearInputs();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi xóa phòng: " + ex.Message);
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string searchText = txtTimKiem.Text.Trim();
+                if (string.IsNullOrEmpty(searchText))
+                {
+                    LoadData();
+                    return;
+                }
+
+                string query = @"SELECT * FROM Phong WHERE 
+                                MaPhong LIKE @Search OR TenPhong LIKE @Search OR 
+                                TrangThai LIKE @Search OR LoaiPhong LIKE @Search";
+
+                SqlParameter[] parameters = { new SqlParameter("@Search", "%" + searchText + "%") };
+                DataTable dt = DatabaseHelper.ExecuteQuery(query, parameters);
+                dgvPhong.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tìm kiếm: " + ex.Message);
+            }
+        }
+
+        private void dgvPhong_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                _suppressLoaiPhongChange = true;
+                DataGridViewRow row = dgvPhong.Rows[e.RowIndex];
+                txtMaPhong.Text = row.Cells["MaPhong"].Value?.ToString();
+                txtTenPhong.Text = row.Cells["TenPhong"].Value?.ToString();
+                txtGiaPhong.Text = row.Cells["GiaPhong"].Value?.ToString();
+                cmbTrangThai.Text = row.Cells["TrangThai"].Value?.ToString();
+                cmbLoaiPhong.Text = row.Cells["LoaiPhong"].Value?.ToString();
+                txtDienTich.Text = row.Cells["DienTich"].Value?.ToString();
+                txtMoTa.Text = row.Cells["MoTa"].Value?.ToString();
+                _suppressLoaiPhongChange = false;
+            }
+        }
+
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            ClearInputs();
+            LoadData();
+        }
+
+        private void btnDatPhong_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtMaPhong.Text))
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn phòng cần đặt!");
+                    return;
+                }
+
+                // Kiểm tra thông tin cá nhân đã đầy đủ chưa
+                if (!CheckUserInfoComplete())
+                {
+                    if (UIHelper.ShowConfirmMessage("Bạn cần cập nhật đầy đủ thông tin cá nhân trước khi đặt phòng!\n\nBạn có muốn cập nhật ngay không?"))
+                    {
+                        FormThongTinCaNhan form = new FormThongTinCaNhan(CurrentUser.TenDangNhap);
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            // Kiểm tra lại sau khi cập nhật
+                            if (!CheckUserInfoComplete())
+                            {
+                                UIHelper.ShowWarningMessage("Vui lòng điền đầy đủ: Email, Số điện thoại, CMND/CCCD, Địa chỉ, Ngày sinh!");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
+                // Kiểm tra trạng thái phòng
+                string trangThai = cmbTrangThai.Text;
+                if (trangThai != "Trống")
+                {
+                    UIHelper.ShowWarningMessage("Phòng này không còn trống!");
+                    return;
+                }
+
+                // Kiểm tra xem user đã đặt phòng này chưa
+                string checkQuery = @"SELECT COUNT(*) FROM DonDatPhong 
+                                     WHERE TenDangNhap = @TenDangNhap 
+                                     AND MaPhong = @MaPhong 
+                                     AND TrangThai = N'Chờ xử lý'";
+                SqlParameter[] checkParams = {
+                    new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap),
+                    new SqlParameter("@MaPhong", txtMaPhong.Text)
+                };
+                int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkQuery, checkParams));
+                
+                if (count > 0)
+                {
+                    UIHelper.ShowWarningMessage("Bạn đã đặt phòng này rồi. Vui lòng chờ admin liên hệ!");
+                    return;
+                }
+
+                if (UIHelper.ShowConfirmMessage($"Bạn có chắc muốn đặt phòng {txtTenPhong.Text}?"))
+                {
+                    // Tạo mã đơn đặt
+                    string maDonDat = "DD" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                    // Thêm đơn đặt phòng
+                    string insertQuery = @"
+                        INSERT INTO DonDatPhong (MaDonDat, MaPhong, TenDangNhap, NgayDat, TrangThai, GhiChu)
+                        VALUES (@MaDonDat, @MaPhong, @TenDangNhap, GETDATE(), N'Chờ xử lý', @GhiChu)";
+
+                    SqlParameter[] insertParams = {
+                        new SqlParameter("@MaDonDat", maDonDat),
+                        new SqlParameter("@MaPhong", txtMaPhong.Text),
+                        new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap),
+                        new SqlParameter("@GhiChu", $"Đặt phòng {txtTenPhong.Text} - {cmbLoaiPhong.Text}")
+                    };
+
+                    DatabaseHelper.ExecuteNonQuery(insertQuery, insertParams);
+
+                    // Tự động tạo khách hàng nếu chưa có
+                    CreateCustomerFromUserInfo();
+
+                    UIHelper.ShowSuccessMessage("Đặt phòng thành công!\n\nAdmin sẽ liên hệ với bạn sớm nhất có thể.");
+                    ClearInputs();
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi đặt phòng: " + ex.Message);
+            }
+        }
+
+        private bool CheckUserInfoComplete()
+        {
+            try
+            {
+                string query = @"
+                    SELECT tk.Email, kh.SoDienThoai, kh.CMND, kh.DiaChi, kh.NgaySinh
+                    FROM TaiKhoan tk
+                    LEFT JOIN KhachHang kh ON tk.HoTen = kh.TenKhach
+                    WHERE tk.TenDangNhap = @TenDangNhap";
+
+                SqlParameter[] parameters = { new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap) };
+                DataTable dt = DatabaseHelper.ExecuteQuery(query, parameters);
+
+                if (dt.Rows.Count == 0)
+                    return false;
+
+                DataRow row = dt.Rows[0];
+
+                // Kiểm tra các trường bắt buộc
+                if (string.IsNullOrWhiteSpace(row["Email"]?.ToString()))
+                    return false;
+
+                if (string.IsNullOrWhiteSpace(row["SoDienThoai"]?.ToString()))
+                    return false;
+
+                if (string.IsNullOrWhiteSpace(row["CMND"]?.ToString()))
+                    return false;
+
+                if (string.IsNullOrWhiteSpace(row["DiaChi"]?.ToString()))
+                    return false;
+
+                if (row["NgaySinh"] == DBNull.Value)
+                    return false;
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void CreateCustomerFromUserInfo()
+        {
+            try
+            {
+                // Kiểm tra xem đã tồn tại khách hàng chưa
+                string checkQuery = @"
+                    SELECT COUNT(*) FROM KhachHang kh
+                    JOIN TaiKhoan tk ON kh.TenKhach = tk.HoTen
+                    WHERE tk.TenDangNhap = @TenDangNhap";
+
+                SqlParameter[] checkParams = { new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap) };
+                int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkQuery, checkParams));
+
+                if (count > 0)
+                    return; // Đã tồn tại
+
+                // Lấy thông tin từ tài khoản
+                string getInfoQuery = @"
+                    SELECT tk.HoTen, tk.Email, kh.SoDienThoai, kh.CMND, kh.DiaChi, kh.NgaySinh, kh.GioiTinh
+                    FROM TaiKhoan tk
+                    LEFT JOIN KhachHang kh ON tk.HoTen = kh.TenKhach
+                    WHERE tk.TenDangNhap = @TenDangNhap";
+
+                SqlParameter[] getInfoParams = { new SqlParameter("@TenDangNhap", CurrentUser.TenDangNhap) };
+                DataTable dt = DatabaseHelper.ExecuteQuery(getInfoQuery, getInfoParams);
+
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow row = dt.Rows[0];
+                    string maKhach = "KH" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                    string insertQuery = @"
+                        INSERT INTO KhachHang (MaKhach, TenKhach, SoDienThoai, CMND, DiaChi, NgaySinh, GioiTinh, GhiChu)
+                        VALUES (@MaKhach, @TenKhach, @SoDienThoai, @CMND, @DiaChi, @NgaySinh, @GioiTinh, @GhiChu)";
+
+                    SqlParameter[] insertParams = {
+                        new SqlParameter("@MaKhach", maKhach),
+                        new SqlParameter("@TenKhach", row["HoTen"].ToString()),
+                        new SqlParameter("@SoDienThoai", row["SoDienThoai"]?.ToString() ?? ""),
+                        new SqlParameter("@CMND", row["CMND"]?.ToString() ?? ""),
+                        new SqlParameter("@DiaChi", row["DiaChi"]?.ToString() ?? ""),
+                        new SqlParameter("@NgaySinh", row["NgaySinh"] != DBNull.Value ? row["NgaySinh"] : (object)DBNull.Value),
+                        new SqlParameter("@GioiTinh", row["GioiTinh"]?.ToString() ?? ""),
+                        new SqlParameter("@GhiChu", $"Tài khoản: {CurrentUser.TenDangNhap}")
+                    };
+
+                    DatabaseHelper.ExecuteNonQuery(insertQuery, insertParams);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error nhưng không ngăn đặt phòng
+                System.Diagnostics.Debug.WriteLine("Lỗi khi tạo khách hàng: " + ex.Message);
+            }
+        }
+    }
+}

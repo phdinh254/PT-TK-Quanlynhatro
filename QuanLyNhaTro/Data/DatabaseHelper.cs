@@ -1,0 +1,361 @@
+using System;
+using System.Configuration;
+using System.Data;
+using Microsoft.Data.SqlClient;
+
+namespace QuanLyNhaTro.Data
+{
+    public class DatabaseHelper
+    {
+        private static string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+        public static SqlConnection GetConnection()
+        {
+            return new SqlConnection(connectionString);
+        }
+
+        public static DataTable ExecuteQuery(string query, SqlParameter[] parameters = null)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                using (SqlConnection connection = GetConnection())
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        if (parameters != null)
+                        {
+                            command.Parameters.AddRange(parameters);
+                        }
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            adapter.Fill(dataTable);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi thực thi truy vấn: " + ex.Message);
+            }
+            return dataTable;
+        }
+
+        public static int ExecuteNonQuery(string query, SqlParameter[] parameters = null)
+        {
+            int result = 0;
+            try
+            {
+                using (SqlConnection connection = GetConnection())
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        if (parameters != null)
+                        {
+                            command.Parameters.AddRange(parameters);
+                        }
+                        result = command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi thực thi câu lệnh: " + ex.Message);
+            }
+            return result;
+        }
+
+        public static object ExecuteScalar(string query, SqlParameter[] parameters = null)
+        {
+            object result = null;
+            try
+            {
+                using (SqlConnection connection = GetConnection())
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        if (parameters != null)
+                        {
+                            command.Parameters.AddRange(parameters);
+                        }
+                        result = command.ExecuteScalar();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi thực thi truy vấn scalar: " + ex.Message);
+            }
+            return result;
+        }
+
+        public static bool TestConnection()
+        {
+            try
+            {
+                using (SqlConnection connection = GetConnection())
+                {
+                    connection.Open();
+                    // Test với một query đơn giản
+                    using (SqlCommand command = new SqlCommand("SELECT 1", connection))
+                    {
+                        command.ExecuteScalar();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Test connection failed: " + ex.Message);
+                return false;
+            }
+        }
+
+        public static void CreateDatabase()
+        {
+            try
+            {
+                // Kết nối đến master database để tạo database TTCS
+                string masterConnectionString = connectionString.Replace("Database=TTCS;", "Database=master;");
+                
+                using (SqlConnection connection = new SqlConnection(masterConnectionString))
+                {
+                    connection.Open();
+                    
+                    // Kiểm tra xem database đã tồn tại chưa
+                    string checkDbQuery = "SELECT COUNT(*) FROM sys.databases WHERE name = 'TTCS' ";
+                    using (SqlCommand command = new SqlCommand(checkDbQuery, connection))
+                    {
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        if (count == 0)
+                        {
+                            // Tạo database mới
+                            string createDbQuery = "CREATE DATABASE TTCS";
+                            using (SqlCommand createCommand = new SqlCommand(createDbQuery, connection))
+                            {
+                                createCommand.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tạo cơ sở dữ liệu: " + ex.Message);
+            }
+        }
+
+        public static void InitializeTables()
+        {
+            try
+            {
+                using (SqlConnection connection = GetConnection())
+                {
+                    connection.Open();
+
+                    // Tạo bảng TaiKhoan
+                    string createTaiKhoanTable = @"
+                        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TaiKhoan' AND xtype='U')
+                        CREATE TABLE TaiKhoan (
+                            TenDangNhap NVARCHAR(50) PRIMARY KEY,
+                            MatKhau NVARCHAR(100) NOT NULL,
+                            Salt NVARCHAR(100),
+                            HoTen NVARCHAR(100) NOT NULL,
+                            Email NVARCHAR(100),
+                            VaiTro NVARCHAR(20) DEFAULT 'User',
+                            NgayTao DATETIME DEFAULT GETDATE(),
+                            TrangThai BIT DEFAULT 1,
+                            IsVerified BIT DEFAULT 0,
+                            VerificationToken NVARCHAR(100) NULL,
+                            ResetPasswordToken NVARCHAR(100) NULL,
+                            ResetPasswordExpiry DATETIME NULL
+                        )";
+                    
+                    // Tạo bảng KhachHang
+                    string createKhachHangTable = @"
+                        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='KhachHang' AND xtype='U')
+                        CREATE TABLE KhachHang (
+                            MaKhach NVARCHAR(20) PRIMARY KEY,
+                            TenKhach NVARCHAR(100) NOT NULL,
+                            SoDienThoai NVARCHAR(15),
+                            CMND NVARCHAR(20),
+                            DiaChi NVARCHAR(200),
+                            NgaySinh DATE,
+                            GioiTinh NVARCHAR(10),
+                            GhiChu NVARCHAR(500)
+                        )";
+
+                    // Tạo bảng Phong
+                    string createPhongTable = @"
+                        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Phong' AND xtype='U')
+                        CREATE TABLE Phong (
+                            MaPhong NVARCHAR(20) PRIMARY KEY,
+                            TenPhong NVARCHAR(50) NOT NULL,
+                            GiaPhong DECIMAL(18,0) NOT NULL,
+                            TrangThai NVARCHAR(20) DEFAULT N'Trống',
+                            LoaiPhong NVARCHAR(50),
+                            DienTich INT,
+                            MoTa NVARCHAR(500)
+                        )";
+
+                    // Tạo bảng HopDong
+                    string createHopDongTable = @"
+                        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='HopDong' AND xtype='U')
+                        CREATE TABLE HopDong (
+                            MaHopDong NVARCHAR(20) PRIMARY KEY,
+                            MaKhach NVARCHAR(20) NOT NULL,
+                            MaPhong NVARCHAR(20) NOT NULL,
+                            NgayBatDau DATE NOT NULL,
+                            NgayKetThuc DATE NOT NULL,
+                            TienCoc DECIMAL(18,0) DEFAULT 0,
+                            TrangThai NVARCHAR(20) DEFAULT N'Đang hiệu lực',
+                            GhiChu NVARCHAR(500),
+                            FOREIGN KEY (MaKhach) REFERENCES KhachHang(MaKhach),
+                            FOREIGN KEY (MaPhong) REFERENCES Phong(MaPhong)
+                        )";
+
+                    // Tạo bảng HoaDon
+                    string createHoaDonTable = @"
+                        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='HoaDon' AND xtype='U')
+                        CREATE TABLE HoaDon (
+                            MaHoaDon NVARCHAR(20) PRIMARY KEY,
+                            MaHopDong NVARCHAR(20) NOT NULL,
+                            NgayTao DATE DEFAULT GETDATE(),
+                            ChiSoDienCu INT DEFAULT 0,
+                            ChiSoDienMoi INT DEFAULT 0,
+                            ChiSoNuocCu INT DEFAULT 0,
+                            ChiSoNuocMoi INT DEFAULT 0,
+                            TienPhong DECIMAL(18,0) DEFAULT 0,
+                            TienDien DECIMAL(18,0) DEFAULT 0,
+                            TienNuoc DECIMAL(18,0) DEFAULT 0,
+                            TienKhac DECIMAL(18,0) DEFAULT 0,
+                            TongTien DECIMAL(18,0) DEFAULT 0,
+                            TrangThai NVARCHAR(20) DEFAULT N'Chưa thanh toán',
+                            NgayThanhToan DATE NULL,
+                            GhiChu NVARCHAR(500),
+                            FOREIGN KEY (MaHopDong) REFERENCES HopDong(MaHopDong)
+                        )";
+                    // Sau khi đảm bảo bảng HoaDon tồn tại, bổ sung cột nếu thiếu
+                    string addMissingColumnsHoaDon = @"
+IF COL_LENGTH('HoaDon', 'ThangNam') IS NULL
+    ALTER TABLE HoaDon ADD ThangNam NVARCHAR(7) NULL;
+
+IF COL_LENGTH('HoaDon', 'DonGiaDien') IS NULL
+    ALTER TABLE HoaDon ADD DonGiaDien DECIMAL(18,0) NOT NULL CONSTRAINT DF_HoaDon_DonGiaDien DEFAULT 3500;
+
+IF COL_LENGTH('HoaDon', 'DonGiaNuoc') IS NULL
+    ALTER TABLE HoaDon ADD DonGiaNuoc DECIMAL(18,0) NOT NULL CONSTRAINT DF_HoaDon_DonGiaNuoc DEFAULT 25000;
+
+IF COL_LENGTH('HoaDon', 'TienDichVu') IS NULL
+    ALTER TABLE HoaDon ADD TienDichVu DECIMAL(18,0) NOT NULL CONSTRAINT DF_HoaDon_TienDichVu DEFAULT 0;
+";
+
+                    using (SqlCommand command = new SqlCommand(addMissingColumnsHoaDon, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    using (SqlCommand command = new SqlCommand(createTaiKhoanTable, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    using (SqlCommand command = new SqlCommand(createKhachHangTable, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    using (SqlCommand command = new SqlCommand(createPhongTable, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    using (SqlCommand command = new SqlCommand(createHopDongTable, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    using (SqlCommand command = new SqlCommand(createHoaDonTable, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Tạo bảng DonDatPhong
+                    string createDonDatPhongTable = @"
+                        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='DonDatPhong' AND xtype='U')
+                        CREATE TABLE DonDatPhong (
+                            MaDonDat NVARCHAR(50) PRIMARY KEY,
+                            MaPhong NVARCHAR(20) NOT NULL,
+                            TenDangNhap NVARCHAR(50) NOT NULL,
+                            NgayDat DATETIME DEFAULT GETDATE(),
+                            TrangThai NVARCHAR(50) DEFAULT N'Chờ xử lý',
+                            GhiChu NVARCHAR(500),
+                            NgayXuLy DATETIME NULL,
+                            NguoiXuLy NVARCHAR(50) NULL,
+                            FOREIGN KEY (MaPhong) REFERENCES Phong(MaPhong),
+                            FOREIGN KEY (TenDangNhap) REFERENCES TaiKhoan(TenDangNhap)
+                        )";
+
+                    using (SqlCommand command = new SqlCommand(createDonDatPhongTable, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Thêm cột Salt nếu bảng TaiKhoan đã tồn tại nhưng chưa có cột Salt
+                    string addSaltColumn = @"
+                        IF COL_LENGTH('TaiKhoan', 'Salt') IS NULL
+                            ALTER TABLE TaiKhoan ADD Salt NVARCHAR(100) NULL";
+
+                    using (SqlCommand command = new SqlCommand(addSaltColumn, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Thêm các cột mới vào TaiKhoan nếu chưa có
+                    string addVerificationColumns = @"
+                        IF COL_LENGTH('TaiKhoan', 'IsVerified') IS NULL
+                            ALTER TABLE TaiKhoan ADD IsVerified BIT NOT NULL DEFAULT 0;
+
+                        IF COL_LENGTH('TaiKhoan', 'VerificationToken') IS NULL
+                            ALTER TABLE TaiKhoan ADD VerificationToken NVARCHAR(100) NULL;
+
+                        IF COL_LENGTH('TaiKhoan', 'ResetPasswordToken') IS NULL
+                            ALTER TABLE TaiKhoan ADD ResetPasswordToken NVARCHAR(100) NULL;
+
+                        IF COL_LENGTH('TaiKhoan', 'ResetPasswordExpiry') IS NULL
+                            ALTER TABLE TaiKhoan ADD ResetPasswordExpiry DATETIME NULL";
+
+                    using (SqlCommand command = new SqlCommand(addVerificationColumns, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Thêm tài khoản admin mặc định nếu chưa có
+                    string checkAdmin = "SELECT COUNT(*) FROM TaiKhoan WHERE TenDangNhap = 'admin'";
+                    using (SqlCommand command = new SqlCommand(checkAdmin, connection))
+                    {
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        if (count == 0)
+                        {
+                            string insertAdmin = @"INSERT INTO TaiKhoan (TenDangNhap, MatKhau, HoTen, Email, VaiTro, TrangThai, IsVerified) 
+                                                  VALUES ('admin', '123456', N'Quản trị viên', 'admin@nhatro.com', 'Admin', 1, 1)";
+                            using (SqlCommand insertCommand = new SqlCommand(insertAdmin, connection))
+                            {
+                                insertCommand.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                    // Cập nhật tất cả tài khoản hiện tại là đã verified
+                    string updateVerified = "UPDATE TaiKhoan SET IsVerified = 1 WHERE IsVerified = 0";
+                    using (SqlCommand command = new SqlCommand(updateVerified, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi khởi tạo bảng: " + ex.Message);
+            }
+        }
+    }
+}
