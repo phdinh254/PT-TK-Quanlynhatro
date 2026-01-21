@@ -22,8 +22,11 @@ namespace QuanLyNhaTro.Helpers
             public static readonly Color Black = Color.FromArgb(44, 62, 80);
             public static readonly Color TextPrimary = Color.FromArgb(44, 62, 80);
             public static readonly Color TextSecondary = Color.FromArgb(127, 140, 141);
-            public static readonly Color Background = Color.FromArgb(236, 240, 241);
-            public static readonly Color CardBackground = Color.White;
+            
+            // Màu nền mới - màu xám nhạt thay vì trắng
+            public static readonly Color Background = Color.FromArgb(248, 249, 250);  // Xám rất nhạt
+            public static readonly Color CardBackground = Color.FromArgb(240, 242, 245); // Trắng cho card
+            public static readonly Color FormBackground = Color.FromArgb(240, 242, 245); // Xám nhạt cho form
         }
 
         // Định nghĩa font chuẩn - Times New Roman cho toàn bộ ứng dụng
@@ -70,7 +73,7 @@ namespace QuanLyNhaTro.Helpers
 
         public static void ApplyModernStyle(Form form)
         {
-            form.BackColor = Colors.Background;
+            form.BackColor = Colors.FormBackground; // Sử dụng màu nền form mới
             form.Font = Fonts.Default;
             
             // Chuẩn hóa DPI scaling cho tất cả form

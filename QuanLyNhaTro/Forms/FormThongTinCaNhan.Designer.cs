@@ -41,7 +41,7 @@
             // lblTitle
             // 
             lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            lblTitle.Font = UIHelper.Fonts.Title;
+            lblTitle.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold);
             lblTitle.ForeColor = System.Drawing.Color.FromArgb(41, 128, 185);
             lblTitle.Location = new System.Drawing.Point(0, 0);
             lblTitle.Name = "lblTitle";
@@ -52,7 +52,7 @@
             // 
             // panelMain
             // 
-            panelMain.BackColor = System.Drawing.Color.White;
+            panelMain.BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             panelMain.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             panelMain.Controls.Add(btnDong);
             panelMain.Controls.Add(btnCapNhat);
@@ -82,7 +82,7 @@
             // 
             btnDong.BackColor = System.Drawing.Color.FromArgb(255, 128, 128);
             btnDong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnDong.Font = UIHelper.Fonts.Button;
+            btnDong.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             btnDong.ForeColor = System.Drawing.Color.White;
             btnDong.Location = new System.Drawing.Point(389, 533);
             btnDong.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -97,7 +97,7 @@
             // 
             btnCapNhat.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
             btnCapNhat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnCapNhat.Font = UIHelper.Fonts.Button;
+            btnCapNhat.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             btnCapNhat.ForeColor = System.Drawing.Color.White;
             btnCapNhat.Location = new System.Drawing.Point(183, 533);
             btnCapNhat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -111,7 +111,7 @@
             // cmbGioiTinh
             // 
             cmbGioiTinh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            cmbGioiTinh.Font = UIHelper.Fonts.Default;
+            cmbGioiTinh.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             cmbGioiTinh.FormattingEnabled = true;
             cmbGioiTinh.Items.AddRange(new object[] { "Nam", "N?", "Khác" });
             cmbGioiTinh.Location = new System.Drawing.Point(183, 449);
@@ -123,7 +123,7 @@
             // lblGioiTinh
             // 
             lblGioiTinh.AutoSize = true;
-            lblGioiTinh.Font = UIHelper.Fonts.Default;
+            lblGioiTinh.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblGioiTinh.Location = new System.Drawing.Point(23, 453);
             lblGioiTinh.Name = "lblGioiTinh";
             lblGioiTinh.Size = new System.Drawing.Size(75, 19);
@@ -132,7 +132,7 @@
             // 
             // dtpNgaySinh
             // 
-            dtpNgaySinh.Font = UIHelper.Fonts.Default;
+            dtpNgaySinh.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             dtpNgaySinh.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             dtpNgaySinh.Location = new System.Drawing.Point(183, 396);
             dtpNgaySinh.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -143,7 +143,7 @@
             // lblNgaySinh
             // 
             lblNgaySinh.AutoSize = true;
-            lblNgaySinh.Font = UIHelper.Fonts.Default;
+            lblNgaySinh.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblNgaySinh.Location = new System.Drawing.Point(23, 400);
             lblNgaySinh.Name = "lblNgaySinh";
             lblNgaySinh.Size = new System.Drawing.Size(81, 19);
@@ -152,7 +152,7 @@
             // 
             // txtDiaChi
             // 
-            txtDiaChi.Font = UIHelper.Fonts.Default;
+            txtDiaChi.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtDiaChi.Location = new System.Drawing.Point(183, 289);
             txtDiaChi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtDiaChi.Multiline = true;
@@ -163,7 +163,7 @@
             // lblDiaChi
             // 
             lblDiaChi.AutoSize = true;
-            lblDiaChi.Font = UIHelper.Fonts.Default;
+            lblDiaChi.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblDiaChi.Location = new System.Drawing.Point(23, 293);
             lblDiaChi.Name = "lblDiaChi";
             lblDiaChi.Size = new System.Drawing.Size(63, 19);
@@ -172,7 +172,7 @@
             // 
             // txtCMND
             // 
-            txtCMND.Font = UIHelper.Fonts.Default;
+            txtCMND.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtCMND.Location = new System.Drawing.Point(183, 236);
             txtCMND.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtCMND.Name = "txtCMND";
@@ -182,7 +182,7 @@
             // lblCMND
             // 
             lblCMND.AutoSize = true;
-            lblCMND.Font = UIHelper.Fonts.Default;
+            lblCMND.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblCMND.Location = new System.Drawing.Point(23, 240);
             lblCMND.Name = "lblCMND";
             lblCMND.Size = new System.Drawing.Size(114, 19);
@@ -191,7 +191,7 @@
             // 
             // txtSoDienThoai
             // 
-            txtSoDienThoai.Font = UIHelper.Fonts.Default;
+            txtSoDienThoai.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtSoDienThoai.Location = new System.Drawing.Point(183, 183);
             txtSoDienThoai.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtSoDienThoai.Name = "txtSoDienThoai";
@@ -201,7 +201,7 @@
             // lblSoDienThoai
             // 
             lblSoDienThoai.AutoSize = true;
-            lblSoDienThoai.Font = UIHelper.Fonts.Default;
+            lblSoDienThoai.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblSoDienThoai.Location = new System.Drawing.Point(23, 187);
             lblSoDienThoai.Name = "lblSoDienThoai";
             lblSoDienThoai.Size = new System.Drawing.Size(99, 19);
@@ -210,7 +210,7 @@
             // 
             // txtEmail
             // 
-            txtEmail.Font = UIHelper.Fonts.Default;
+            txtEmail.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtEmail.Location = new System.Drawing.Point(183, 129);
             txtEmail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtEmail.Name = "txtEmail";
@@ -220,7 +220,7 @@
             // lblEmail
             // 
             lblEmail.AutoSize = true;
-            lblEmail.Font = UIHelper.Fonts.Default;
+            lblEmail.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblEmail.Location = new System.Drawing.Point(23, 133);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new System.Drawing.Size(54, 19);
@@ -229,7 +229,7 @@
             // 
             // txtHoTen
             // 
-            txtHoTen.Font = UIHelper.Fonts.Default;
+            txtHoTen.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtHoTen.Location = new System.Drawing.Point(183, 76);
             txtHoTen.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtHoTen.Name = "txtHoTen";
@@ -239,7 +239,7 @@
             // lblHoTen
             // 
             lblHoTen.AutoSize = true;
-            lblHoTen.Font = UIHelper.Fonts.Default;
+            lblHoTen.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblHoTen.Location = new System.Drawing.Point(23, 80);
             lblHoTen.Name = "lblHoTen";
             lblHoTen.Size = new System.Drawing.Size(60, 19);
@@ -248,7 +248,7 @@
             // 
             // txtTenDangNhap
             // 
-            txtTenDangNhap.Font = UIHelper.Fonts.Default;
+            txtTenDangNhap.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtTenDangNhap.Location = new System.Drawing.Point(183, 23);
             txtTenDangNhap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtTenDangNhap.Name = "txtTenDangNhap";
@@ -258,7 +258,7 @@
             // lblTenDangNhap
             // 
             lblTenDangNhap.AutoSize = true;
-            lblTenDangNhap.Font = UIHelper.Fonts.Default;
+            lblTenDangNhap.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblTenDangNhap.Location = new System.Drawing.Point(23, 27);
             lblTenDangNhap.Name = "lblTenDangNhap";
             lblTenDangNhap.Size = new System.Drawing.Size(110, 19);
@@ -269,7 +269,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             ClientSize = new System.Drawing.Size(629, 880);
             Controls.Add(panelMain);
             Controls.Add(lblTitle);
@@ -307,4 +307,7 @@
         private System.Windows.Forms.Button btnDong;
     }
 }
+
+
+
 

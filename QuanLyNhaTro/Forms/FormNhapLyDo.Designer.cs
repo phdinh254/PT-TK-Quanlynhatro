@@ -26,7 +26,7 @@
             // lblTitle
             // 
             lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            lblTitle.Font = UIHelper.Fonts.TitleSmall;
+            lblTitle.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold);
             lblTitle.ForeColor = System.Drawing.Color.FromArgb(231, 76, 60);
             lblTitle.Location = new System.Drawing.Point(0, 0);
             lblTitle.Name = "lblTitle";
@@ -38,7 +38,7 @@
             // lblLyDo
             // 
             lblLyDo.AutoSize = true;
-            lblLyDo.Font = UIHelper.Fonts.Default;
+            lblLyDo.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblLyDo.Location = new System.Drawing.Point(20, 70);
             lblLyDo.Name = "lblLyDo";
             lblLyDo.Size = new System.Drawing.Size(54, 19);
@@ -47,7 +47,7 @@
             // 
             // txtLyDo
             // 
-            txtLyDo.Font = UIHelper.Fonts.Default;
+            txtLyDo.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtLyDo.Location = new System.Drawing.Point(20, 100);
             txtLyDo.Multiline = true;
             txtLyDo.Name = "txtLyDo";
@@ -60,7 +60,7 @@
             // 
             btnXacNhan.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
             btnXacNhan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnXacNhan.Font = UIHelper.Fonts.Button;
+            btnXacNhan.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             btnXacNhan.ForeColor = System.Drawing.Color.White;
             btnXacNhan.Location = new System.Drawing.Point(250, 280);
             btnXacNhan.Name = "btnXacNhan";
@@ -74,7 +74,7 @@
             // 
             btnHuy.BackColor = System.Drawing.Color.FromArgb(149, 165, 166);
             btnHuy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnHuy.Font = UIHelper.Fonts.Button;
+            btnHuy.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             btnHuy.ForeColor = System.Drawing.Color.White;
             btnHuy.Location = new System.Drawing.Point(364, 280);
             btnHuy.Name = "btnHuy";
@@ -98,7 +98,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             ClientSize = new System.Drawing.Size(484, 331);
             Controls.Add(lblGhiChu);
             Controls.Add(btnHuy);
@@ -125,3 +125,5 @@
         private System.Windows.Forms.Label lblGhiChu;
     }
 }
+
+

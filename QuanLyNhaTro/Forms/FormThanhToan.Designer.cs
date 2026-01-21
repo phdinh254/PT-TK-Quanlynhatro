@@ -37,7 +37,7 @@ namespace QuanLyNhaTro.Forms
             // lblTitle
             // 
             lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            lblTitle.Font = UIHelper.Fonts.TitleSmall;
+            lblTitle.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold);
             lblTitle.ForeColor = System.Drawing.Color.FromArgb(41, 128, 185);
             lblTitle.Location = new System.Drawing.Point(0, 0);
             lblTitle.Name = "lblTitle";
@@ -105,7 +105,7 @@ namespace QuanLyNhaTro.Forms
             // lblMaHoaDonValue
             // 
             lblMaHoaDonValue.AutoSize = true;
-            lblMaHoaDonValue.Font = UIHelper.Fonts.LabelBold;
+            lblMaHoaDonValue.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             lblMaHoaDonValue.Location = new System.Drawing.Point(12, 48);
             lblMaHoaDonValue.Name = "lblMaHoaDonValue";
             lblMaHoaDonValue.Size = new System.Drawing.Size(0, 20);
@@ -114,7 +114,7 @@ namespace QuanLyNhaTro.Forms
             // lblSoTienValue
             // 
             lblSoTienValue.AutoSize = true;
-            lblSoTienValue.Font = UIHelper.Fonts.LabelBold;
+            lblSoTienValue.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             lblSoTienValue.ForeColor = System.Drawing.Color.FromArgb(231, 76, 60);
             lblSoTienValue.Location = new System.Drawing.Point(12, 88);
             lblSoTienValue.Name = "lblSoTienValue";
@@ -124,7 +124,7 @@ namespace QuanLyNhaTro.Forms
             // lblNoiDungValue
             // 
             lblNoiDungValue.AutoSize = true;
-            lblNoiDungValue.Font = UIHelper.Fonts.LabelBold;
+            lblNoiDungValue.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             lblNoiDungValue.Location = new System.Drawing.Point(12, 128);
             lblNoiDungValue.Name = "lblNoiDungValue";
             lblNoiDungValue.Size = new System.Drawing.Size(0, 20);
@@ -199,3 +199,4 @@ namespace QuanLyNhaTro.Forms
         private System.Windows.Forms.Button btnDong;
     }
 }
+

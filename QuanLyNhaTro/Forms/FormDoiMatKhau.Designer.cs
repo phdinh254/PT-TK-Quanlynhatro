@@ -32,7 +32,7 @@
             // lblTitle
             // 
             lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            lblTitle.Font = UIHelper.Fonts.Title;
+            lblTitle.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold);
             lblTitle.ForeColor = System.Drawing.Color.FromArgb(41, 128, 185);
             lblTitle.Location = new System.Drawing.Point(0, 0);
             lblTitle.Name = "lblTitle";
@@ -43,7 +43,7 @@
             // 
             // panelMain
             // 
-            panelMain.BackColor = System.Drawing.Color.White;
+            panelMain.BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             panelMain.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             panelMain.Controls.Add(lblNote);
             panelMain.Controls.Add(btnHuy);
@@ -74,7 +74,7 @@
             // 
             btnHuy.BackColor = System.Drawing.Color.IndianRed;
             btnHuy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnHuy.Font = UIHelper.Fonts.Button;
+            btnHuy.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             btnHuy.ForeColor = System.Drawing.Color.White;
             btnHuy.Location = new System.Drawing.Point(240, 353);
             btnHuy.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -89,7 +89,7 @@
             // 
             btnDoiMatKhau.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
             btnDoiMatKhau.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnDoiMatKhau.Font = UIHelper.Fonts.Button;
+            btnDoiMatKhau.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             btnDoiMatKhau.ForeColor = System.Drawing.Color.White;
             btnDoiMatKhau.Location = new System.Drawing.Point(23, 353);
             btnDoiMatKhau.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -102,7 +102,7 @@
             // 
             // txtXacNhanMatKhau
             // 
-            txtXacNhanMatKhau.Font = UIHelper.Fonts.Default;
+            txtXacNhanMatKhau.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtXacNhanMatKhau.Location = new System.Drawing.Point(23, 233);
             txtXacNhanMatKhau.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtXacNhanMatKhau.Name = "txtXacNhanMatKhau";
@@ -113,7 +113,7 @@
             // lblXacNhanMatKhau
             // 
             lblXacNhanMatKhau.AutoSize = true;
-            lblXacNhanMatKhau.Font = UIHelper.Fonts.Default;
+            lblXacNhanMatKhau.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblXacNhanMatKhau.Location = new System.Drawing.Point(23, 200);
             lblXacNhanMatKhau.Name = "lblXacNhanMatKhau";
             lblXacNhanMatKhau.Size = new System.Drawing.Size(140, 19);
@@ -122,7 +122,7 @@
             // 
             // txtMatKhauMoi
             // 
-            txtMatKhauMoi.Font = UIHelper.Fonts.Default;
+            txtMatKhauMoi.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtMatKhauMoi.Location = new System.Drawing.Point(23, 147);
             txtMatKhauMoi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtMatKhauMoi.Name = "txtMatKhauMoi";
@@ -133,7 +133,7 @@
             // lblMatKhauMoi
             // 
             lblMatKhauMoi.AutoSize = true;
-            lblMatKhauMoi.Font = UIHelper.Fonts.Default;
+            lblMatKhauMoi.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblMatKhauMoi.Location = new System.Drawing.Point(23, 113);
             lblMatKhauMoi.Name = "lblMatKhauMoi";
             lblMatKhauMoi.Size = new System.Drawing.Size(107, 19);
@@ -142,7 +142,7 @@
             // 
             // txtMatKhauCu
             // 
-            txtMatKhauCu.Font = UIHelper.Fonts.Default;
+            txtMatKhauCu.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtMatKhauCu.Location = new System.Drawing.Point(23, 60);
             txtMatKhauCu.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtMatKhauCu.Name = "txtMatKhauCu";
@@ -153,7 +153,7 @@
             // lblMatKhauCu
             // 
             lblMatKhauCu.AutoSize = true;
-            lblMatKhauCu.Font = UIHelper.Fonts.Default;
+            lblMatKhauCu.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblMatKhauCu.Location = new System.Drawing.Point(23, 27);
             lblMatKhauCu.Name = "lblMatKhauCu";
             lblMatKhauCu.Size = new System.Drawing.Size(96, 19);
@@ -164,7 +164,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             ClientSize = new System.Drawing.Size(514, 573);
             Controls.Add(panelMain);
             Controls.Add(lblTitle);
@@ -193,4 +193,7 @@
         private System.Windows.Forms.Button btnHuy;
     }
 }
+
+
+
 

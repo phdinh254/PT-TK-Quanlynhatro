@@ -50,6 +50,7 @@ namespace QuanLyNhaTro.Forms
             UIHelper.StyleButton(btnLamMoi, UIHelper.Colors.TextSecondary, UIHelper.Colors.White);
             UIHelper.StyleButton(btnTimKiem, UIHelper.Colors.Primary, UIHelper.Colors.White);
             UIHelper.StyleWarningButton(btnThanhToan);
+            UIHelper.StyleButton(btnXuatPdf, UIHelper.Colors.Primary, UIHelper.Colors.White);
 
             if (FormMain.IsAdmin())
             {
@@ -60,6 +61,7 @@ namespace QuanLyNhaTro.Forms
                 btnThem.Visible = false;
                 btnSua.Visible = false;
                 btnXoa.Visible = false;
+                btnXuatPdf.Visible = false; // Chỉ admin mới được xuất PDF
 
                 txtMaHoaDon.ReadOnly = true;
                 txtChiSoDienCu.ReadOnly = true;
@@ -624,6 +626,50 @@ namespace QuanLyNhaTro.Forms
             txtChiSoNuocMoi.Text = txtChiSoNuocCu.Text;
 
             CalculateTotal();
+        }
+
+        // ================= XUẤT PDF =================
+        private void btnXuatPdf_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMaHoaDon.Text))
+            {
+                UIHelper.ShowWarningMessage("Vui lòng chọn hóa đơn cần xuất PDF!");
+                return;
+            }
+
+            try
+            {
+                // Hiển thị dialog chọn nơi lưu file
+                using (SaveFileDialog saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                    saveDialog.Title = "Lưu hóa đơn PDF";
+                    saveDialog.FileName = $"HoaDon_{txtMaHoaDon.Text}_{DateTime.Now:yyyyMMdd}.pdf";
+
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Xuất PDF
+                        PdfExportHelper.ExportHoaDonToPdf(txtMaHoaDon.Text, saveDialog.FileName);
+                        
+                        UIHelper.ShowSuccessMessage("Xuất PDF thành công!");
+                        
+                        // Hỏi có muốn mở file không
+                        if (MessageBox.Show("Bạn có muốn mở file PDF vừa tạo không?", 
+                            "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                            {
+                                FileName = saveDialog.FileName,
+                                UseShellExecute = true
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi xuất PDF: " + ex.Message);
+            }
         }
     }
 }

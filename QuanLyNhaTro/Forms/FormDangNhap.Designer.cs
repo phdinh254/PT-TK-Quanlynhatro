@@ -58,7 +58,7 @@
             // 
             // pnlLogin
             // 
-            pnlLogin.BackColor = System.Drawing.Color.White;
+            pnlLogin.BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             pnlLogin.BackgroundImage = (System.Drawing.Image)resources.GetObject("pnlLogin.BackgroundImage");
             pnlLogin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             pnlLogin.Controls.Add(panel1);
@@ -101,7 +101,7 @@
             btnThoat.BackColor = System.Drawing.Color.FromArgb(192, 0, 0);
             btnThoat.FlatAppearance.BorderSize = 0;
             btnThoat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnThoat.Font = UIHelper.Fonts.Button;
+            btnThoat.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             btnThoat.ForeColor = System.Drawing.Color.White;
             btnThoat.Location = new System.Drawing.Point(651, 303);
             btnThoat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -117,7 +117,7 @@
             btnDangNhap.BackColor = System.Drawing.Color.FromArgb(52, 152, 219);
             btnDangNhap.FlatAppearance.BorderSize = 0;
             btnDangNhap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnDangNhap.Font = UIHelper.Fonts.Button;
+            btnDangNhap.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             btnDangNhap.ForeColor = System.Drawing.Color.White;
             btnDangNhap.Location = new System.Drawing.Point(491, 303);
             btnDangNhap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -132,7 +132,7 @@
             // 
             linkDangKy.AutoSize = true;
             linkDangKy.BackColor = System.Drawing.Color.Transparent;
-            linkDangKy.Font = UIHelper.Fonts.Default;
+            linkDangKy.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             linkDangKy.Location = new System.Drawing.Point(600, 362);
             linkDangKy.Name = "linkDangKy";
             linkDangKy.Size = new System.Drawing.Size(171, 19);
@@ -144,7 +144,7 @@
             // txtMatKhau
             // 
             txtMatKhau.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            txtMatKhau.Font = UIHelper.Fonts.Default;
+            txtMatKhau.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtMatKhau.Location = new System.Drawing.Point(491, 233);
             txtMatKhau.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtMatKhau.Name = "txtMatKhau";
@@ -156,7 +156,7 @@
             // txtTenDangNhap
             // 
             txtTenDangNhap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            txtTenDangNhap.Font = UIHelper.Fonts.Default;
+            txtTenDangNhap.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             txtTenDangNhap.Location = new System.Drawing.Point(491, 167);
             txtTenDangNhap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txtTenDangNhap.Name = "txtTenDangNhap";
@@ -167,7 +167,7 @@
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Font = UIHelper.Fonts.Title;
+            lblTitle.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold);
             lblTitle.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
             lblTitle.Location = new System.Drawing.Point(521, 87);
             lblTitle.Name = "lblTitle";
@@ -178,7 +178,7 @@
             // lblStatus
             // 
             lblStatus.AutoSize = true;
-            lblStatus.Font = UIHelper.Fonts.Default;
+            lblStatus.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             lblStatus.Location = new System.Drawing.Point(381, 461);
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new System.Drawing.Size(0, 19);
@@ -221,3 +221,5 @@
         private System.Windows.Forms.LinkLabel linkDangKy;
     }
 }
+
+

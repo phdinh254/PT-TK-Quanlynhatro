@@ -1,4 +1,4 @@
-namespace QuanLyNhaTro.Forms
+﻿namespace QuanLyNhaTro.Forms
 {
     partial class FormHopDong
     {
@@ -60,9 +60,9 @@ namespace QuanLyNhaTro.Forms
             lblTitle.Font = new System.Drawing.Font("Times New Roman", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
             lblTitle.ForeColor = System.Drawing.Color.FromArgb(41, 128, 185);
             lblTitle.Location = new System.Drawing.Point(0, 0);
-            lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTitle.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new System.Drawing.Size(1125, 62);
+            lblTitle.Size = new System.Drawing.Size(1406, 78);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "QUẢN LÝ HỢP ĐỒNG";
             lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -89,28 +89,32 @@ namespace QuanLyNhaTro.Forms
             groupBox1.Controls.Add(lblMaPhong);
             groupBox1.Controls.Add(lblMaKhach);
             groupBox1.Controls.Add(lblMaHopDong);
-            groupBox1.Location = new System.Drawing.Point(19, 62);
-            groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            groupBox1.Location = new System.Drawing.Point(24, 78);
+            groupBox1.Margin = new System.Windows.Forms.Padding(5);
             groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            groupBox1.Size = new System.Drawing.Size(1088, 294);
+            groupBox1.Padding = new System.Windows.Forms.Padding(5);
+            groupBox1.Size = new System.Drawing.Size(1360, 368);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thông tin hợp đồng";
             // 
             // pnlButtons
             // 
-            pnlButtons.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            pnlButtons.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            pnlButtons.BackColor = System.Drawing.Color.Transparent;
             pnlButtons.Controls.Add(btnThem);
             pnlButtons.Controls.Add(btnSua);
             pnlButtons.Controls.Add(btnXoa);
             pnlButtons.Controls.Add(btnLamMoi);
             pnlButtons.Controls.Add(btnGiaHan);
-            pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            pnlButtons.Location = new System.Drawing.Point(0, 236);
-            pnlButtons.Margin = new System.Windows.Forms.Padding(4);
+            pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
+            pnlButtons.WrapContents = false;
+            pnlButtons.Location = new System.Drawing.Point(325, 295);
+            pnlButtons.Margin = new System.Windows.Forms.Padding(5);
             pnlButtons.Name = "pnlButtons";
-            pnlButtons.Size = new System.Drawing.Size(825, 50);
+            pnlButtons.AutoSize = true;
+            pnlButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            pnlButtons.Size = new System.Drawing.Size(706, 62);
             pnlButtons.TabIndex = 23;
             // 
             // btnThem
@@ -118,10 +122,10 @@ namespace QuanLyNhaTro.Forms
             btnThem.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
             btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnThem.ForeColor = System.Drawing.Color.White;
-            btnThem.Location = new System.Drawing.Point(721, 4);
-            btnThem.Margin = new System.Windows.Forms.Padding(4);
+            btnThem.Location = new System.Drawing.Point(576, 5);
+            btnThem.Margin = new System.Windows.Forms.Padding(5);
             btnThem.Name = "btnThem";
-            btnThem.Size = new System.Drawing.Size(100, 40);
+            btnThem.Size = new System.Drawing.Size(125, 50);
             btnThem.TabIndex = 16;
             btnThem.Text = "➕ Thêm";
             btnThem.UseVisualStyleBackColor = false;
@@ -132,10 +136,10 @@ namespace QuanLyNhaTro.Forms
             btnSua.BackColor = System.Drawing.Color.FromArgb(241, 196, 15);
             btnSua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnSua.ForeColor = System.Drawing.Color.White;
-            btnSua.Location = new System.Drawing.Point(613, 4);
-            btnSua.Margin = new System.Windows.Forms.Padding(4);
+            btnSua.Location = new System.Drawing.Point(441, 5);
+            btnSua.Margin = new System.Windows.Forms.Padding(5);
             btnSua.Name = "btnSua";
-            btnSua.Size = new System.Drawing.Size(100, 40);
+            btnSua.Size = new System.Drawing.Size(125, 50);
             btnSua.TabIndex = 17;
             btnSua.Text = "✏️ Sửa";
             btnSua.UseVisualStyleBackColor = false;
@@ -146,10 +150,10 @@ namespace QuanLyNhaTro.Forms
             btnXoa.BackColor = System.Drawing.Color.FromArgb(231, 76, 60);
             btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnXoa.ForeColor = System.Drawing.Color.White;
-            btnXoa.Location = new System.Drawing.Point(505, 4);
-            btnXoa.Margin = new System.Windows.Forms.Padding(4);
+            btnXoa.Location = new System.Drawing.Point(306, 5);
+            btnXoa.Margin = new System.Windows.Forms.Padding(5);
             btnXoa.Name = "btnXoa";
-            btnXoa.Size = new System.Drawing.Size(100, 40);
+            btnXoa.Size = new System.Drawing.Size(125, 50);
             btnXoa.TabIndex = 18;
             btnXoa.Text = "🗑️ Xóa";
             btnXoa.UseVisualStyleBackColor = false;
@@ -160,10 +164,10 @@ namespace QuanLyNhaTro.Forms
             btnLamMoi.BackColor = System.Drawing.Color.FromArgb(149, 165, 166);
             btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnLamMoi.ForeColor = System.Drawing.Color.White;
-            btnLamMoi.Location = new System.Drawing.Point(385, 4);
-            btnLamMoi.Margin = new System.Windows.Forms.Padding(4);
+            btnLamMoi.Location = new System.Drawing.Point(156, 5);
+            btnLamMoi.Margin = new System.Windows.Forms.Padding(5);
             btnLamMoi.Name = "btnLamMoi";
-            btnLamMoi.Size = new System.Drawing.Size(112, 40);
+            btnLamMoi.Size = new System.Drawing.Size(140, 50);
             btnLamMoi.TabIndex = 19;
             btnLamMoi.Text = "🔄 Làm mới";
             btnLamMoi.UseVisualStyleBackColor = false;
@@ -174,10 +178,10 @@ namespace QuanLyNhaTro.Forms
             btnGiaHan.BackColor = System.Drawing.Color.FromArgb(230, 126, 34);
             btnGiaHan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnGiaHan.ForeColor = System.Drawing.Color.White;
-            btnGiaHan.Location = new System.Drawing.Point(265, 4);
-            btnGiaHan.Margin = new System.Windows.Forms.Padding(4);
+            btnGiaHan.Location = new System.Drawing.Point(6, 5);
+            btnGiaHan.Margin = new System.Windows.Forms.Padding(5);
             btnGiaHan.Name = "btnGiaHan";
-            btnGiaHan.Size = new System.Drawing.Size(112, 40);
+            btnGiaHan.Size = new System.Drawing.Size(140, 50);
             btnGiaHan.TabIndex = 20;
             btnGiaHan.Text = "📅 Gia hạn";
             btnGiaHan.UseVisualStyleBackColor = false;
@@ -185,18 +189,18 @@ namespace QuanLyNhaTro.Forms
             // 
             // txtSoThang
             // 
-            txtSoThang.Location = new System.Drawing.Point(900, 112);
-            txtSoThang.Margin = new System.Windows.Forms.Padding(4);
+            txtSoThang.Location = new System.Drawing.Point(1125, 140);
+            txtSoThang.Margin = new System.Windows.Forms.Padding(5);
             txtSoThang.Name = "txtSoThang";
-            txtSoThang.Size = new System.Drawing.Size(74, 27);
+            txtSoThang.Size = new System.Drawing.Size(92, 27);
             txtSoThang.TabIndex = 22;
             txtSoThang.Text = "12";
             // 
             // lblSoThang
             // 
             lblSoThang.AutoSize = true;
-            lblSoThang.Location = new System.Drawing.Point(812, 116);
-            lblSoThang.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblSoThang.Location = new System.Drawing.Point(1015, 145);
+            lblSoThang.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblSoThang.Name = "lblSoThang";
             lblSoThang.Size = new System.Drawing.Size(71, 20);
             lblSoThang.TabIndex = 21;
@@ -207,81 +211,81 @@ namespace QuanLyNhaTro.Forms
             cmbTrangThai.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cmbTrangThai.FormattingEnabled = true;
             cmbTrangThai.Items.AddRange(new object[] { "Đang hiệu lực", "Hết hạn", "Đã hủy" });
-            cmbTrangThai.Location = new System.Drawing.Point(600, 75);
-            cmbTrangThai.Margin = new System.Windows.Forms.Padding(4);
+            cmbTrangThai.Location = new System.Drawing.Point(750, 94);
+            cmbTrangThai.Margin = new System.Windows.Forms.Padding(5);
             cmbTrangThai.Name = "cmbTrangThai";
-            cmbTrangThai.Size = new System.Drawing.Size(162, 28);
+            cmbTrangThai.Size = new System.Drawing.Size(202, 28);
             cmbTrangThai.TabIndex = 15;
             // 
             // cmbMaPhong
             // 
             cmbMaPhong.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cmbMaPhong.FormattingEnabled = true;
-            cmbMaPhong.Location = new System.Drawing.Point(350, 75);
-            cmbMaPhong.Margin = new System.Windows.Forms.Padding(4);
+            cmbMaPhong.Location = new System.Drawing.Point(438, 94);
+            cmbMaPhong.Margin = new System.Windows.Forms.Padding(5);
             cmbMaPhong.Name = "cmbMaPhong";
-            cmbMaPhong.Size = new System.Drawing.Size(149, 28);
+            cmbMaPhong.Size = new System.Drawing.Size(185, 28);
             cmbMaPhong.TabIndex = 14;
             // 
             // cmbMaKhach
             // 
             cmbMaKhach.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cmbMaKhach.FormattingEnabled = true;
-            cmbMaKhach.Location = new System.Drawing.Point(600, 38);
-            cmbMaKhach.Margin = new System.Windows.Forms.Padding(4);
+            cmbMaKhach.Location = new System.Drawing.Point(750, 48);
+            cmbMaKhach.Margin = new System.Windows.Forms.Padding(5);
             cmbMaKhach.Name = "cmbMaKhach";
-            cmbMaKhach.Size = new System.Drawing.Size(249, 28);
+            cmbMaKhach.Size = new System.Drawing.Size(310, 28);
             cmbMaKhach.TabIndex = 13;
             // 
             // dtpNgayKetThuc
             // 
             dtpNgayKetThuc.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dtpNgayKetThuc.Location = new System.Drawing.Point(600, 112);
-            dtpNgayKetThuc.Margin = new System.Windows.Forms.Padding(4);
+            dtpNgayKetThuc.Location = new System.Drawing.Point(750, 140);
+            dtpNgayKetThuc.Margin = new System.Windows.Forms.Padding(5);
             dtpNgayKetThuc.Name = "dtpNgayKetThuc";
-            dtpNgayKetThuc.Size = new System.Drawing.Size(162, 27);
+            dtpNgayKetThuc.Size = new System.Drawing.Size(202, 27);
             dtpNgayKetThuc.TabIndex = 12;
             // 
             // dtpNgayBatDau
             // 
             dtpNgayBatDau.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dtpNgayBatDau.Location = new System.Drawing.Point(350, 112);
-            dtpNgayBatDau.Margin = new System.Windows.Forms.Padding(4);
+            dtpNgayBatDau.Location = new System.Drawing.Point(438, 140);
+            dtpNgayBatDau.Margin = new System.Windows.Forms.Padding(5);
             dtpNgayBatDau.Name = "dtpNgayBatDau";
-            dtpNgayBatDau.Size = new System.Drawing.Size(149, 27);
+            dtpNgayBatDau.Size = new System.Drawing.Size(185, 27);
             dtpNgayBatDau.TabIndex = 11;
             // 
             // txtGhiChu
             // 
             txtGhiChu.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            txtGhiChu.Location = new System.Drawing.Point(100, 150);
-            txtGhiChu.Margin = new System.Windows.Forms.Padding(4);
+            txtGhiChu.Location = new System.Drawing.Point(125, 188);
+            txtGhiChu.Margin = new System.Windows.Forms.Padding(5);
             txtGhiChu.Multiline = true;
             txtGhiChu.Name = "txtGhiChu";
-            txtGhiChu.Size = new System.Drawing.Size(874, 49);
+            txtGhiChu.Size = new System.Drawing.Size(1092, 60);
             txtGhiChu.TabIndex = 10;
             // 
             // txtTienCoc
             // 
-            txtTienCoc.Location = new System.Drawing.Point(100, 80);
-            txtTienCoc.Margin = new System.Windows.Forms.Padding(4);
+            txtTienCoc.Location = new System.Drawing.Point(125, 100);
+            txtTienCoc.Margin = new System.Windows.Forms.Padding(5);
             txtTienCoc.Name = "txtTienCoc";
-            txtTienCoc.Size = new System.Drawing.Size(149, 27);
+            txtTienCoc.Size = new System.Drawing.Size(185, 27);
             txtTienCoc.TabIndex = 9;
             // 
             // txtMaHopDong
             // 
-            txtMaHopDong.Location = new System.Drawing.Point(100, 38);
-            txtMaHopDong.Margin = new System.Windows.Forms.Padding(4);
+            txtMaHopDong.Location = new System.Drawing.Point(125, 48);
+            txtMaHopDong.Margin = new System.Windows.Forms.Padding(5);
             txtMaHopDong.Name = "txtMaHopDong";
-            txtMaHopDong.Size = new System.Drawing.Size(149, 27);
+            txtMaHopDong.Size = new System.Drawing.Size(185, 27);
             txtMaHopDong.TabIndex = 8;
             // 
             // lblGhiChu
             // 
             lblGhiChu.AutoSize = true;
-            lblGhiChu.Location = new System.Drawing.Point(25, 154);
-            lblGhiChu.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblGhiChu.Location = new System.Drawing.Point(31, 192);
+            lblGhiChu.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblGhiChu.Name = "lblGhiChu";
             lblGhiChu.Size = new System.Drawing.Size(61, 20);
             lblGhiChu.TabIndex = 7;
@@ -290,8 +294,8 @@ namespace QuanLyNhaTro.Forms
             // lblTrangThai
             // 
             lblTrangThai.AutoSize = true;
-            lblTrangThai.Location = new System.Drawing.Point(525, 79);
-            lblTrangThai.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTrangThai.Location = new System.Drawing.Point(656, 99);
+            lblTrangThai.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblTrangThai.Name = "lblTrangThai";
             lblTrangThai.Size = new System.Drawing.Size(78, 20);
             lblTrangThai.TabIndex = 6;
@@ -300,8 +304,8 @@ namespace QuanLyNhaTro.Forms
             // lblTienCoc
             // 
             lblTienCoc.AutoSize = true;
-            lblTienCoc.Location = new System.Drawing.Point(25, 83);
-            lblTienCoc.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTienCoc.Location = new System.Drawing.Point(31, 104);
+            lblTienCoc.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblTienCoc.Name = "lblTienCoc";
             lblTienCoc.Size = new System.Drawing.Size(67, 20);
             lblTienCoc.TabIndex = 5;
@@ -310,8 +314,8 @@ namespace QuanLyNhaTro.Forms
             // lblNgayKetThuc
             // 
             lblNgayKetThuc.AutoSize = true;
-            lblNgayKetThuc.Location = new System.Drawing.Point(525, 116);
-            lblNgayKetThuc.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblNgayKetThuc.Location = new System.Drawing.Point(656, 145);
+            lblNgayKetThuc.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblNgayKetThuc.Name = "lblNgayKetThuc";
             lblNgayKetThuc.Size = new System.Drawing.Size(66, 20);
             lblNgayKetThuc.TabIndex = 4;
@@ -320,8 +324,8 @@ namespace QuanLyNhaTro.Forms
             // lblNgayBatDau
             // 
             lblNgayBatDau.AutoSize = true;
-            lblNgayBatDau.Location = new System.Drawing.Point(275, 116);
-            lblNgayBatDau.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblNgayBatDau.Location = new System.Drawing.Point(344, 145);
+            lblNgayBatDau.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblNgayBatDau.Name = "lblNgayBatDau";
             lblNgayBatDau.Size = new System.Drawing.Size(63, 20);
             lblNgayBatDau.TabIndex = 3;
@@ -330,8 +334,8 @@ namespace QuanLyNhaTro.Forms
             // lblMaPhong
             // 
             lblMaPhong.AutoSize = true;
-            lblMaPhong.Location = new System.Drawing.Point(275, 79);
-            lblMaPhong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblMaPhong.Location = new System.Drawing.Point(344, 99);
+            lblMaPhong.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblMaPhong.Name = "lblMaPhong";
             lblMaPhong.Size = new System.Drawing.Size(54, 20);
             lblMaPhong.TabIndex = 2;
@@ -340,8 +344,8 @@ namespace QuanLyNhaTro.Forms
             // lblMaKhach
             // 
             lblMaKhach.AutoSize = true;
-            lblMaKhach.Location = new System.Drawing.Point(525, 41);
-            lblMaKhach.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblMaKhach.Location = new System.Drawing.Point(656, 51);
+            lblMaKhach.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblMaKhach.Name = "lblMaKhach";
             lblMaKhach.Size = new System.Drawing.Size(52, 20);
             lblMaKhach.TabIndex = 1;
@@ -350,8 +354,8 @@ namespace QuanLyNhaTro.Forms
             // lblMaHopDong
             // 
             lblMaHopDong.AutoSize = true;
-            lblMaHopDong.Location = new System.Drawing.Point(25, 41);
-            lblMaHopDong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblMaHopDong.Location = new System.Drawing.Point(31, 51);
+            lblMaHopDong.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblMaHopDong.Name = "lblMaHopDong";
             lblMaHopDong.Size = new System.Drawing.Size(59, 20);
             lblMaHopDong.TabIndex = 0;
@@ -364,11 +368,11 @@ namespace QuanLyNhaTro.Forms
             groupBox2.Controls.Add(txtTimKiem);
             groupBox2.Controls.Add(lblTimKiem);
             groupBox2.Controls.Add(dgvHopDong);
-            groupBox2.Location = new System.Drawing.Point(19, 364);
-            groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            groupBox2.Location = new System.Drawing.Point(24, 455);
+            groupBox2.Margin = new System.Windows.Forms.Padding(5);
             groupBox2.Name = "groupBox2";
-            groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            groupBox2.Size = new System.Drawing.Size(1088, 342);
+            groupBox2.Padding = new System.Windows.Forms.Padding(5);
+            groupBox2.Size = new System.Drawing.Size(1360, 428);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Danh sách hợp đồng";
@@ -378,10 +382,10 @@ namespace QuanLyNhaTro.Forms
             btnTimKiem.BackColor = System.Drawing.Color.FromArgb(52, 152, 219);
             btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnTimKiem.ForeColor = System.Drawing.Color.White;
-            btnTimKiem.Location = new System.Drawing.Point(475, 25);
-            btnTimKiem.Margin = new System.Windows.Forms.Padding(4);
+            btnTimKiem.Location = new System.Drawing.Point(594, 31);
+            btnTimKiem.Margin = new System.Windows.Forms.Padding(5);
             btnTimKiem.Name = "btnTimKiem";
-            btnTimKiem.Size = new System.Drawing.Size(125, 35);
+            btnTimKiem.Size = new System.Drawing.Size(156, 44);
             btnTimKiem.TabIndex = 3;
             btnTimKiem.Text = "🔍 Tìm kiếm";
             btnTimKiem.UseVisualStyleBackColor = false;
@@ -389,17 +393,17 @@ namespace QuanLyNhaTro.Forms
             // 
             // txtTimKiem
             // 
-            txtTimKiem.Location = new System.Drawing.Point(100, 29);
-            txtTimKiem.Margin = new System.Windows.Forms.Padding(4);
+            txtTimKiem.Location = new System.Drawing.Point(125, 36);
+            txtTimKiem.Margin = new System.Windows.Forms.Padding(5);
             txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new System.Drawing.Size(349, 27);
+            txtTimKiem.Size = new System.Drawing.Size(435, 27);
             txtTimKiem.TabIndex = 2;
             // 
             // lblTimKiem
             // 
             lblTimKiem.AutoSize = true;
-            lblTimKiem.Location = new System.Drawing.Point(25, 32);
-            lblTimKiem.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblTimKiem.Location = new System.Drawing.Point(31, 40);
+            lblTimKiem.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblTimKiem.Name = "lblTimKiem";
             lblTimKiem.Size = new System.Drawing.Size(73, 20);
             lblTimKiem.TabIndex = 1;
@@ -414,27 +418,27 @@ namespace QuanLyNhaTro.Forms
             dgvHopDong.BackgroundColor = System.Drawing.Color.White;
             dgvHopDong.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dgvHopDong.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvHopDong.Location = new System.Drawing.Point(19, 69);
-            dgvHopDong.Margin = new System.Windows.Forms.Padding(4);
+            dgvHopDong.Location = new System.Drawing.Point(24, 86);
+            dgvHopDong.Margin = new System.Windows.Forms.Padding(5);
             dgvHopDong.Name = "dgvHopDong";
             dgvHopDong.ReadOnly = true;
             dgvHopDong.RowHeadersWidth = 51;
             dgvHopDong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvHopDong.Size = new System.Drawing.Size(1050, 261);
+            dgvHopDong.Size = new System.Drawing.Size(1312, 326);
             dgvHopDong.TabIndex = 0;
             dgvHopDong.CellClick += dgvHopDong_CellClick;
             // 
             // FormHopDong
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
-            ClientSize = new System.Drawing.Size(1125, 725);
+            BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
+            ClientSize = new System.Drawing.Size(1406, 906);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(lblTitle);
-            Margin = new System.Windows.Forms.Padding(4);
-            MinimumSize = new System.Drawing.Size(1058, 676);
+            Margin = new System.Windows.Forms.Padding(5);
+            MinimumSize = new System.Drawing.Size(1318, 833);
             Name = "FormHopDong";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Quản lý hợp đồng";
@@ -482,3 +486,6 @@ namespace QuanLyNhaTro.Forms
         private System.Windows.Forms.Button btnTimKiem;
     }
 }
+
+
+

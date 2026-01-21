@@ -56,7 +56,7 @@
             // menuStrip
             // 
             menuStrip.BackColor = System.Drawing.Color.FromArgb(44, 62, 80);
-            menuStrip.Font = UIHelper.Fonts.Default;
+            menuStrip.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular);
             menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuHeThong, mnuQuanLy });
             menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -127,7 +127,7 @@
             // 
             // pnlContent
             // 
-            pnlContent.BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            pnlContent.BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             pnlContent.Controls.Add(pnlDashboard);
             pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             pnlContent.Location = new System.Drawing.Point(0, 47);
@@ -168,7 +168,7 @@
             // 
             // pnlStatKhachHang
             // 
-            pnlStatKhachHang.BackColor = System.Drawing.Color.White;
+            pnlStatKhachHang.BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             pnlStatKhachHang.Controls.Add(lblStatKhachHangValue);
             pnlStatKhachHang.Controls.Add(lblStatKhachHang);
             pnlStatKhachHang.Location = new System.Drawing.Point(0, 6);
@@ -181,7 +181,7 @@
             // lblStatKhachHangValue
             // 
             lblStatKhachHangValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblStatKhachHangValue.Font = UIHelper.Fonts.ValueLarge;
+            lblStatKhachHangValue.Font = new System.Drawing.Font("Times New Roman", 26F, System.Drawing.FontStyle.Bold);
             lblStatKhachHangValue.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
             lblStatKhachHangValue.Location = new System.Drawing.Point(19, 50);
             lblStatKhachHangValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -194,7 +194,7 @@
             // lblStatKhachHang
             // 
             lblStatKhachHang.Dock = System.Windows.Forms.DockStyle.Top;
-            lblStatKhachHang.Font = UIHelper.Fonts.LabelSmall;
+            lblStatKhachHang.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular);
             lblStatKhachHang.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
             lblStatKhachHang.Location = new System.Drawing.Point(19, 19);
             lblStatKhachHang.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -206,7 +206,7 @@
             // 
             // pnlStatPhong
             // 
-            pnlStatPhong.BackColor = System.Drawing.Color.White;
+            pnlStatPhong.BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             pnlStatPhong.Controls.Add(lblStatPhongValue);
             pnlStatPhong.Controls.Add(lblStatPhong);
             pnlStatPhong.Location = new System.Drawing.Point(294, 6);
@@ -219,7 +219,7 @@
             // lblStatPhongValue
             // 
             lblStatPhongValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblStatPhongValue.Font = UIHelper.Fonts.ValueLarge;
+            lblStatPhongValue.Font = new System.Drawing.Font("Times New Roman", 26F, System.Drawing.FontStyle.Bold);
             lblStatPhongValue.ForeColor = System.Drawing.Color.FromArgb(46, 204, 113);
             lblStatPhongValue.Location = new System.Drawing.Point(19, 50);
             lblStatPhongValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -232,7 +232,7 @@
             // lblStatPhong
             // 
             lblStatPhong.Dock = System.Windows.Forms.DockStyle.Top;
-            lblStatPhong.Font = UIHelper.Fonts.LabelSmall;
+            lblStatPhong.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular);
             lblStatPhong.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
             lblStatPhong.Location = new System.Drawing.Point(19, 19);
             lblStatPhong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -244,7 +244,7 @@
             // 
             // pnlStatHopDong
             // 
-            pnlStatHopDong.BackColor = System.Drawing.Color.White;
+            pnlStatHopDong.BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             pnlStatHopDong.Controls.Add(lblStatHopDongValue);
             pnlStatHopDong.Controls.Add(lblStatHopDong);
             pnlStatHopDong.Location = new System.Drawing.Point(588, 6);
@@ -257,7 +257,7 @@
             // lblStatHopDongValue
             // 
             lblStatHopDongValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblStatHopDongValue.Font = UIHelper.Fonts.ValueLarge;
+            lblStatHopDongValue.Font = new System.Drawing.Font("Times New Roman", 26F, System.Drawing.FontStyle.Bold);
             lblStatHopDongValue.ForeColor = System.Drawing.Color.FromArgb(241, 196, 15);
             lblStatHopDongValue.Location = new System.Drawing.Point(19, 50);
             lblStatHopDongValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -270,7 +270,7 @@
             // lblStatHopDong
             // 
             lblStatHopDong.Dock = System.Windows.Forms.DockStyle.Top;
-            lblStatHopDong.Font = UIHelper.Fonts.LabelSmall;
+            lblStatHopDong.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular);
             lblStatHopDong.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
             lblStatHopDong.Location = new System.Drawing.Point(19, 19);
             lblStatHopDong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -282,7 +282,7 @@
             // 
             // pnlStatHoaDon
             // 
-            pnlStatHoaDon.BackColor = System.Drawing.Color.White;
+            pnlStatHoaDon.BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             pnlStatHoaDon.Controls.Add(lblStatHoaDonValue);
             pnlStatHoaDon.Controls.Add(lblStatHoaDon);
             pnlStatHoaDon.Location = new System.Drawing.Point(882, 6);
@@ -295,7 +295,7 @@
             // lblStatHoaDonValue
             // 
             lblStatHoaDonValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblStatHoaDonValue.Font = UIHelper.Fonts.ValueLarge;
+            lblStatHoaDonValue.Font = new System.Drawing.Font("Times New Roman", 26F, System.Drawing.FontStyle.Bold);
             lblStatHoaDonValue.ForeColor = System.Drawing.Color.FromArgb(231, 76, 60);
             lblStatHoaDonValue.Location = new System.Drawing.Point(19, 50);
             lblStatHoaDonValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -308,7 +308,7 @@
             // lblStatHoaDon
             // 
             lblStatHoaDon.Dock = System.Windows.Forms.DockStyle.Top;
-            lblStatHoaDon.Font = UIHelper.Fonts.LabelSmall;
+            lblStatHoaDon.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular);
             lblStatHoaDon.ForeColor = System.Drawing.Color.FromArgb(108, 117, 125);
             lblStatHoaDon.Location = new System.Drawing.Point(19, 19);
             lblStatHoaDon.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -347,7 +347,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             ClientSize = new System.Drawing.Size(1250, 812);
             Controls.Add(pnlContent);
             Controls.Add(menuStrip);
@@ -402,4 +402,7 @@
         private System.Windows.Forms.Label lblWelcome;
     }
 }
+
+
+
 

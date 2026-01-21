@@ -1,4 +1,4 @@
-namespace QuanLyNhaTro.Forms
+﻿namespace QuanLyNhaTro.Forms
 {
     partial class FormTaiKhoan
     {
@@ -85,15 +85,19 @@ namespace QuanLyNhaTro.Forms
             // 
             // pnlButtons
             // 
-            pnlButtons.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            pnlButtons.Anchor = System.Windows.Forms.AnchorStyles.Top;
             pnlButtons.Controls.Add(btnThem);
             pnlButtons.Controls.Add(btnSua);
             pnlButtons.Controls.Add(btnXoa);
             pnlButtons.Controls.Add(btnLamMoi);
-            pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
+            pnlButtons.WrapContents = false;
             pnlButtons.Location = new System.Drawing.Point(82, 148);
             pnlButtons.Margin = new System.Windows.Forms.Padding(4);
             pnlButtons.Name = "pnlButtons";
+            pnlButtons.AutoSize = true;
+            pnlButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            pnlButtons.BackColor = System.Drawing.Color.Transparent;
             pnlButtons.Size = new System.Drawing.Size(675, 50);
             pnlButtons.TabIndex = 17;
             // 
@@ -342,7 +346,7 @@ namespace QuanLyNhaTro.Forms
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             ClientSize = new System.Drawing.Size(1125, 725);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -387,3 +391,6 @@ namespace QuanLyNhaTro.Forms
         private System.Windows.Forms.Button btnTimKiem;
     }
 }
+
+
+

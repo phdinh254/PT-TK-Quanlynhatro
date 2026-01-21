@@ -87,7 +87,7 @@
             // lblTrangThai
             // 
             lblTrangThai.AutoSize = true;
-            lblTrangThai.Font = UIHelper.Fonts.Button;
+            lblTrangThai.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
             lblTrangThai.ForeColor = System.Drawing.Color.FromArgb(52, 152, 219);
             lblTrangThai.Location = new System.Drawing.Point(700, 30);
             lblTrangThai.Name = "lblTrangThai";
@@ -318,7 +318,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            BackColor = System.Drawing.Color.FromArgb(240, 242, 245);
             ClientSize = new System.Drawing.Size(1100, 680);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -363,4 +363,6 @@
         private System.Windows.Forms.DataGridView dgvDonDat;
     }
 }
+
+
 
