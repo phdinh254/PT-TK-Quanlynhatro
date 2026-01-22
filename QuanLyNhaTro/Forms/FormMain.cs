@@ -205,7 +205,7 @@ namespace QuanLyNhaTro.Forms
             }
             else
             {
-                // User chỉ được xem Phòng, Hợp đồng, Hóa đơn (không sửa)
+                // User chỉ được xem Phòng, Hợp đồng, Hóa đơn và Thanh toán theo tháng (không sửa)
                 mnuKhachHang.Enabled = false;
                 mnuPhong.Enabled = true;
                 mnuHopDong.Enabled = true;

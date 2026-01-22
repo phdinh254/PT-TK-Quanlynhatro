@@ -17,6 +17,14 @@ namespace QuanLyNhaTro.Forms
         {
             InitializeComponent();
             InitializeUI();
+            
+            // Kiểm tra kết nối database trước khi load dữ liệu
+            if (!DatabaseHelper.TestConnection())
+            {
+                UIHelper.ShowErrorMessage("Không thể kết nối đến cơ sở dữ liệu. Vui lòng kiểm tra cấu hình kết nối.");
+                return;
+            }
+            
             LoadComboBoxData();
             LoadData();
             HookEvents();
@@ -175,7 +183,16 @@ namespace QuanLyNhaTro.Forms
             txtGhiChu.Clear();
             txtSoThang.Clear();
 
-            txtMaHopDong.Text = GenerateMaHopDong();
+            // Tạo mã hợp đồng mới
+            string newMaHopDong = GenerateMaHopDong();
+            txtMaHopDong.Text = newMaHopDong;
+            
+            // Kiểm tra nếu không tạo được mã hợp đồng
+            if (string.IsNullOrWhiteSpace(txtMaHopDong.Text))
+            {
+                UIHelper.ShowWarningMessage("Không thể tạo mã hợp đồng mới. Vui lòng kiểm tra kết nối cơ sở dữ liệu.");
+            }
+            
             AutoFillTienCoc();
             UpdateSoThang();
         }
@@ -184,7 +201,11 @@ namespace QuanLyNhaTro.Forms
         {
             if (string.IsNullOrWhiteSpace(txtMaHopDong.Text))
             {
-                UIHelper.ShowWarningMessage("Không tạo được mã hợp đồng mới!");
+                UIHelper.ShowWarningMessage("Không tạo được mã hợp đồng mới!\n\nVui lòng:\n" +
+                                          "1. Kiểm tra kết nối cơ sở dữ liệu\n" +
+                                          "2. Nhấn nút 'Làm mới' để thử lại\n" +
+                                          "3. Liên hệ quản trị viên nếu vấn đề vẫn tiếp tục");
+                btnLamMoi.Focus();
                 return false;
             }
 
@@ -471,13 +492,44 @@ namespace QuanLyNhaTro.Forms
             ClearInputs();
             LoadData();
             LoadComboBoxData();
+            
+            // Đảm bảo tạo mã hợp đồng mới
+            if (string.IsNullOrWhiteSpace(txtMaHopDong.Text))
+            {
+                string newMaHopDong = GenerateMaHopDong();
+                txtMaHopDong.Text = newMaHopDong;
+                
+                if (string.IsNullOrWhiteSpace(txtMaHopDong.Text))
+                {
+                    UIHelper.ShowErrorMessage("Không thể tạo mã hợp đồng mới. Vui lòng kiểm tra:\n" +
+                                            "1. Kết nối cơ sở dữ liệu\n" +
+                                            "2. Bảng HopDong đã được tạo\n" +
+                                            "3. Quyền truy cập cơ sở dữ liệu");
+                }
+            }
         }
 
         private string GenerateMaHopDong()
         {
-            string sql = $"SELECT ISNULL(MAX(CAST(SUBSTRING(MaHopDong, {MA_HOP_DONG_PREFIX.Length + 1}, 10) AS INT)), 0) + 1 FROM HopDong WHERE MaHopDong LIKE '{MA_HOP_DONG_PREFIX}%'";
-            int next = Convert.ToInt32(DatabaseHelper.ExecuteScalar(sql));
-            return $"{MA_HOP_DONG_PREFIX}{next:D4}";
+            try
+            {
+                string sql = $"SELECT ISNULL(MAX(CAST(SUBSTRING(MaHopDong, {MA_HOP_DONG_PREFIX.Length + 1}, 10) AS INT)), 0) + 1 FROM HopDong WHERE MaHopDong LIKE '{MA_HOP_DONG_PREFIX}%'";
+                object result = DatabaseHelper.ExecuteScalar(sql);
+                
+                if (result == null || result == DBNull.Value)
+                {
+                    return $"{MA_HOP_DONG_PREFIX}0001";
+                }
+                
+                int next = Convert.ToInt32(result);
+                return $"{MA_HOP_DONG_PREFIX}{next:D4}";
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowErrorMessage("Lỗi khi tạo mã hợp đồng: " + ex.Message);
+                // Fallback: tạo mã dựa trên thời gian
+                return $"{MA_HOP_DONG_PREFIX}{DateTime.Now:yyyyMMddHHmmss}";
+            }
         }
 
         private void AutoFillTienCoc()

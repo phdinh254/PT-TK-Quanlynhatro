@@ -101,28 +101,27 @@
             // pnlButtons
             // 
             pnlButtons.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            pnlButtons.AutoSize = true;
+            pnlButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             pnlButtons.BackColor = System.Drawing.Color.Transparent;
             pnlButtons.Controls.Add(btnThem);
             pnlButtons.Controls.Add(btnSua);
             pnlButtons.Controls.Add(btnXoa);
             pnlButtons.Controls.Add(btnLamMoi);
             pnlButtons.Controls.Add(btnGiaHan);
-            pnlButtons.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
-            pnlButtons.WrapContents = false;
             pnlButtons.Location = new System.Drawing.Point(325, 295);
             pnlButtons.Margin = new System.Windows.Forms.Padding(5);
             pnlButtons.Name = "pnlButtons";
-            pnlButtons.AutoSize = true;
-            pnlButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            pnlButtons.Size = new System.Drawing.Size(706, 62);
+            pnlButtons.Size = new System.Drawing.Size(705, 60);
             pnlButtons.TabIndex = 23;
+            pnlButtons.WrapContents = false;
             // 
             // btnThem
             // 
             btnThem.BackColor = System.Drawing.Color.FromArgb(46, 204, 113);
             btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnThem.ForeColor = System.Drawing.Color.White;
-            btnThem.Location = new System.Drawing.Point(576, 5);
+            btnThem.Location = new System.Drawing.Point(5, 5);
             btnThem.Margin = new System.Windows.Forms.Padding(5);
             btnThem.Name = "btnThem";
             btnThem.Size = new System.Drawing.Size(125, 50);
@@ -136,7 +135,7 @@
             btnSua.BackColor = System.Drawing.Color.FromArgb(241, 196, 15);
             btnSua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnSua.ForeColor = System.Drawing.Color.White;
-            btnSua.Location = new System.Drawing.Point(441, 5);
+            btnSua.Location = new System.Drawing.Point(140, 5);
             btnSua.Margin = new System.Windows.Forms.Padding(5);
             btnSua.Name = "btnSua";
             btnSua.Size = new System.Drawing.Size(125, 50);
@@ -150,7 +149,7 @@
             btnXoa.BackColor = System.Drawing.Color.FromArgb(231, 76, 60);
             btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnXoa.ForeColor = System.Drawing.Color.White;
-            btnXoa.Location = new System.Drawing.Point(306, 5);
+            btnXoa.Location = new System.Drawing.Point(275, 5);
             btnXoa.Margin = new System.Windows.Forms.Padding(5);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new System.Drawing.Size(125, 50);
@@ -164,7 +163,7 @@
             btnLamMoi.BackColor = System.Drawing.Color.FromArgb(149, 165, 166);
             btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnLamMoi.ForeColor = System.Drawing.Color.White;
-            btnLamMoi.Location = new System.Drawing.Point(156, 5);
+            btnLamMoi.Location = new System.Drawing.Point(410, 5);
             btnLamMoi.Margin = new System.Windows.Forms.Padding(5);
             btnLamMoi.Name = "btnLamMoi";
             btnLamMoi.Size = new System.Drawing.Size(140, 50);
@@ -178,7 +177,7 @@
             btnGiaHan.BackColor = System.Drawing.Color.FromArgb(230, 126, 34);
             btnGiaHan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnGiaHan.ForeColor = System.Drawing.Color.White;
-            btnGiaHan.Location = new System.Drawing.Point(6, 5);
+            btnGiaHan.Location = new System.Drawing.Point(560, 5);
             btnGiaHan.Margin = new System.Windows.Forms.Padding(5);
             btnGiaHan.Name = "btnGiaHan";
             btnGiaHan.Size = new System.Drawing.Size(140, 50);
@@ -189,7 +188,7 @@
             // 
             // txtSoThang
             // 
-            txtSoThang.Location = new System.Drawing.Point(1125, 140);
+            txtSoThang.Location = new System.Drawing.Point(1064, 142);
             txtSoThang.Margin = new System.Windows.Forms.Padding(5);
             txtSoThang.Name = "txtSoThang";
             txtSoThang.Size = new System.Drawing.Size(92, 27);
@@ -199,7 +198,7 @@
             // lblSoThang
             // 
             lblSoThang.AutoSize = true;
-            lblSoThang.Location = new System.Drawing.Point(1015, 145);
+            lblSoThang.Location = new System.Drawing.Point(988, 145);
             lblSoThang.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             lblSoThang.Name = "lblSoThang";
             lblSoThang.Size = new System.Drawing.Size(71, 20);

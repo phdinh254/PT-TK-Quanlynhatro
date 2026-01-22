@@ -122,6 +122,11 @@ namespace QuanLyNhaTro.Helpers
             StyleButton(button, Colors.Warning, Colors.White);
         }
 
+        public static void StyleSuccessButton(Button button)
+        {
+            StyleButton(button, Colors.Success, Colors.White);
+        }
+
         public static void StyleTextBox(TextBox textBox)
         {
             textBox.BorderStyle = BorderStyle.FixedSingle;
